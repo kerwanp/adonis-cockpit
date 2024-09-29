@@ -1,0 +1,7 @@
+@component('admin::ui/select', { label: field.label() })
+  @each((label, value) in field.options())
+    @component('admin::ui/select/option', { value })
+      {{ label }}
+    @end
+  @end
+@end

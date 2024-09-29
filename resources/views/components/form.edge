@@ -1,0 +1,18 @@
+@let(_data = data || {})
+
+<form method="POST">
+  {{ csrfField() }}
+  <div class="grid grid-cols-5 gap-4 mb-4">
+    @each(field in fields)
+      @let(value = _data[field.name()])
+      @if(field.fieldTemplate)
+        @!component(field.fieldTemplate(), { field, data: _data, value })
+      @end
+    @end
+  </div>
+  <div>
+    @component('admin::ui/button', { type: 'submit' })
+      Submit
+    @end
+  </div>
+</form>

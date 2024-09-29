@@ -1,0 +1,5 @@
+@each(field in field.fields())
+  @if(field.cellTemplate)
+    @!component(field.cellTemplate(), { field, data, value: data[field.name()] })
+  @endif
+@end

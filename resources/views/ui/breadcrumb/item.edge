@@ -1,0 +1,12 @@
+<li
+  class="{{ href ? 'flex items-center gap-1' : 'flex items-center gap-1 font-bold text-black dark:text-neutral-100' }}"
+  aria-current="page"
+>
+  @if(href)
+    <a href="{{ href }}" class="hover:text-black dark:hover:text-neutral-100">
+    @endif
+    {{{ await $slots.main() }}}
+    @if(href)
+    </a>
+  @endif
+</li>

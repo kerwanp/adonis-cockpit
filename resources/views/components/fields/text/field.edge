@@ -1,0 +1,10 @@
+@let(errors = flashMessages.get(`inputErrorsBag.${field.name()}`))
+@let(error = errors ? errors[0] : undefined)
+
+@!component('admin::ui/input', {
+  name: field.name(),
+  label: field.label(),
+  value,
+  error,
+  ...field.attributes()
+})

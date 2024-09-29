@@ -1,0 +1,36 @@
+@component('admin::ui/table')
+  @component('admin::ui/table/thead')
+    <tr>
+      @each(field in fields)
+        @if(field.tableHeadTemplate)
+          @!component(field.tableHeadTemplate(), { field })
+        @endif
+      @end
+      <th scope="col" class="p-4">
+        Actions
+      </th>
+    </tr>
+  @end
+  @component('admin::ui/table/tbody')
+    @each(data in pagination)
+      <tr>
+        @each(field in fields)
+          @if(field.cellTemplate)
+            @!component(field.cellTemplate(), { field, data, value: data[field.name()]})
+          @endif
+        @end
+        <td class="space-x-3">
+          @component('admin::ui/button', { as: 'a', href: resource.route('edit', data.id), color: 'primary' })
+            Edit
+          @end
+          @component('admin::ui/button', { as: 'a', href: '/test', color: 'danger' })
+            Delete
+          @end
+        </td>
+      </tr>
+    @end
+  @end
+@end
+<div class="flex justify-center p-4">
+  @!component('admin::ui/pagination', { pagination })
+</div>

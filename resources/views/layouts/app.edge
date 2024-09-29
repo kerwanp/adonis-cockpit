@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html class="dark">
+  <head>
+    <meta charset="utf-8" />
+    <title>
+      {{ title || "Adonis Admin" }}
+    </title>
+    @if ($slots.meta)
+      {{{ await $slots.meta() }}}
+    @endif
+    <script defer src="https://cdn.jsdelivr.net/npm/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
+  </head>
+  <body class="bg-neutral-200 dark:bg-neutral-950 text-black dark:text-neutral-300">
+    @!component('admin::components/navbar')
+    @!component('admin::components/sidebar')
+    <div class="mt-16">
+      <div class="flex w-full justify-between pr-0">
+        <div class="hidden w-72 shrink-0 p-8 md:block">
+        </div>
+        <div class="mx-auto flex max-w-9xl grow flex-col overflow-x-auto overflow-y-hidden p-8">
+          {{{ await $slots.main() }}}
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
