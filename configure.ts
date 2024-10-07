@@ -18,20 +18,13 @@ import { stubsRoot } from './stubs/main.js'
 export async function configure(command: ConfigureCommand) {
   const codemods = await command.createCodemods()
 
-  await codemods.installPackages([
-    {
-      name: 'edge',
-      isDevDependency: false,
-    },
-  ])
-
-  await codemods.makeUsingStub(stubsRoot, 'start/components.stub', {
-    filePath: command.app.startPath('components.ts'),
-  })
+  await codemods.makeUsingStub(stubsRoot, './config/main.stub', {})
+  await codemods.makeUsingStub(stubsRoot, './start/cockpit/main.stub', {})
+  await codemods.makeUsingStub(stubsRoot, './inertia/app/cockpit/main.stub', {})
 
   await codemods.updateRcFile((transformer) => {
-    transformer.addCommand('edgewire/commands')
-    transformer.addPreloadFile('#start/components')
-    transformer.addProvider('edgewire/providers/edgewire_provider')
+    transformer.addCommand('adonis-cockpit/commands')
+    transformer.addPreloadFile('#start/cockpit')
+    transformer.addProvider('adonis-cockpit/providers/cockpit_provider')
   })
 }

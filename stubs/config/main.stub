@@ -1,0 +1,7 @@
+{{{ exports({ to: app.configPath('cockpit.ts') }) }}}
+
+import { defineConfig } from '@foadonis/cockpit'
+
+export default defineConfig({
+  entrypoint: 'inertia/cockpit/app.ts',
+})

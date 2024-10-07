@@ -1,13 +1,29 @@
+import { SchemaTypes } from '@vinejs/vine/types'
+import vine from '@vinejs/vine'
 import Text from './text.js'
 
 export default class Email extends Text {
+  validator: SchemaTypes = vine.string().email()
+
   constructor(name: string) {
     super(name)
-    // this.attribute('type', 'email')
-    this.validator = this.validator.email()
+    this.attribute('type', 'email')
   }
 
-  cellTemplate(): string {
-    return 'admin::components/fields/email/cell'
+  indexComponent(): string {
+    return 'Admin$Email$Index'
+  }
+
+  $validate(value: any): Promise<any> {
+    let schema: SchemaTypes
+
+    if (this.$required) {
+      schema = vine.string().email()
+    } else {
+      schema = vine.string().email().optional()
+    }
+
+    const validator = vine.compile(schema)
+    return validator.validate(value)
   }
 }

@@ -1,38 +1,80 @@
+import { SchemaTypes } from '@vinejs/vine/types'
 import { Field } from './field.js'
-import vine from '@vinejs/vine'
+import vine, { VineString } from '@vinejs/vine'
+import { OptionalModifier } from '@vinejs/vine/schema/base/literal'
 
 export default class Text extends Field {
-  #attributes: Record<string, any> = {}
-  validator = vine.string()
+  validator: SchemaTypes = vine.string().optional()
+
+  protected $required = false
+  protected $regex?: RegExp
+  protected $minLength?: number
+  protected $maxLength?: number
 
   placeholder(placeholder: string) {
     return this.attribute('placeholder', placeholder)
   }
 
-  attribute(attribute: string, value: any) {
-    this.#attributes[attribute] = value
+  minLength(length: number): this {
+    this.$minLength = length
     return this
   }
 
-  attributes() {
-    return this.#attributes
-  }
-
-  required(required?: boolean) {
-    this.attribute('required', required === undefined ? true : required)
+  maxLength(length: number): this {
+    this.$maxLength = length
     return this
   }
 
-  cellTemplate(): string {
-    return 'admin::components/fields/text/cell'
+  required(required = true) {
+    this.$required = required
+    this.attribute('required', required)
+    return this
   }
 
-  fieldTemplate(): string {
-    return 'admin::components/fields/text/field'
+  regex(regex: RegExp): this {
+    this.$regex = regex
+    return this
+  }
+
+  indexComponent(): string {
+    return 'Admin$Text$Index'
+  }
+
+  formComponent(): string {
+    return 'Admin$Text$Form'
+  }
+
+  $validate(value: any): Promise<any> {
+    let schema: OptionalModifier<VineString> | VineString = vine.string()
+
+    if (this.$minLength) {
+      schema = schema.minLength(this.$minLength)
+    }
+
+    if (this.$maxLength) {
+      schema = schema.maxLength(this.$maxLength)
+    }
+
+    if (this.$regex) {
+      schema = schema.regex(this.$regex)
+    }
+
+    if (this.$required === false) {
+      schema = schema.optional()
+    }
+
+    const validator = vine.compile(schema)
+    return validator.validate(value)
   }
 
   public static make<T extends Field>(this: new (name: string) => T, name: string): T {
     const self = new this(name)
     return self
+  }
+
+  toJSON() {
+    return {
+      ...super.toJSON(),
+    }
   }
 }
