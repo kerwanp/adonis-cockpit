@@ -1,8 +1,8 @@
-import IdIndex from '../../../inertia/components/fields/id/index.vue'
-import TextForm from '../../../inertia/components/fields/text/form.vue'
+import IdIndex from '../../../resources/components/fields/id/index.vue'
+import TextForm from '../../../resources/components/fields/text/form.vue'
 import { mount } from '@vue/test-utils'
 import Id from '../../../src/fields/id.js'
-import CockpitPlugin from '../../../inertia/plugin.js'
+import CockpitPlugin from '../../../src/plugins/vue/index.js'
 
 describe('index', () => {
   test('render numbers with #', () => {

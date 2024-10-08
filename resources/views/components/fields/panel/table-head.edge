@@ -1,7 +1,0 @@
-@each(field in field.fields())
-  @if(field.cellTemplate)
-    @if(field.tableHeadTemplate)
-      @!component(field.tableHeadTemplate(), { field })
-    @endif
-  @end
-@end

@@ -1,8 +1,8 @@
-import TextForm from '../../../inertia/components/fields/text/form.vue'
-import EmailIndex from '../../../inertia/components/fields/email/index.vue'
+import TextForm from '../../../resources/components/fields/text/form.vue'
+import EmailIndex from '../../../resources/components/fields/email/index.vue'
 import { mount } from '@vue/test-utils'
-import CockpitPlugin from '../../../inertia/plugin.js'
 import Email from '../../../src/fields/email.js'
+import CockpitPlugin from '../../../src/plugins/vue/index.js'
 
 describe('index', () => {
   test('displays href with mailto', async () => {

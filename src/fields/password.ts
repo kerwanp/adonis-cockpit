@@ -14,6 +14,6 @@ export default class Password extends Text {
   }
 
   formComponent(): string {
-    return 'Admin$Password$Form'
+    return 'CockpitPasswordForm'
   }
 }

@@ -1,5 +1,5 @@
-import BooleanIndex from '../../../inertia/components/fields/boolean/index.vue'
-import BooleanForm from '../../../inertia/components/fields/boolean/form.vue'
+import BooleanIndex from '../../../resources/components/fields/boolean/index.vue'
+import BooleanForm from '../../../resources/components/fields/boolean/form.vue'
 import Boolean from '../../../src/fields/boolean.js'
 import { mount } from '@vue/test-utils'
 

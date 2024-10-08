@@ -23,11 +23,11 @@ export default class BelongsTo extends Field {
   }
 
   formComponent(): string {
-    return 'Admin$BelongsTo$Form'
+    return 'CockpitBelongsToForm'
   }
 
   indexComponent(): string {
-    return 'Admin$BelongsTo$Index'
+    return 'CockpitBelongsToIndex'
   }
 
   static make(Resource: Type<ModelResource>, relationName: string) {

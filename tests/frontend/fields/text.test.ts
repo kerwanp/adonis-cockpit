@@ -1,7 +1,7 @@
-import TextForm from '../../../inertia/components/fields/text/form.vue'
+import TextForm from '../../../resources/components/fields/text/form.vue'
 import Text from '../../../src/fields/text.js'
 import { mount } from '@vue/test-utils'
-import CockpitPlugin from '../../../inertia/plugin.js'
+import CockpitPlugin from '../../../src/plugins/vue/index.js'
 
 describe('form', () => {
   test('no configuration', async () => {

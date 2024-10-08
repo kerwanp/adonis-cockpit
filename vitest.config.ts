@@ -1,4 +1,4 @@
-import { defineConfig } from 'vitest/config'
+import { defineConfig, configDefaults } from 'vitest/config'
 import vuePlugin from '@vitejs/plugin-vue'
 import Components from 'unplugin-vue-components/vite'
 import { PrimeVueResolver } from '@primevue/auto-import-resolver'
@@ -10,10 +10,18 @@ export default defineConfig({
       resolvers: [PrimeVueResolver()],
     }),
   ],
+  server: {
+    watch: {
+      ignored: ['**/tests/tmp/**'],
+    },
+  },
   test: {
     globals: true,
     dir: 'tests',
-    environment: 'jsdom',
+    environmentMatchGlobs: [
+      ['tests/frontend/**', 'jsdom'],
+      ['tests/**', 'node'],
+    ],
     coverage: {
       provider: 'istanbul',
       include: ['src/**/*', 'inertia/**/*'],

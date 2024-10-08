@@ -37,11 +37,11 @@ export default class Text extends Field {
   }
 
   indexComponent(): string {
-    return 'Admin$Text$Index'
+    return 'CockpitTextIndex'
   }
 
   formComponent(): string {
-    return 'Admin$Text$Form'
+    return 'CockpitTextForm'
   }
 
   $validate(value: any): Promise<any> {

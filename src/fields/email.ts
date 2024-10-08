@@ -11,7 +11,7 @@ export default class Email extends Text {
   }
 
   indexComponent(): string {
-    return 'Admin$Email$Index'
+    return 'CockpitEmailIndex'
   }
 
   $validate(value: any): Promise<any> {

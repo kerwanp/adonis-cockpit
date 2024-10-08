@@ -23,11 +23,11 @@ export default class HasMany extends Field {
   }
 
   formComponent(): string {
-    return 'Admin$HasMany$Form'
+    return 'CockpitHasManyForm'
   }
 
   indexComponent(): string {
-    return 'Admin$HasMany$Index'
+    return 'CockpitHasManyIndex'
   }
 
   static make(Resource: Type<ModelResource>, relationName: string) {

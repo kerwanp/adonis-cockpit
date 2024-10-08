@@ -1,0 +1,3 @@
+{{{ exports({ to: app.startPath('cockpit.ts') }) }}}
+
+import cockpit from 'adonis-cockpit/services/main'

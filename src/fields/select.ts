@@ -9,11 +9,11 @@ export default class Select extends Field {
   }
 
   formComponent(): string {
-    return 'Admin$Select$Form'
+    return 'CockpitSelectForm'
   }
 
   indexComponent(): string {
-    return 'Admin$Select$Index'
+    return 'CockpitSelectIndex'
   }
 
   public static make<T extends Field>(this: new (name: string) => T, name: string): T {

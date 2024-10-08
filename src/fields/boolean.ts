@@ -11,11 +11,11 @@ export default class Boolean extends Field {
   }
 
   indexComponent(): string {
-    return 'Admin$Boolean$Index'
+    return 'CockpitBooleanIndex'
   }
 
   formComponent(): string {
-    return 'Admin$Boolean$Form'
+    return 'CockpitBooleanForm'
   }
 
   /**

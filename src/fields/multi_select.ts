@@ -6,10 +6,10 @@ export default class MultiSelect extends Select {
   validator: SchemaTypes = vine.array(vine.string())
 
   formComponent(): string {
-    return 'Admin$MultiSelect$Form'
+    return 'CockpitMultiSelectForm'
   }
 
   indexComponent(): string {
-    return 'Admin$MultiSelect$Index'
+    return 'CockpitMultiSelectIndex'
   }
 }

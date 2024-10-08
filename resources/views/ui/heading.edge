@@ -1,9 +1,0 @@
-<{{ as }}
-  class="{{
-    html.attrs({
-      'text-4xl font-semibold': as === 'h1',
-      'text-2xl font-semibold': as === 'h2',
-    })
-  }}">
-  {{ await $slots.main() }}
-</{{ as }}>

@@ -17,10 +17,10 @@ export default class Id extends Text {
   }
 
   indexComponent(): string {
-    return 'Admin$Id$Index'
+    return 'CockpitIdIndex'
   }
 
   formComponent(): string {
-    return 'Admin$Text$Form'
+    return 'CockpitTextForm'
   }
 }
