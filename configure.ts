@@ -80,7 +80,7 @@ async function installTailwindCSS(command: ConfigureCommand, codemods: Codemods)
     return
   }
 
-  const configureTailwind = await command.prompt.ask(
+  const configureTailwind = await command.prompt.confirm(
     `No Tailwind configuration file found. Do you want Cockpit to configure it for you?`,
     { name: 'missing_tailwind' }
   )
