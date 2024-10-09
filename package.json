@@ -43,7 +43,7 @@
     "lint": "eslint .",
     "format": "prettier --write .",
     "test": "vitest run --coverage",
-    "coverage:badges": "istanbul-badges-readme --statementsLabel=coverage",
+    "coverage:badges": "istanbul-badges-readme --linesLabel=coverage --style=flat-square",
     "prebuild": "npm run lint && npm run clean",
     "build": "tsc",
     "dev": "tsc --watch",
