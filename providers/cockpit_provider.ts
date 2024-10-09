@@ -20,6 +20,7 @@ export default class CockpitProvider {
   }
 
   async boot() {
+    await import('../src/extensions.js')
     const admin = await this.app.container.make(CockpitManager)
     await admin.boot(this.app)
   }

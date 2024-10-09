@@ -1,3 +1,4 @@
+import '@adonisjs/inertia/types'
 import { HttpContext } from '@adonisjs/core/http'
 import admin from '../../../services/main.js'
 

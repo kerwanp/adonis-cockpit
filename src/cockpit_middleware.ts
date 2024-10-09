@@ -17,7 +17,9 @@ export async function cockpitMiddleware(ctx: HttpContext, next: NextFn) {
 
   if (admin.$routesManager.$policy) {
     if ('bouncer' in ctx) {
-      if (await ctx.bouncer.denies(admin.$routesManager.$policy)) {
+      // TODO: Type
+      const bouncer = ctx.bouncer as any
+      if (await bouncer.denies(admin.$routesManager.$policy)) {
         ctx.response.abort('You cannot access the Cockpit panel')
       }
     }

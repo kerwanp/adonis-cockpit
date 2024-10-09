@@ -1,0 +1,16 @@
+{{{
+  exports({
+    to: resourcePath
+  })
+}}}
+import {{ modelName }} from '#models/{{ model }}'
+import { ModelResource } from 'adonis-cockpit'
+import { Id } from 'adonis-cockpit/fields'
+
+export default class {{ resourceName }} extends ModelResource {
+  model = {{ modelName }}
+
+  fields() {
+    return [Id.make('id')]
+  }
+}

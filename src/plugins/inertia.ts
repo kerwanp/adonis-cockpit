@@ -1,7 +1,7 @@
 import '../../inertia/css/app.css'
 import { createApp, h } from 'vue'
 import { createInertiaApp } from '@inertiajs/vue3'
-import CockpitPlugin from './vue/index.js'
+import CockpitPlugin, { PluginOptions } from './vue/index.js'
 
 const appName = 'Cockpit'
 
@@ -20,7 +20,10 @@ export function resolvePage(name: string) {
   }
 }
 
-export default function createCockpitApp(config: { resolve: (name: string) => any }) {
+export default function createCockpitApp(
+  config: { resolve: (name: string) => any },
+  pluginOptions: PluginOptions
+) {
   return createInertiaApp({
     title: (title: string) => `${title} - ${appName}`,
     resolve: (name: string) => {
@@ -28,10 +31,11 @@ export default function createCockpitApp(config: { resolve: (name: string) => an
       if (admin) return admin
       return config.resolve(name)
     },
-    setup({ el, App, props, plugin }) {
+    // TODO: Fix types
+    setup({ el, App, props, plugin }: any) {
       createApp({ render: () => h(App, props) })
         .use(plugin)
-        .use(CockpitPlugin, {})
+        .use(CockpitPlugin, pluginOptions)
         .mount(el)
     },
   })

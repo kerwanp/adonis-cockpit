@@ -11,5 +11,6 @@
       "@adonisjs/inertia/inertia_middleware",
       "vitest/globals"
     ]
-  }
+  },
+  "exclude": ["tests", "build"]
 }

@@ -1,5 +1,5 @@
 import { Plugin } from 'vue'
-import PrimeVue from 'primevue/config'
+import PrimeVue, { PrimeVueConfiguration } from 'primevue/config'
 import ConfirmationService from 'primevue/confirmationservice'
 import { Link } from '@inertiajs/vue3'
 import ToastService from 'primevue/toastservice'
@@ -8,11 +8,19 @@ import { VueQueryPlugin } from '@tanstack/vue-query'
 import defaultTheme from './default_theme.js'
 import fields from '../../../resources/components/fields/index.js'
 
+type FieldsOptions = Record<string, Record<string, any>>
+
+export type PluginOptions = {
+  primeVue?: PrimeVueConfiguration
+  fields: FieldsOptions
+}
+
+// TODO: Type issues
 export default {
-  install(app, options?: { primeVue: any }) {
+  install(app, options) {
     app.use(
-      PrimeVue,
-      options?.primeVue ?? {
+      PrimeVue as unknown as Plugin<any>,
+      options.primeVue ?? {
         theme: {
           preset: defaultTheme,
           options: {
@@ -26,14 +34,18 @@ export default {
       }
     )
 
-    app.use(ConfirmationService)
-    app.use(ToastService)
+    app.use(ConfirmationService as unknown as Plugin<[]>)
+    app.use(ToastService as unknown as Plugin<[]>)
     app.use(VueQueryPlugin)
     app.component('Link', Link)
 
-    for (const [field, components] of Object.entries(fields)) {
-      for (const [type, component] of Object.entries(components))
+    for (const [field, components] of [
+      ...Object.entries(fields),
+      ...Object.entries(options.fields),
+    ]) {
+      for (const [type, component] of Object.entries(components)) {
         app.component(`Cockpit${field}${type}`, component)
+      }
     }
   },
-} satisfies Plugin
+} satisfies Plugin<PluginOptions>

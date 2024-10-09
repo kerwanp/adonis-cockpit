@@ -7,6 +7,7 @@ import { Action } from '../actions/action.js'
 import { DeleteAction } from '../actions/delete.js'
 import stringHelpers from '@adonisjs/core/helpers/string'
 import { RecordId } from '../types.js'
+import { SimplePaginatorContract } from '@adonisjs/lucid/types/querybuilder'
 
 export abstract class ModelResource<Model extends LucidModel = LucidModel> extends BaseResource<
   InstanceType<Model>
@@ -40,7 +41,7 @@ export abstract class ModelResource<Model extends LucidModel = LucidModel> exten
     return this.model.create(data)
   }
 
-  async list(params: ApiIndexParams) {
+  async list(params: ApiIndexParams): Promise<SimplePaginatorContract<InstanceType<Model>>> {
     const query = this.model.query()
 
     if (params.search) {
@@ -65,7 +66,8 @@ export abstract class ModelResource<Model extends LucidModel = LucidModel> exten
       .rowTransformer((row) => row.serialize())
       .paginate(params.page ?? 1, params.perPage)
 
-    return paginator
+    // TODO: Fix types
+    return paginator as SimplePaginatorContract<InstanceType<Model>>
   }
 
   retrieve(id: RecordId): Promise<InstanceType<Model>> {

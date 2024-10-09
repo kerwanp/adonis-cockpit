@@ -2,17 +2,17 @@ import { HttpContext } from '@adonisjs/core/http'
 import vine from '@vinejs/vine'
 import admin from '../../../services/main.js'
 
-// TODO: Validation
-const getValidator = vine.compile(
+const validator = vine.compile(
   vine.object({
-    page: vine.number().optional(),
-    perPage: vine.number().optional(),
+    params: vine.object({
+      slug: vine.string(),
+    }),
   })
 )
 
 export async function makeIndexHandler({ request, response, inertia }: HttpContext) {
-  const resourceName = request.param('slug')
-  const resource = admin.findResourceBySlug(resourceName)
+  const { params } = await request.validateUsing(validator)
+  const resource = admin.findResourceBySlug(params.slug)
 
   if (!resource) {
     return response.status(404)
