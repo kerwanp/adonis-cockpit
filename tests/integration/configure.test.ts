@@ -1,6 +1,7 @@
-import { mkdir, rmdir, writeFile } from 'node:fs/promises'
+import { mkdir, rm, writeFile } from 'node:fs/promises'
 import { BASE_URL, setupApp } from '../utils.js'
 import Configure from '@adonisjs/core/commands/configure'
+import PackageJson from '@npmcli/package-json'
 
 const PACKAGE_JSON_ALL_DEPS = {
   dependencies: {
@@ -19,58 +20,58 @@ const PACKAGE_JSON_ONLY_EDGE = {
   },
 }
 
-describe(
-  'Configure',
-  () => {
-    beforeEach(async () => {
-      await mkdir(BASE_URL)
-      await mkdir(new URL('./start', BASE_URL))
-    })
+describe('Configure', () => {
+  beforeEach(async () => {
+    await mkdir(BASE_URL)
+    await mkdir(new URL('./start', BASE_URL))
+  })
 
-    afterEach(async () => {
-      await rmdir(BASE_URL, { recursive: true })
-    })
+  afterEach(async () => {
+    await rm(BASE_URL, { recursive: true })
+  })
 
-    test('should detect no missing dependencies', async () => {
-      const { app, ace, readFile } = await setupApp()
+  test('should detect no missing dependencies', async () => {
+    const { app, ace, readFile } = await setupApp()
 
-      await writeFile(app.makePath('.env'), '')
-      await writeFile(app.makePath('tsconfig.json'), '{}')
-      await writeFile(app.makePath('start/env.ts'), `export default Env.create(new URL('./'), {})`)
-      await writeFile(app.makePath('adonisrc.ts'), 'export default defineConfig({})')
-      await writeFile(app.makePath('package.json'), JSON.stringify(PACKAGE_JSON_ALL_DEPS))
-
-      const command = await ace.create(Configure, ['../../index.js'])
-      await command.exec()
-
-      command.assertSucceeded()
-
-      expect(readFile('adonisrc.ts')).resolves.toContain(
-        'adonis-cockpit/providers/cockpit_provider'
+    await writeFile(app.makePath('.env'), '')
+    await writeFile(app.makePath('tsconfig.json'), '{}')
+    await writeFile(app.makePath('start/env.ts'), `export default Env.create(new URL('./'), {})`)
+    await writeFile(app.makePath('adonisrc.ts'), 'export default defineConfig({})')
+    await PackageJson.create(app.appRoot.pathname)
+      .then((p) =>
+        p.update({ ...PACKAGE_JSON_ALL_DEPS, imports: { '#models/*': './app/models/*' } })
       )
-      expect(readFile('adonisrc.ts')).resolves.toContain('adonis-cockpit/commands')
-      expect(readFile('config/cockpit.ts')).resolves.toContain('defineConfig({')
-      expect(readFile('inertia/app/cockpit.ts')).resolves.toContain('createCockpitApp')
-      expect(readFile('inertia/app/cockpit.ts')).resolves.toContain('`../pages/${name}.vue`') // Had to escape
-    })
+      .then((p) => p.save())
 
-    test('should propose to install missing dependencies', async () => {
-      const { app, ace } = await setupApp()
+    const command = await ace.create(Configure, ['../../index.js'])
+    await command.exec()
 
-      await writeFile(app.makePath('.env'), '')
-      await writeFile(app.makePath('tsconfig.json'), '{}')
-      await writeFile(app.makePath('start/env.ts'), `export default Env.create(new URL('./'), {})`)
-      await writeFile(app.makePath('adonisrc.ts'), 'export default defineConfig({})')
-      await writeFile(app.makePath('package.json'), JSON.stringify(PACKAGE_JSON_ONLY_EDGE))
+    command.assertSucceeded()
 
-      const command = await ace.create(Configure, ['../../index.js'])
+    expect(readFile('adonisrc.ts')).resolves.toContain('adonis-cockpit/providers/cockpit_provider')
+    expect(readFile('adonisrc.ts')).resolves.toContain('adonis-cockpit/commands')
+    expect(readFile('config/cockpit.ts')).resolves.toContain('defineConfig({')
+    expect(readFile('inertia/app/cockpit.ts')).resolves.toContain('createCockpitApp')
+    expect(readFile('inertia/app/cockpit.ts')).resolves.toContain('`../pages/${name}.vue`') // Had to escape
+    expect(readFile('package.json')).resolves.toContain('"#cockpit/*": "./app/cockpit/*.js"\n') // \n ensures file is still formatted
+    expect(readFile('package.json')).resolves.toContain('"#models/*"') // ensures we dont override existing imports
+  })
 
-      command.prompt.trap('missing_dependencies').reject()
+  test('should propose to install missing dependencies', async () => {
+    const { app, ace } = await setupApp()
 
-      await command.exec()
+    await writeFile(app.makePath('.env'), '')
+    await writeFile(app.makePath('tsconfig.json'), '{}')
+    await writeFile(app.makePath('start/env.ts'), `export default Env.create(new URL('./'), {})`)
+    await writeFile(app.makePath('adonisrc.ts'), 'export default defineConfig({})')
+    await writeFile(app.makePath('package.json'), JSON.stringify(PACKAGE_JSON_ONLY_EDGE))
 
-      command.assertSucceeded()
-    })
-  },
-  { timeout: 60000 }
-)
+    const command = await ace.create(Configure, ['../../index.js'])
+
+    command.prompt.trap('missing_dependencies').reject()
+
+    await command.exec()
+
+    command.assertSucceeded()
+  })
+}, 60000)
