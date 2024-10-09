@@ -12,5 +12,5 @@
       "vitest/globals"
     ]
   },
-  "exclude": ["tests", "build"]
+  "exclude": ["build"]
 }

@@ -23,12 +23,12 @@ describe(
   'Configure',
   () => {
     beforeEach(async () => {
-      await mkdir(BASE_URL.pathname)
+      await mkdir(BASE_URL)
       await mkdir(new URL('./start', BASE_URL))
     })
 
     afterEach(async () => {
-      await rmdir(BASE_URL.pathname, { recursive: true })
+      await rmdir(BASE_URL, { recursive: true })
     })
 
     test('should detect no missing dependencies', async () => {
