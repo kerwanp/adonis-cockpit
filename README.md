@@ -1,7 +1,7 @@
 <div align="center">
 <br/>
   
-[![logo-horizontal](https://github.com/user-attachments/assets/59cdebd2-9f69-4431-9dfa-5784f2ea49a8)](https://adonis-cockpit.com)
+[![Adonis Cockpit](./.github/images/logo-horizontal.png)](https://adonis-cockpit.com)
 
 ## The ultimate Admin Panel Builder for [AdonisJS](https://adonisjs.com/)
 
@@ -12,9 +12,10 @@
 
 <div align="center">
 
-![Lines](https://img.shields.io/badge/coverage-20.32%25-red.svg?style=flat-square) [![PRs Welcome](https://img.shields.io/badge/PRs-Are%20welcome-brightgreen.svg?style=flat-square)](https://makeapullrequest.com) [![License](https://img.shields.io/github/license/FriendsOfAdonis/magnify?label=License&style=flat-square)](LICENCE) [![adonis-cockpit](https://img.shields.io/npm/v/adonis-cockpit?style=flat-square)](https://www.npmjs.com/package/adonis-cockpit)
+#### [🚀 Get started](https://adonis-cockpit.com/docs/getting-started/installation) • [🌐 Website](https://adonis-cockpit.com/docs/getting-started/installation) • [✍ Contribute](./CONTRIBUTING.md)
 
-![Frame 6](https://github.com/user-attachments/assets/f3c227ae-7754-483d-bfa1-3229ed15f4fb)
+![Lines](https://img.shields.io/badge/coverage-20.32%25-red.svg?style=flat-square) [![PRs Welcome](https://img.shields.io/badge/PRs-Are%20welcome-brightgreen.svg?style=flat-square)](https://makeapullrequest.com) [![adonis-cockpit](https://img.shields.io/npm/v/adonis-cockpit?style=flat-square)](https://www.npmjs.com/package/adonis-cockpit) [![License](https://img.shields.io/github/license/FriendsOfAdonis/magnify?label=License&style=flat-square)](LICENCE)
+![Screenshot](./.github/images/screenshot.png)
 
 </div>
 
