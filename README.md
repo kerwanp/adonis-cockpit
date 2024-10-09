@@ -1,7 +1,7 @@
 <div align="center">
 <br/>
   
-[![Adonis Cockpit](./.github/images/logo-horizontal.png)](https://adonis-cockpit.com)
+[![Adonis Cockpit](https://github.com/kerwanp/adonis-cockpit/blob/main/.github/images/logo-horizontal.png?raw=true)](https://adonis-cockpit.com)
 
 ## The ultimate Admin Panel Builder for [AdonisJS](https://adonisjs.com/)
 
@@ -19,10 +19,12 @@
 
 [![PRs Welcome](https://img.shields.io/badge/PRs-Are%20welcome-brightgreen.svg?style=flat-square)](https://makeapullrequest.com) [![License](https://img.shields.io/github/license/kerwanp/adonis-cockpit?label=License&style=flat-square)](LICENCE)
 
-![Screenshot](./.github/images/screenshot.png)
+![Screenshot](https://github.com/kerwanp/adonis-cockpit/blob/main/.github/images/screenshot.png?raw=true)
+
 ```sh
 node ace add adonis-cockpit
 ```
+
 </div>
 
 ---
