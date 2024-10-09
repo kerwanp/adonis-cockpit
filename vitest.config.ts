@@ -25,6 +25,7 @@ export default defineConfig({
     coverage: {
       provider: 'istanbul',
       include: ['src/**/*', 'inertia/**/*'],
+      reporter: ['json-summary'],
     },
   },
 })

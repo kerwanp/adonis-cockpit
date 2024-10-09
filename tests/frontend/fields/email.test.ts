@@ -52,7 +52,7 @@ describe('form', () => {
       props: {
         'field': field.toJSON(),
         'modelValue': 'Adonis Cockpit',
-        'onUpdate:modelValue': (value) => {
+        'onUpdate:modelValue': (value: any) => {
           wrapper.setProps({ modelValue: value })
         },
       },

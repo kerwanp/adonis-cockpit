@@ -55,7 +55,7 @@ describe('form', () => {
       props: {
         'field': field.toJSON(),
         'modelValue': false,
-        'onUpdate:modelValue': (value) => {
+        'onUpdate:modelValue': (value: any) => {
           wrapper.setProps({ modelValue: value })
         },
       },
@@ -79,7 +79,7 @@ describe('form', () => {
       props: {
         'field': field.toJSON(),
         'modelValue': 'invalid',
-        'onUpdate:modelValue': (value) => {
+        'onUpdate:modelValue': (value: any) => {
           wrapper.setProps({ modelValue: value })
         },
       },
