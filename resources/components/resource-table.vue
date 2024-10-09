@@ -14,6 +14,7 @@ import DetailButton from './resource/detail-button.vue'
 import DeleteButton from './resource/delete-button.vue'
 import CreateButton from './resource/create-button.vue'
 import ActionsMenu from './resource/actions-menu.vue'
+import InputText from 'primevue/inputtext'
 
 const props = defineProps<{
   resource: InferSerializable<BaseResource>
@@ -86,9 +87,7 @@ function handleDeleted() {
     <div v-else class="h-full flex flex-col gap-2 justify-center items-center">
       <span class="pi pi-info-circle text-3xl mb-4"></span>
       <Heading variant="h3">You do not have any {{ resource.name }} yet!</Heading>
-      <Link :href="resource.routes.create">
-        <Button>Create one</Button>
-      </Link>
+      <CreateButton as="Link" label="Create one" />
     </div>
   </div>
 </template>

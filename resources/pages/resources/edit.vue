@@ -11,6 +11,7 @@ import ResourceService from '../../services/resource_service'
 import { router } from '@inertiajs/vue3'
 import { provideResource, useResource } from '../../composables/resource'
 import { useToast } from 'primevue/usetoast'
+import Button from 'primevue/button'
 
 const props = defineProps<{
   menu: InferSerializable<MenuItem>[]

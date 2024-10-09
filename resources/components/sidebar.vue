@@ -9,6 +9,7 @@ import Menu from 'primevue/menu'
 import ThemeSelector from './ui/theme-selector.vue'
 import CreateMenu from './resource/create-menu.vue'
 import { injectResources } from '../composables/resources'
+import Badge from 'primevue/badge'
 
 const props = defineProps<{
   menu: InferSerializable<MenuItem>[]

@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import ToggleSwitch from 'primevue/toggleswitch'
 import type Boolean from '../../../../src/fields/boolean'
 import type { InferSerializable } from '../../../../src/types'
 

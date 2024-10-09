@@ -10,11 +10,12 @@ import { router } from '@inertiajs/vue3'
 import ResourceService from '../../services/resource_service'
 import { provideResource, useResource } from '../../composables/resource'
 import Header from '../../components/ui/header.vue'
+import Button from 'primevue/button'
 
 const props = defineProps<{
   menu: InferSerializable<MenuItem>[]
   resource: InferSerializable<BaseResource>
-  resources: InferSerializable<BaseResource>[]
+  resources: Record<string, InferSerializable<BaseResource>>
 }>()
 
 provideResource(props.resource)

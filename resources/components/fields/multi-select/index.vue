@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type { InferSerializable } from '../../../../src/types'
 import Select from '../../../../src/fields/select'
+import Tag from 'primevue/tag'
 
 defineProps<{
   field: InferSerializable<Select>

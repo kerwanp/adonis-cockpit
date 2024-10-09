@@ -3,6 +3,8 @@ import { ref } from 'vue'
 import { MenuItem } from 'primevue/menuitem'
 import { router } from '@inertiajs/vue3'
 import { injectResources } from '../../composables/resources'
+import Button from 'primevue/button'
+import Menu from 'primevue/menu'
 
 const resources = injectResources()
 

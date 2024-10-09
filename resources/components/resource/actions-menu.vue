@@ -4,6 +4,9 @@ import type { InferSerializable } from '../../../src/types'
 import { ref } from 'vue'
 import { useResource } from '../../composables/resource'
 import { useConfirm } from 'primevue/useconfirm'
+import Button from 'primevue/button'
+import Menu from 'primevue/menu'
+import ConfirmDialog from 'primevue/confirmdialog'
 
 const props = defineProps<{
   resource?: InferSerializable<BaseResource>

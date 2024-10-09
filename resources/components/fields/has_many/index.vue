@@ -4,7 +4,6 @@ import type { InferSerializable } from '../../../../src/types'
 
 defineProps<{
   field: InferSerializable<Field>
-  row: any
   value: any
 }>()
 </script>

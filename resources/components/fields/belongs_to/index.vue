@@ -5,6 +5,8 @@ import ResourcePeek from '../../resource-peek.vue'
 import { ref } from 'vue'
 import { injectResource, useResourceQuery } from '../../../composables/resource'
 import { injectResources } from '../../../composables/resources'
+import Popover from 'primevue/popover'
+import Button from 'primevue/button'
 
 const props = defineProps<{
   field: InferSerializable<BelongsTo>
@@ -17,8 +19,6 @@ const popover = ref()
 const resources = injectResources()
 const resource = injectResource()
 const { data } = useResourceQuery(resource, props.value, opened)
-
-console.log(resources, props.field.resource.name, resources[props.field.resource.name])
 
 function toggle(event: Event) {
   opened.value = true

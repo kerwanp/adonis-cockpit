@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import type MultiSelectField from '../../../../src/fields/multi_select'
 import type { InferSerializable } from '../../../../src/types'
+import MultiSelect from 'primevue/multiselect'
 
 const props = defineProps<{
   error?: string[]

@@ -2,6 +2,7 @@
 import type { BaseResource } from '../../../src/resources/base_resource'
 import type { InferSerializable, RecordId } from '../../../src/types'
 import Button from 'primevue/button'
+import ConfirmPopup from 'primevue/confirmpopup'
 import { useResource } from '../../composables/resource'
 import { useConfirm } from 'primevue/useconfirm'
 

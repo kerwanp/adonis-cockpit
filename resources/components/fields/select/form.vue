@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Select from 'primevue/select'
 import type SelectField from '../../../../src/fields/select'
 import type { InferSerializable } from '../../../../src/types'
 

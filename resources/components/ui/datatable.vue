@@ -3,9 +3,10 @@ import type { Field } from '../../../src/fields/field'
 import type { InferSerializable } from '../../../src/types'
 import DataTable, { DataTableSortEvent } from 'primevue/datatable'
 import Column from 'primevue/column'
-import { PageState } from 'primevue/paginator'
+import Paginator, { PageState } from 'primevue/paginator'
 import { FilterMatchMode, FilterOperator } from '@primevue/core/api'
 import { ref } from 'vue'
+import InputText from 'primevue/inputtext'
 
 const props = defineProps<{
   fields: InferSerializable<Field>[]
@@ -88,7 +89,7 @@ function sort(event: DataTableSortEvent) {
     :totalRecords="total"
     :rowsPerPageOptions="[10, 25, 50, 100]"
   >
-    <template #start>{{ selectedRows.length }} rows selected</template>
+    <template #start>{{ selectedRows?.length || 0 }} rows selected</template>
     <template #end>{{ rows.length }} out of {{ total }} </template>
   </Paginator>
 </template>

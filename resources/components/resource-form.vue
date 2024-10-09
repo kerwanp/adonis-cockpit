@@ -4,6 +4,7 @@ import type { BaseResource } from '../../src/resources/base_resource'
 import Card from './ui/card.vue'
 import qs from 'qs'
 import { useForm } from '@inertiajs/vue3'
+import Button from 'primevue/button'
 
 const props = defineProps<{
   resource: InferSerializable<BaseResource>

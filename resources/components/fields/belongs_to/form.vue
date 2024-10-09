@@ -3,6 +3,7 @@ import type { InferSerializable } from '../../../../src/types'
 import type BelongsTo from '../../../../src/fields/belongs_to'
 import { ref } from 'vue'
 import { useResourceApi } from '../../../composables/resource'
+import Select from 'primevue/select'
 
 const props = defineProps<{
   error?: string[]

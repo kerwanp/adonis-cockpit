@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import Password from 'primevue/password'
 import type Text from '../../../../src/fields/text'
 import type { InferSerializable } from '../../../../src/types'
 

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import ToggleButton from 'primevue/togglebutton'
+
 function toggleDarkMode(value: boolean) {
   const element = document.querySelector('html')
   if (value) {
