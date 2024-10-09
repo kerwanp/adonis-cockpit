@@ -48,9 +48,7 @@
     "prebuild": "npm run lint && npm run clean",
     "build": "tsc",
     "dev": "tsc --watch",
-    "postbuild": "pnpm run copy:templates && pnpm run index:commands",
-    "release": "np",
-    "version": "npm run build",
+    "postbuild": "npm run copy:templates && npm run index:commands",
     "prepublishOnly": "npm run build"
   },
   "keywords": [],
@@ -83,7 +81,6 @@
     "html-entities": "^2.5.2",
     "istanbul-badges-readme": "^1.9.0",
     "jsdom": "^25.0.1",
-    "np": "^10.0.6",
     "prettier": "^3.3.2",
     "reflect-metadata": "^0.2.2",
     "ts-node": "^10.9.2",
@@ -117,6 +114,7 @@
   },
   "prettier": "@adonisjs/prettier-config",
   "dependencies": {
+    "@changesets/cli": "^2.27.9",
     "@inertiajs/vue3": "^1.2.0",
     "@npmcli/package-json": "^6.0.1",
     "@primevue/auto-import-resolver": "^4.1.0",
