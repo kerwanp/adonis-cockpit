@@ -30,11 +30,12 @@ describe('Configure', () => {
     await rm(BASE_URL, { recursive: true })
   })
 
-  test('should detect no missing dependencies', async () => {
+  test.only('should detect no missing dependencies', async () => {
     const { app, ace, readFile } = await setupApp()
 
     await writeFile(app.makePath('.env'), '')
     await writeFile(app.makePath('tsconfig.json'), '{}')
+    await writeFile(app.makePath('tailwind.config.ts'), '')
     await writeFile(app.makePath('start/env.ts'), `export default Env.create(new URL('./'), {})`)
     await writeFile(app.makePath('adonisrc.ts'), 'export default defineConfig({})')
     await PackageJson.create(app.appRoot.pathname)
@@ -57,11 +58,12 @@ describe('Configure', () => {
     expect(readFile('package.json')).resolves.toContain('"#models/*"') // ensures we dont override existing imports
   })
 
-  test('should propose to install missing dependencies', async () => {
+  test.only('should propose to install missing dependencies', async () => {
     const { app, ace } = await setupApp()
 
     await writeFile(app.makePath('.env'), '')
     await writeFile(app.makePath('tsconfig.json'), '{}')
+    await writeFile(app.makePath('tailwind.config.ts'), '')
     await writeFile(app.makePath('start/env.ts'), `export default Env.create(new URL('./'), {})`)
     await writeFile(app.makePath('adonisrc.ts'), 'export default defineConfig({})')
     await writeFile(app.makePath('package.json'), JSON.stringify(PACKAGE_JSON_ONLY_EDGE))
@@ -73,5 +75,27 @@ describe('Configure', () => {
     await command.exec()
 
     command.assertSucceeded()
+  })
+
+  test.only('should propose to install tailwindcss', async () => {
+    const { app, ace, readFile } = await setupApp()
+
+    await writeFile(app.makePath('.env'), '')
+    await writeFile(app.makePath('tsconfig.json'), '{}')
+    await writeFile(app.makePath('start/env.ts'), `export default Env.create(new URL('./'), {})`)
+    await writeFile(app.makePath('adonisrc.ts'), 'export default defineConfig({})')
+    await writeFile(app.makePath('package.json'), JSON.stringify(PACKAGE_JSON_ALL_DEPS))
+
+    const command = await ace.create(Configure, ['../../index.js'])
+
+    command.prompt.trap('missing_tailwind').accept()
+
+    await command.exec()
+
+    command.assertSucceeded()
+
+    expect(readFile('package.json')).resolves.toContain('tailwindcss')
+    expect(readFile('tailwind.config.ts')).resolves.toContain('cockpit')
+    expect(readFile('postcss.config.js')).resolves.toContain('tailwind')
   })
 }, 60000)

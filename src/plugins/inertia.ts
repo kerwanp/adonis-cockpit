@@ -1,4 +1,4 @@
-import '../../inertia/css/app.css'
+import '../../resources/css/app.css'
 import { createApp, h } from 'vue'
 import { createInertiaApp } from '@inertiajs/vue3'
 import CockpitPlugin, { PluginOptions } from './vue/index.js'

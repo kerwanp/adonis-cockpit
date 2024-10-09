@@ -31,12 +31,13 @@
     "./inertia": "./build/src/plugins/inertia.js",
     "./vue": "./build/src/plugins/vue/index.js",
     "./vue/components": "./build/src/plugins/vue/components.js",
-    "./vite": "./build/src/plugins/vite.js"
+    "./vite": "./build/src/plugins/vite.js",
+    "./tailwind": "./build/src/plugins/tailwind.js"
   },
   "scripts": {
     "clean": "del-cli build",
     "copy:templates": "copyfiles \"stubs/**/*.stub\" build",
-    "copy:resources": "copyfiles \"resources/**/*.vue\" \"resources/**/*.edge\" build",
+    "copy:resources": "copyfiles \"resources/**/*.vue\" \"resources/**/*.edge\" \"resources/**/*.css\" build",
     "index:commands": "adonis-kit index build/commands",
     "watch": "chokidar './resources/**/*' -c 'npm run copy:resources'",
     "typecheck": "tsc --noEmit",

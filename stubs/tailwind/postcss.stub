@@ -1,0 +1,7 @@
+{{{ exports({ to: app.makePath('postcss.config.js') }) }}}
+export default {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+}

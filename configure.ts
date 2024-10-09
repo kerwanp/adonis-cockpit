@@ -14,7 +14,7 @@
 
 import ConfigureCommand from '@adonisjs/core/commands/configure'
 import { stubsRoot } from './stubs/main.js'
-import { readFile } from 'node:fs/promises'
+import { readdir } from 'node:fs/promises'
 import stringHelpers from '@adonisjs/core/helpers/string'
 import { Codemods } from '@adonisjs/core/ace/codemods'
 import PackageJson from '@npmcli/package-json'
@@ -25,6 +25,7 @@ export async function configure(command: ConfigureCommand) {
   await makeStubs(codemods)
   await updatePackageJson(command)
   await installMissingDependencies(command)
+  await installTailwindCSS(command, codemods)
 }
 
 async function makeStubs(codemods: Codemods) {
@@ -56,6 +57,42 @@ async function installMissingDependencies(command: ConfigureCommand) {
       }
     }
   }
+}
+
+async function installTailwindCSS(command: ConfigureCommand, codemods: Codemods) {
+  const possibleConfigNames = ['tailwind.config.ts', 'tailwind.config.js']
+
+  const files = await readdir(command.app.makePath())
+  const configFile = files.find((file) => possibleConfigNames.includes(file))
+
+  if (configFile) {
+    command.logger.info(
+      `A Tailwind configuration file (${configFile}) already exist. To avoid destroying it you must add the Cockpit plugin yourself.\nPlease see https://adonis-cockpit.com/docs/getting-started/installation#configure-tailwindcss`
+    )
+    return
+  }
+
+  const configureTailwind = await command.prompt.ask(
+    `No Tailwind configuration file found. Do you want Cockpit to configure it for you?`,
+    { name: 'missing_tailwind' }
+  )
+
+  if (!configureTailwind) {
+    command.logger.info(
+      'OK! Cockpit has not created the file for you.\nHead over Please see https://adonis-cockpit.com/docs/getting-started/installation#configure-tailwindcss'
+    )
+    return
+  }
+
+  await codemods.installPackages([
+    {
+      name: 'tailwindcss',
+      isDevDependency: true,
+    },
+  ])
+
+  await codemods.makeUsingStub(stubsRoot, './tailwind/config.stub', {})
+  await codemods.makeUsingStub(stubsRoot, './tailwind/postcss.stub', {})
 }
 
 async function updatePackageJson(command: ConfigureCommand) {
@@ -91,11 +128,8 @@ const DEPENDENCIES_MATCHER = [
 ]
 
 async function detectMissingDependencies(command: ConfigureCommand) {
-  const packageJsonContent = await readFile(command.app.makePath('package.json')).then((c) =>
-    JSON.parse(c.toString())
-  )
-
-  const dependencies = Object.keys(packageJsonContent?.dependencies ?? [])
+  const packageJson = await PackageJson.load(command.app.appRoot.pathname)
+  const dependencies = Object.keys(packageJson.content.dependencies ?? [])
 
   return DEPENDENCIES_MATCHER.filter((item) => !dependencies.includes(item.dependency))
 }
