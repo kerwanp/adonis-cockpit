@@ -1,21 +1,13 @@
 {
   "name": "adonis-cockpit",
   "description": "",
-  "version": "0.0.0-20241009181419",
+  "version": "0.0.0-20241009194525",
   "engines": {
     "node": ">=20.6.0"
   },
   "type": "module",
   "files": [
-    "build/src",
-    "build/providers",
-    "build/services",
-    "build/stubs",
-    "build/index.d.ts",
-    "build/index.js",
-    "build/inertia",
-    "build/components.d.ts",
-    "build/components.js"
+    "build"
   ],
   "exports": {
     ".": "./build/index.js",
