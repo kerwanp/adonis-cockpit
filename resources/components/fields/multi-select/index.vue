@@ -1,6 +1,6 @@
 <script setup lang="ts">
+import type { InferSerializable } from '../../../../src/types'
 import Select from '../../../../src/fields/select'
-import { InferSerializable } from '../../../../src/types'
 
 defineProps<{
   field: InferSerializable<Select>

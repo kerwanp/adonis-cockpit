@@ -1,16 +1,16 @@
 <script setup lang="ts">
+import type { InferSerializable } from '../../../src/types'
+import type { MenuItem } from '../../../src/menu/menu_item'
+import type { BaseResource } from '../../../src/resources/base_resource'
 import Layout from '../../layouts/app.vue'
 import Heading from '../../components/ui/heading.vue'
 import ResourceForm from '../../components/resource-form.vue'
-import { InferSerializable } from '../../../src/types'
-import { MenuItem } from '../../../src/menu/menu_item'
-import { router } from '@inertiajs/vue3'
-import { BaseResource } from '../../../src/resources/base_resource'
-import { provideResource, useResource } from '../../composables/resource'
 import Header from '../../components/ui/header.vue'
 import DeleteButton from '../../components/resource/delete-button.vue'
-import { useToast } from 'primevue/usetoast'
 import ResourceService from '../../services/resource_service'
+import { router } from '@inertiajs/vue3'
+import { provideResource, useResource } from '../../composables/resource'
+import { useToast } from 'primevue/usetoast'
 
 const props = defineProps<{
   menu: InferSerializable<MenuItem>[]

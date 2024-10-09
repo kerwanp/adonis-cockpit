@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import Text from '../../../../src/fields/text'
-import { InferSerializable } from '../../../../src/types'
+import type Text from '../../../../src/fields/text'
+import type { InferSerializable } from '../../../../src/types'
 
 defineProps<{
   error?: string[]
@@ -14,7 +14,6 @@ defineProps<{
     <Password
       :id="field.name"
       :name="field.name"
-      :placeholder="field.placeholder"
       :invalid="!!error?.length"
       v-model="form[field.name]"
       v-bind="field.attributes"

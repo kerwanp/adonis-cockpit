@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import SelectField from '../../../../src/fields/select'
-import { InferSerializable } from '../../../../src/types'
+import type SelectField from '../../../../src/fields/select'
+import type { InferSerializable } from '../../../../src/types'
 
 const props = defineProps<{
   error?: string[]

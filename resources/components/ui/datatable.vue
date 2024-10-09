@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import type { Field } from '../../../src/fields/field'
+import type { InferSerializable } from '../../../src/types'
 import DataTable, { DataTableSortEvent } from 'primevue/datatable'
-import { Field } from '../../../src/fields/field'
-import { InferSerializable } from '../../../src/types'
 import Column from 'primevue/column'
 import { PageState } from 'primevue/paginator'
 import { FilterMatchMode, FilterOperator } from '@primevue/core/api'

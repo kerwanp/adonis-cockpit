@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import { InferSerializable } from '../../src/types'
-import { BaseResource } from '../../src/resources/base_resource'
+import type { InferSerializable } from '../../src/types'
+import type { BaseResource } from '../../src/resources/base_resource'
 import EditButton from './resource/edit-button.vue'
 import DetailButton from './resource/detail-button.vue'
 

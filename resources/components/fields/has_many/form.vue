@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import { InferSerializable } from '../../../../src/types'
-import HasMany from '../../../../src/fields/has_many'
+import type { InferSerializable } from '../../../../src/types'
+import type { BaseResource } from '../../../../src/resources/base_resource'
+import type HasMany from '../../../../src/fields/has_many'
 import ResourceTable from '../../resource-table.vue'
-import { BaseResource } from '../../../../src/resources/base_resource'
 import { provideResource } from '../../../composables/resource'
 import Heading from '../../ui/heading.vue'
 

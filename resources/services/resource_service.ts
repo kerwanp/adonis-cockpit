@@ -1,7 +1,7 @@
+import type { InferSerializable, RecordId } from '../../src/types.js'
+import type { SimplePaginator } from '@adonisjs/lucid/database'
+import type { ApiIndexInputParams } from '../../src/routes/handlers/api/index.js'
 import axios from 'axios'
-import { InferSerializable, RecordId } from '../../src/types.js'
-import { SimplePaginator } from '@adonisjs/lucid/database'
-import { ApiIndexInputParams } from '../../src/routes/handlers/api/index.js'
 
 type ListParams = ApiIndexInputParams
 type ListReturn = InferSerializable<SimplePaginator>

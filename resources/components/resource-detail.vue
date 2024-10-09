@@ -1,7 +1,7 @@
 <script setup lang="ts">
-import { InferSerializable } from '../../src/types'
+import type { InferSerializable } from '../../src/types'
+import type { BaseResource } from '../../src/resources/base_resource'
 import Card from './ui/card.vue'
-import { BaseResource } from '../../src/resources/base_resource'
 
 defineProps<{
   resource: InferSerializable<BaseResource>

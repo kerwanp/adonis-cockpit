@@ -1,6 +1,6 @@
+import type { BaseResource } from '../../src/resources/base_resource.js'
+import type { InferSerializable } from '../../src/types.js'
 import { inject, provide } from 'vue'
-import { BaseResource } from '../../src/resources/base_resource.js'
-import { InferSerializable } from '../../src/types.js'
 
 export function provideResources(resources: Record<string, InferSerializable<BaseResource>>) {
   return provide('resources', resources)

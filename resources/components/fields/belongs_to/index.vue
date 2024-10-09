@@ -1,11 +1,10 @@
 <script setup lang="ts">
+import type BelongsTo from '../../../../src/fields/belongs_to'
+import type { InferSerializable } from '../../../../src/types'
+import ResourcePeek from '../../resource-peek.vue'
 import { ref } from 'vue'
-import BelongsTo from '../../../../src/fields/belongs_to'
-import { InferSerializable } from '../../../../src/types'
 import { injectResource, useResourceQuery } from '../../../composables/resource'
 import { injectResources } from '../../../composables/resources'
-import ResourcePeek from '../../resource-peek.vue'
-import IdIndex from '../id/index.vue'
 
 const props = defineProps<{
   field: InferSerializable<BelongsTo>

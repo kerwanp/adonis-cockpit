@@ -1,9 +1,9 @@
+import type { ApiIndexInputParams } from '../../src/routes/handlers/api/index.js'
+import type { InferSerializable, RecordId } from '../../src/types.js'
+import type { BaseResource } from '../../src/resources/base_resource.js'
 import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/vue-query'
 import ResourceService from '../services/resource_service.js'
 import { inject, MaybeRefOrGetter, provide, Ref, toValue } from 'vue'
-import { ApiIndexInputParams } from '../../src/routes/handlers/api/index.js'
-import { InferSerializable, RecordId } from '../../src/types.js'
-import { BaseResource } from '../../src/resources/base_resource.js'
 
 type ListParams = {
   page?: Ref<number | undefined> | number

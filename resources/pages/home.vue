@@ -1,15 +1,15 @@
 <script setup lang="ts">
-import { BaseResource } from '../../src/base_resource'
-import { MenuItem } from '../../src/menu/menu_item'
-import { InferSerializable } from '../../src/types'
+import type { BaseResource } from '../../src/resources/base_resource'
+import type { MenuItem } from '../../src/menu/menu_item'
+import type { InferSerializable } from '../../src/types'
 import Layout from '../layouts/app.vue'
 
 defineProps<{
   menu: InferSerializable<MenuItem>[]
-  resources: InferSerializable<BaseResource>[]
+  resources: Record<string, InferSerializable<BaseResource>>
 }>()
 </script>
 
 <template>
-  <Layout :menu="menu" :resources="resources"> </Layout>
+  <Layout :breadcrumb="[]" :menu="menu" :resources="resources"> </Layout>
 </template>

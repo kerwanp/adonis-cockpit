@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import type { BaseResource } from '../../../src/resources/base_resource'
+import type { InferSerializable } from '../../../src/types'
 import Button from 'primevue/button'
-import { BaseResource } from '../../../src/resources/base_resource'
-import { InferSerializable } from '../../../src/types'
 import { injectResource } from '../../composables/resource'
 import ResourceService from '../../services/resource_service'
 import qs from 'qs'

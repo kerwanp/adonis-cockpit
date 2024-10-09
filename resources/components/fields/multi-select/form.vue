@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import MultiSelectField from '../../../../src/fields/multi_select'
-import { InferSerializable } from '../../../../src/types'
+import type MultiSelectField from '../../../../src/fields/multi_select'
+import type { InferSerializable } from '../../../../src/types'
 
 const props = defineProps<{
   error?: string[]

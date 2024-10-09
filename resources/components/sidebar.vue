@@ -1,13 +1,13 @@
 <script setup lang="ts">
+import type { InferSerializable } from '../../src/types'
+import type { MenuItem } from '../../src/menu/menu_item'
+import type { BaseResource } from '../../src/resources/base_resource'
 import { MenuItem as PrimeMenuItem } from 'primevue/menuitem'
-import { InferSerializable } from '../../src/types'
-import { MenuItem } from '../../src/menu/menu_item'
 import { Link } from '@inertiajs/vue3'
 import { Ref, ref } from 'vue'
 import Menu from 'primevue/menu'
 import ThemeSelector from './ui/theme-selector.vue'
 import CreateMenu from './resource/create-menu.vue'
-import { BaseResource } from '../../src/resources/base_resource'
 import { injectResources } from '../composables/resources'
 
 const props = defineProps<{

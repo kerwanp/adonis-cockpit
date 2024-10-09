@@ -1,7 +1,7 @@
 <script setup lang="ts">
+import type { BaseResource } from '../../../src/resources/base_resource'
+import type { InferSerializable } from '../../../src/types'
 import { ref } from 'vue'
-import { BaseResource } from '../../../src/resources/base_resource'
-import { InferSerializable } from '../../../src/types'
 import { useResource } from '../../composables/resource'
 import { useConfirm } from 'primevue/useconfirm'
 

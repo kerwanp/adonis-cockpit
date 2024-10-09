@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import Boolean from '../../../../src/fields/boolean'
-import { InferSerializable } from '../../../../src/types'
+import type Boolean from '../../../../src/fields/boolean'
+import type { InferSerializable } from '../../../../src/types'
 
 defineProps<{
   error?: string[]

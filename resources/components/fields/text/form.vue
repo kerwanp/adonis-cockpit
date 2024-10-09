@@ -1,6 +1,6 @@
 <script setup lang="ts">
-import Text from '../../../../src/fields/text'
-import { InferSerializable } from '../../../../src/types'
+import type Text from '../../../../src/fields/text'
+import type { InferSerializable } from '../../../../src/types'
 
 defineProps<{
   error?: string[]

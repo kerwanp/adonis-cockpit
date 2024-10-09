@@ -1,8 +1,8 @@
 <script setup lang="ts">
+import type { InferSerializable } from '../../../../src/types'
+import type BelongsTo from '../../../../src/fields/belongs_to'
 import { ref } from 'vue'
-import { InferSerializable } from '../../../../src/types'
 import { useResourceApi } from '../../../composables/resource'
-import BelongsTo from '../../../../src/fields/belongs_to'
 
 const props = defineProps<{
   error?: string[]

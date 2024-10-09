@@ -1,10 +1,10 @@
 <script setup lang="ts">
 import 'primeicons/primeicons.css'
+import type { InferSerializable } from '../../src/types'
+import type { BaseResource } from '../../src/resources/base_resource'
 import Sidebar from '../components/sidebar.vue'
 import { Link } from '@inertiajs/vue3'
 import { MenuItem } from 'primevue/menuitem'
-import { InferSerializable } from '../../src/types'
-import { BaseResource } from '../../src/resources/base_resource'
 import { provideResources } from '../composables/resources'
 
 const props = defineProps<{

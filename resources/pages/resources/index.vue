@@ -1,10 +1,10 @@
 <script setup lang="ts">
+import type { InferSerializable } from '../../../src/types'
+import type { MenuItem } from '../../../src/menu/menu_item'
+import type { BaseResource } from '../../../src/resources/base_resource'
 import Heading from '../../components/ui/heading.vue'
 import ResourceTable from '../../components/resource-table.vue'
 import Layout from '../../layouts/app.vue'
-import { InferSerializable } from '../../../src/types'
-import { MenuItem } from '../../../src/menu/menu_item'
-import { BaseResource } from '../../../src/resources/base_resource'
 import { provideResource } from '../../composables/resource'
 
 const props = defineProps<{
