@@ -40,7 +40,7 @@
     "index:commands": "adonis-kit index build/commands",
     "watch": "chokidar './resources/**/*' -c 'npm run copy:resources'",
     "typecheck": "tsc --noEmit",
-    "lint": "eslint . --ext=.ts",
+    "lint": "eslint .",
     "format": "prettier --write .",
     "test": "vitest",
     "coverage": "vitest run --coverage",

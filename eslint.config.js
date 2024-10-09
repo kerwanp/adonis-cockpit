@@ -1,3 +1,5 @@
-import { configPkg } from '@adonisjs/eslint-config'
+import { configPkg, IGNORE_LIST } from '@adonisjs/eslint-config'
 
-export default configPkg()
+export default configPkg({
+  ignores: IGNORE_LIST,
+})
