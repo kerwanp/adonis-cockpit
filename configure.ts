@@ -26,6 +26,10 @@ export async function configure(command: ConfigureCommand) {
   await updatePackageJson(command)
   await installMissingDependencies(command)
   await installTailwindCSS(command, codemods)
+
+  command.logger.success(
+    'Cockpit has been successfully configured!\nYou have one only step left: https://adonis-cockpit.com/docs/getting-started/installation#configure-inertia-root-layout '
+  )
 }
 
 async function makeStubs(codemods: Codemods) {
