@@ -5,7 +5,7 @@
 
 ## The ultimate Admin Panel Builder for [AdonisJS](https://adonisjs.com/)
 
-### Adonis is the fatest way to build production-ready administration panels with Adonis
+### Cockpit is the fatest way to build production-ready administration panels with Adonis
 
 <br/>
 </div>

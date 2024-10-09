@@ -12,7 +12,7 @@ type FieldsOptions = Record<string, Record<string, any>>
 
 export type PluginOptions = {
   primeVue?: PrimeVueConfiguration
-  fields: FieldsOptions
+  fields?: FieldsOptions
 }
 
 // TODO: Type issues
@@ -41,7 +41,7 @@ export default {
 
     for (const [field, components] of [
       ...Object.entries(fields),
-      ...Object.entries(options.fields),
+      ...Object.entries(options.fields ?? []),
     ]) {
       for (const [type, component] of Object.entries(components)) {
         app.component(`Cockpit${field}${type}`, component)
