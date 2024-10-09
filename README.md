@@ -20,8 +20,12 @@
 [![PRs Welcome](https://img.shields.io/badge/PRs-Are%20welcome-brightgreen.svg?style=flat-square)](https://makeapullrequest.com) [![License](https://img.shields.io/github/license/kerwanp/adonis-cockpit?label=License&style=flat-square)](LICENCE)
 
 ![Screenshot](./.github/images/screenshot.png)
-
+```sh
+node ace add adonis-cockpit
+```
 </div>
+
+---
 
 > [!CAUTION]
 > This project is in prerelease stage. It might not work as expected and is subject to change.
