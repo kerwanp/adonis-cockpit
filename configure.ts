@@ -13,25 +13,23 @@ export async function configure(command: ConfigureCommand) {
   await installMissingDependencies(command)
   await installTailwindCSS(command, codemods)
 
-  command.colors.magenta()
-  command.logger.log(`
-\n
-░█████╗░░█████╗░░█████╗░██╗░░██╗██████╗░██╗████████╗\n
-██╔══██╗██╔══██╗██╔══██╗██║░██╔╝██╔══██╗██║╚══██╔══╝\n
-██║░░╚═╝██║░░██║██║░░╚═╝█████═╝░██████╔╝██║░░░██║░░░\n
-██║░░██╗██║░░██║██║░░██╗██╔═██╗░██╔═══╝░██║░░░██║░░░\n
-╚█████╔╝╚█████╔╝╚█████╔╝██║░╚██╗██║░░░░░██║░░░██║░░░\n
-░╚════╝░░╚════╝░░╚════╝░╚═╝░░╚═╝╚═╝░░░░░╚═╝░░░╚═╝░░░\n
-\n
+  command.logger.log(
+    command.colors.magenta(`
+░█████╗░░█████╗░░█████╗░██╗░░██╗██████╗░██╗████████╗
+██╔══██╗██╔══██╗██╔══██╗██║░██╔╝██╔══██╗██║╚══██╔══╝
+██║░░╚═╝██║░░██║██║░░╚═╝█████═╝░██████╔╝██║░░░██║░░░
+██║░░██╗██║░░██║██║░░██╗██╔═██╗░██╔═══╝░██║░░░██║░░░
+╚█████╔╝╚█████╔╝╚█████╔╝██║░╚██╗██║░░░░░██║░░░██║░░░
+░╚════╝░░╚════╝░░╚════╝░╚═╝░░╚═╝╚═╝░░░░░╚═╝░░░╚═╝░░░
 `)
+  )
 
   command.colors.reset()
 
-  command.logger.success(`
-\n
+  command.logger.log(`
 Cockpit has been successfully configured!
 
-You have one step left:
+You only have one step left:
 - https://adonis-cockpit.com/docs/getting-started/installation#configure-inertia-root-layout
 `)
 }
@@ -95,6 +93,14 @@ async function installTailwindCSS(command: ConfigureCommand, codemods: Codemods)
   await codemods.installPackages([
     {
       name: 'tailwindcss',
+      isDevDependency: true,
+    },
+    {
+      name: 'postcss',
+      isDevDependency: true,
+    },
+    {
+      name: 'autoprefixer',
       isDevDependency: true,
     },
   ])
