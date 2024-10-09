@@ -30,7 +30,6 @@ const items: Ref<PrimeMenuItem[]> = ref([
     target: item.target,
     icon: item.icon,
   })),
-  {},
   {
     label: 'Resources',
     items: Object.values(resources).map((resource) => ({

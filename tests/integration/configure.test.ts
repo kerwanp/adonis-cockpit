@@ -38,6 +38,7 @@ describe('Configure', () => {
     await writeFile(app.makePath('tailwind.config.ts'), '')
     await writeFile(app.makePath('start/env.ts'), `export default Env.create(new URL('./'), {})`)
     await writeFile(app.makePath('adonisrc.ts'), 'export default defineConfig({})')
+    await writeFile(app.makePath('vite.config.ts'), 'export default defineConfig({ plugins: [] })')
     await PackageJson.create(app.appRoot.pathname)
       .then((p) =>
         p.update({ ...PACKAGE_JSON_ALL_DEPS, imports: { '#models/*': './app/models/*' } })
@@ -56,6 +57,7 @@ describe('Configure', () => {
     expect(readFile('inertia/app/cockpit.ts')).resolves.toContain('`../pages/${name}.vue`') // Had to escape
     expect(readFile('package.json')).resolves.toContain('"#cockpit/*": "./app/cockpit/*.js"\n') // \n ensures file is still formatted
     expect(readFile('package.json')).resolves.toContain('"#models/*"') // ensures we dont override existing imports
+    expect(readFile('vite.config.ts')).resolves.toContain('cockpit')
   })
 
   test.only('should propose to install missing dependencies', async () => {
@@ -67,6 +69,7 @@ describe('Configure', () => {
     await writeFile(app.makePath('start/env.ts'), `export default Env.create(new URL('./'), {})`)
     await writeFile(app.makePath('adonisrc.ts'), 'export default defineConfig({})')
     await writeFile(app.makePath('package.json'), JSON.stringify(PACKAGE_JSON_ONLY_EDGE))
+    await writeFile(app.makePath('vite.config.ts'), 'export default defineConfig({ plugins: [] })')
 
     const command = await ace.create(Configure, ['../../index.js'])
 
@@ -85,6 +88,7 @@ describe('Configure', () => {
     await writeFile(app.makePath('start/env.ts'), `export default Env.create(new URL('./'), {})`)
     await writeFile(app.makePath('adonisrc.ts'), 'export default defineConfig({})')
     await writeFile(app.makePath('package.json'), JSON.stringify(PACKAGE_JSON_ALL_DEPS))
+    await writeFile(app.makePath('vite.config.ts'), 'export default defineConfig({ plugins: [] })')
 
     const command = await ace.create(Configure, ['../../index.js'])
 

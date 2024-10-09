@@ -4,6 +4,7 @@ import { readdir } from 'node:fs/promises'
 import stringHelpers from '@adonisjs/core/helpers/string'
 import { Codemods } from '@adonisjs/core/ace/codemods'
 import PackageJson from '@npmcli/package-json'
+import { existsSync } from 'node:fs'
 
 export async function configure(command: ConfigureCommand) {
   const codemods = await command.createCodemods()
@@ -12,6 +13,7 @@ export async function configure(command: ConfigureCommand) {
   await updatePackageJson(command)
   await installMissingDependencies(command)
   await installTailwindCSS(command, codemods)
+  await registerVitePlugin(command, codemods)
 
   command.logger.log(
     command.colors.magenta(`
@@ -44,6 +46,20 @@ async function makeStubs(codemods: Codemods) {
     transformer.addPreloadFile('#start/cockpit')
     transformer.addProvider('adonis-cockpit/providers/cockpit_provider')
   })
+}
+
+async function registerVitePlugin(command: ConfigureCommand, codemods: Codemods) {
+  const exist = existsSync(command.app.makePath('vite.config.ts'))
+  if (!exist) {
+    command.logger.warning(
+      `You are missing the vite.config.ts file. You need to configure it manually.\nHead over https://adonis-cockpit.com/docs/getting-started/installation#configure-vite`
+    )
+    return
+  }
+
+  await codemods.registerVitePlugin(`cockpit()`, [
+    { isNamed: false, module: 'adonis-cockpit/vite', identifier: 'cockpit' },
+  ])
 }
 
 async function installMissingDependencies(command: ConfigureCommand) {
