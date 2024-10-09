@@ -23,8 +23,6 @@
 
 </div>
 
-## Gettings started
-
 > [!CAUTION]
 > This project is in prerelease stage. It might not work as expected and is subject to change.
 
