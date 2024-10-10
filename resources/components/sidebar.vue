@@ -43,8 +43,11 @@ const items: Ref<PrimeMenuItem[]> = ref([
 
 <template>
   <div
-    class="w-auto h-full flex flex-col border-r border-surface-200 bg-surface-0 dark:bg-surface-950 dark:border-surface-800 p-3"
+    class="w-[250px] h-full flex flex-col border-r border-surface-200 bg-surface-0 dark:bg-surface-950 dark:border-surface-800 p-3"
   >
+    <div class="p-4">
+      <img src="https://adonis-cockpit.com/logo-horizontal.png" />
+    </div>
     <CreateMenu />
     <Menu
       :model="items"

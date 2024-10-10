@@ -54,6 +54,18 @@ export default class Cockpit {
     return this
   }
 
+  /**
+   * Generates a Vite asset pathname from a page name.
+   */
+  makeVitePagePath(component: string) {
+    const strippedName = component.replace('cockpit::', '')
+    const resourcesUrl = new URL('../resources/pages/', import.meta.url)
+    return `@fs${new URL(`${strippedName}.vue`, resourcesUrl).pathname}`
+  }
+
+  /**
+   * Boots Cockpit.
+   */
   async boot(app: ApplicationService) {
     this.#logger.trace({ cockpit: this }, 'booting cockpit')
     const router = await app.container.make('router')

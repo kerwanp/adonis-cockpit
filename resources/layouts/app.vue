@@ -8,6 +8,7 @@ import Breadcrumb from 'primevue/breadcrumb'
 import { Link } from '@inertiajs/vue3'
 import { MenuItem } from 'primevue/menuitem'
 import { provideResources } from '../composables/resources'
+import ConfirmPopup from 'primevue/confirmpopup'
 
 const props = defineProps<{
   breadcrumb: MenuItem[]
@@ -20,6 +21,7 @@ provideResources(props.resources)
 
 <template>
   <Toast />
+  <ConfirmPopup></ConfirmPopup>
   <div class="bg-surface-50 dark:bg-surface-950 flex items-start h-screen text-color">
     <Sidebar :menu="menu" :resources="Object.values(resources)" />
     <div class="flex-1 h-full overflow-y-auto p-4 flex flex-col">

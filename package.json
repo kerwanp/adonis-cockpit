@@ -1,7 +1,7 @@
 {
   "name": "adonis-cockpit",
   "description": "",
-  "version": "0.0.0-20241009222807",
+  "version": "0.0.0-20241009224726",
   "engines": {
     "node": ">=20.6.0"
   },

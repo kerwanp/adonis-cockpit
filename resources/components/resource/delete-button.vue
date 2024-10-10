@@ -52,5 +52,4 @@ async function deleteRecord(event: Event) {
     @click="deleteRecord"
     v-bind="$attrs"
   />
-  <ConfirmPopup></ConfirmPopup>
 </template>

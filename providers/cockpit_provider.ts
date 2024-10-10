@@ -1,6 +1,4 @@
 import { ApplicationService } from '@adonisjs/core/types'
-import edge from 'edge.js'
-import { viewsRoot } from '../resources/main.js'
 import CockpitManager from '../src/cockpit.js'
 import { CockpitConfig } from '../src/types.js'
 
@@ -9,8 +7,6 @@ export default class CockpitProvider {
 
   register() {
     const config = this.app.config.get<CockpitConfig>('cockpit')
-    edge.mount('cockpit', viewsRoot)
-    edge.global('cockpitConfig', config)
 
     this.app.container.singleton(CockpitManager, async (resolver) => {
       const logger = await resolver.make('logger')
@@ -21,7 +17,21 @@ export default class CockpitProvider {
 
   async boot() {
     await import('../src/extensions.js')
-    const admin = await this.app.container.make(CockpitManager)
-    await admin.boot(this.app)
+
+    const cockpit = await this.app.container.make(CockpitManager)
+    await cockpit.boot(this.app)
+
+    await this.registerEdgePlugin()
+  }
+
+  /**
+   * Registers edge plugin
+   */
+  async registerEdgePlugin() {
+    const cockpit = await this.app.container.make(CockpitManager)
+    const edge = await import('edge.js')
+    const { edgePluginCockpit } = await import('../src/plugins/edge.js')
+    console.log(cockpit.config)
+    edge.default.use(edgePluginCockpit(cockpit))
   }
 }
