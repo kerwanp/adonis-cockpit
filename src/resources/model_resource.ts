@@ -22,6 +22,8 @@ export abstract class ModelResource<Model extends LucidModel = LucidModel> exten
   }
 
   name(): string {
+    // WARNING: Model must be booted or table name can be taken from mixin (idk why)
+    this.model.boot()
     return this.model.table
   }
 

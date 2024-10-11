@@ -1,17 +1,22 @@
-import { createApp, DefineComponent, h } from 'vue'
+import { createApp, h } from 'vue'
 import { createInertiaApp } from '@inertiajs/vue3'
 import CockpitPlugin, { PluginOptions } from './vue/index.js'
-import { resolvePageComponent } from '@adonisjs/inertia/helpers'
 
 const appName = 'Cockpit'
+
+// WARNING: We cannot use import.meta.glob as vite cannot resolve them when optimized
+const pages: Record<string, () => any> = {
+  'home': () => import('../../resources/pages/home.vue'),
+  'resources/edit': () => import('../../resources/pages/resources/edit.vue'),
+  'resources/create': () => import('../../resources/pages/resources/create.vue'),
+  'resources/index': () => import('../../resources/pages/resources/index.vue'),
+  'resources/detail': () => import('../../resources/pages/resources/detail.vue'),
+}
 
 export function resolvePage(name: string) {
   if (name.startsWith('cockpit::')) {
     const strippedName = name.replace('cockpit::', '')
-    return resolvePageComponent(
-      `../../resources/pages/${strippedName}.vue`,
-      import.meta.glob<DefineComponent>('../../resources/pages/**/*.vue')
-    )
+    return pages[strippedName]()
   }
 }
 

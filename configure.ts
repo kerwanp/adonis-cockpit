@@ -64,7 +64,7 @@ const missingDependenciesSteps: {
     },
     run: async (command) => {
       const ace = await command.app.container.make('ace')
-      await ace.exec('add', ['vinejs'])
+      await ace.exec('add', ['@adonisjs/inertia'])
     },
   },
 ]
@@ -160,7 +160,7 @@ async function registerVitePlugin(command: ConfigureCommand, codemods: Codemods)
     return
   }
 
-  await codemods.registerVitePlugin(`cockpit()`, [
+  await codemods.registerVitePlugin(`cockpit({ entrypoints: ['inertia/app/cockpit.ts'] })`, [
     { isNamed: false, module: 'adonis-cockpit/vite', identifier: 'cockpit' },
   ])
 }
