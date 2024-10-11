@@ -3,7 +3,5 @@ import { Config } from 'tailwindcss'
 import cockpit from 'adonis-cockpit/tailwind'
 
 export default {
-  darkMode: 'class',
-  content: ['./resources/views/**/*.edge', cockpit.contentPath],
-  plugins: [cockpit],
+  presets: [cockpit],
 } as Config

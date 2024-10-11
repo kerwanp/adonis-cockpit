@@ -5,19 +5,22 @@ import { RoutesManager } from './routes/manager.js'
 import { ResourcesManager } from './resources/manager.js'
 import { ApplicationService } from '@adonisjs/core/types'
 import { Logger } from '@adonisjs/core/logger'
+import { relative } from 'node:path'
 
 export default class Cockpit {
   readonly config: CockpitConfig
   $routesManager: RoutesManager
+  #app: ApplicationService
   #resourcesManager: ResourcesManager
   #logger: Logger
   #menu: () => MenuItem[] = () => []
 
-  constructor(config: CockpitConfig, logger: Logger) {
-    this.config = config
+  constructor(app: ApplicationService, config: CockpitConfig, logger: Logger) {
+    this.#app = app
     this.#logger = logger
-    this.$routesManager = new RoutesManager(logger)
     this.#resourcesManager = new ResourcesManager(logger)
+    this.$routesManager = new RoutesManager(logger)
+    this.config = config
   }
 
   /**
@@ -59,8 +62,8 @@ export default class Cockpit {
    */
   makeVitePagePath(component: string) {
     const strippedName = component.replace('cockpit::', '')
-    const resourcesUrl = new URL('../resources/pages/', import.meta.url)
-    return `@fs${new URL(`${strippedName}.vue`, resourcesUrl).pathname}`
+    const pagesUrl = new URL(`../resources/pages/${strippedName}.vue`, import.meta.url)
+    return `@fs/${relative(this.#app.makePath(), pagesUrl.pathname)}`
   }
 
   /**

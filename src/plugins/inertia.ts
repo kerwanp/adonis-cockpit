@@ -1,21 +1,17 @@
-import { createApp, h } from 'vue'
+import { createApp, DefineComponent, h } from 'vue'
 import { createInertiaApp } from '@inertiajs/vue3'
 import CockpitPlugin, { PluginOptions } from './vue/index.js'
+import { resolvePageComponent } from '@adonisjs/inertia/helpers'
 
 const appName = 'Cockpit'
-
-const pages: Record<string, () => any> = {
-  'home': () => import('adonis-cockpit/resources/pages/home.vue'),
-  'resources/edit': () => import('adonis-cockpit/resources/pages/resources/edit.vue'),
-  'resources/create': () => import('adonis-cockpit/resources/pages/resources/create.vue'),
-  'resources/index': () => import('adonis-cockpit/resources/pages/resources/index.vue'),
-  'resources/detail': () => import('adonis-cockpit/resources/pages/resources/detail.vue'),
-}
 
 export function resolvePage(name: string) {
   if (name.startsWith('cockpit::')) {
     const strippedName = name.replace('cockpit::', '')
-    return pages[strippedName]()
+    return resolvePageComponent(
+      `../../resources/pages/${strippedName}.vue`,
+      import.meta.glob<DefineComponent>('../../resources/pages/**/*.vue')
+    )
   }
 }
 

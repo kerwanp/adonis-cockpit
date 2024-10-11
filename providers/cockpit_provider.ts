@@ -10,7 +10,7 @@ export default class CockpitProvider {
 
     this.app.container.singleton(CockpitManager, async (resolver) => {
       const logger = await resolver.make('logger')
-      const cockpit = new CockpitManager(config, logger)
+      const cockpit = new CockpitManager(this.app, config, logger)
       return cockpit
     })
   }
@@ -31,7 +31,6 @@ export default class CockpitProvider {
     const cockpit = await this.app.container.make(CockpitManager)
     const edge = await import('edge.js')
     const { edgePluginCockpit } = await import('../src/plugins/edge.js')
-    console.log(cockpit.config)
     edge.default.use(edgePluginCockpit(cockpit))
   }
 }
