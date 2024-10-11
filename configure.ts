@@ -1,39 +1,142 @@
 import ConfigureCommand from '@adonisjs/core/commands/configure'
 import { stubsRoot } from './stubs/main.js'
 import { readdir } from 'node:fs/promises'
-import stringHelpers from '@adonisjs/core/helpers/string'
 import { Codemods } from '@adonisjs/core/ace/codemods'
 import PackageJson from '@npmcli/package-json'
 import { existsSync } from 'node:fs'
 
+const logo = `
+  _____         __         _ __
+ / ___/__  ____/ /__ ___  (_) /_
+/ /__/ _ \\/ __/  '_// _ \\/ / __/
+\\___/\\___/\\__/_/\\_\\/ .__/_/\\__/
+                  /_/`
+
+const manualSteps: {
+  title: string
+  url: string
+}[] = [
+  {
+    title: 'Inertia Root Layout must be configured manually',
+    url: 'https://adonis-cockpit.com/docs/getting-started/installation#configure-inertia-root-layout',
+  },
+]
+
+const missingDependenciesSteps: {
+  title: string
+  detect: (command: ConfigureCommand) => Promise<boolean>
+  run: (command: ConfigureCommand) => Promise<void>
+}[] = [
+  {
+    title: 'EdgeJS is not configured',
+    detect: async (command) => command.app.usingEdgeJS,
+    run: async (command) => {
+      const ace = await command.app.container.make('ace')
+      await ace.exec('add', ['edge'])
+    },
+  },
+  {
+    title: 'VineJS is not configured',
+    detect: async (command) => command.app.usingVineJS,
+    run: async (command) => {
+      const ace = await command.app.container.make('ace')
+      await ace.exec('add', ['vinejs'])
+    },
+  },
+  {
+    title: 'Lucid is not configured',
+    detect: async (command) => {
+      const packageJson = await PackageJson.load(command.app.appRoot.pathname)
+      const dependencies = Object.keys(packageJson.content.dependencies ?? [])
+      return dependencies.includes('@adonisjs/lucid')
+    },
+    run: async (command) => {
+      const ace = await command.app.container.make('ace')
+      await ace.exec('add', ['@adonisjs/lucid'])
+    },
+  },
+  {
+    title: 'InertiaJS is not configured',
+    detect: async (command) => {
+      const packageJson = await PackageJson.load(command.app.appRoot.pathname)
+      const dependencies = Object.keys(packageJson.content.dependencies ?? [])
+      return dependencies.includes('@adonisjs/inertia')
+    },
+    run: async (command) => {
+      const ace = await command.app.container.make('ace')
+      await ace.exec('add', ['vinejs'])
+    },
+  },
+]
+
+async function configureAdonisPackages(command: ConfigureCommand) {
+  const missingSteps = []
+  for (const step of missingDependenciesSteps) {
+    const detected = await step.detect(command)
+    if (!detected) {
+      missingSteps.push(step)
+    }
+  }
+
+  if (missingSteps.length) {
+    command.logger.log(
+      command.colors
+        .red()
+        .bold()
+        .underline('Cockpit detected the following missing configurations:')
+    )
+    for (const missingStep of missingSteps) {
+      command.logger.log(command.colors.red(`  ✖ ${missingStep.title}`))
+    }
+
+    const shouldConfigure = await command.prompt.confirm(
+      'Do you want Cockpit to configure them for you?',
+      { name: 'configure_missing_dependencies' }
+    )
+    if (shouldConfigure) {
+      for (const missingStep of missingSteps) {
+        await missingStep.run(command)
+      }
+    }
+  }
+}
+
 export async function configure(command: ConfigureCommand) {
   const codemods = await command.createCodemods()
 
+  command.logger.log(command.colors.magenta(logo))
+  command.logger.log(command.colors.gray('_______________________________\n'))
+  command.logger.log(command.colors.yellow('ⓘ  Version: Pre-release\n'))
+
+  await configureAdonisPackages(command)
+
   await makeStubs(codemods)
   await updatePackageJson(command)
-  await installMissingDependencies(command)
   await installTailwindCSS(command, codemods)
   await registerVitePlugin(command, codemods)
 
-  command.logger.log(
-    command.colors.magenta(`
-░█████╗░░█████╗░░█████╗░██╗░░██╗██████╗░██╗████████╗
-██╔══██╗██╔══██╗██╔══██╗██║░██╔╝██╔══██╗██║╚══██╔══╝
-██║░░╚═╝██║░░██║██║░░╚═╝█████═╝░██████╔╝██║░░░██║░░░
-██║░░██╗██║░░██║██║░░██╗██╔═██╗░██╔═══╝░██║░░░██║░░░
-╚█████╔╝╚█████╔╝╚█████╔╝██║░╚██╗██║░░░░░██║░░░██║░░░
-░╚════╝░░╚════╝░░╚════╝░╚═╝░░╚═╝╚═╝░░░░░╚═╝░░░╚═╝░░░
-`)
-  )
-
   command.colors.reset()
 
-  command.logger.log(`
-Cockpit has been successfully configured!
+  command.logger.log(command.colors.gray('_______________________________\n'))
 
-You only have one step left:
-- https://adonis-cockpit.com/docs/getting-started/installation#configure-inertia-root-layout
-`)
+  command.logger.log(command.colors.green(`Cockpit has been successfully configured!\n`))
+
+  if (manualSteps.length) {
+    command.logger.log(
+      command.colors
+        .yellow()
+        .bold()
+        .underline(`You have ${manualSteps.length} manual step(s) left:`)
+    )
+
+    for (const manualStep of manualSteps) {
+      command.logger.log(
+        command.colors.yellow(`- ${command.colors.bold(manualStep.title)}:\n  ${manualStep.url}`)
+      )
+    }
+  }
+
+  command.logger.log(command.colors.gray('_______________________________\n'))
 }
 
 async function makeStubs(codemods: Codemods) {
@@ -62,25 +165,6 @@ async function registerVitePlugin(command: ConfigureCommand, codemods: Codemods)
   ])
 }
 
-async function installMissingDependencies(command: ConfigureCommand) {
-  const missingDependencies = await detectMissingDependencies(command)
-
-  if (missingDependencies.length) {
-    const prompt = await command.prompt.confirm(
-      `You are missing the following dependencies: ${stringHelpers.sentence(missingDependencies.map((d) => d.dependency))} do you want to configure them?`,
-      { name: 'missing_dependencies' }
-    )
-
-    if (prompt) {
-      const ace = await command.app.container.make('ace')
-      for (const dependency of missingDependencies) {
-        command.logger.info(`Running 'ace add ${dependency.configure}'`)
-        await ace.exec('add', [dependency.configure])
-      }
-    }
-  }
-}
-
 async function installTailwindCSS(command: ConfigureCommand, codemods: Codemods) {
   const possibleConfigNames = ['tailwind.config.ts', 'tailwind.config.js']
 
@@ -88,21 +172,10 @@ async function installTailwindCSS(command: ConfigureCommand, codemods: Codemods)
   const configFile = files.find((file) => possibleConfigNames.includes(file))
 
   if (configFile) {
-    command.logger.info(
-      `A Tailwind configuration file (${configFile}) already exist. To avoid destroying it you must add the Cockpit plugin yourself.\nPlease see https://adonis-cockpit.com/docs/getting-started/installation#configure-tailwindcss`
-    )
-    return
-  }
-
-  const configureTailwind = await command.prompt.confirm(
-    `No Tailwind configuration file found. Do you want Cockpit to configure it for you?`,
-    { name: 'missing_tailwind' }
-  )
-
-  if (!configureTailwind) {
-    command.logger.info(
-      'OK! Cockpit has not created the file for you.\nHead over Please see https://adonis-cockpit.com/docs/getting-started/installation#configure-tailwindcss'
-    )
+    manualSteps.push({
+      title: 'Tailwind must be configured manually',
+      url: 'https://adonis-cockpit.com/docs/getting-started/installation#configure-tailwindcss',
+    })
     return
   }
 
@@ -136,30 +209,4 @@ async function updatePackageJson(command: ConfigureCommand) {
   })
 
   await packageJson.save()
-}
-
-const DEPENDENCIES_MATCHER = [
-  {
-    dependency: '@adonisjs/lucid',
-    configure: '@adonisjs/lucid',
-  },
-  {
-    dependency: '@vinejs/vine',
-    configure: 'vinejs',
-  },
-  {
-    dependency: 'edge.js',
-    configure: 'edge',
-  },
-  {
-    dependency: '@adonisjs/inertia',
-    configure: '@adonisjs/inertia',
-  },
-]
-
-async function detectMissingDependencies(command: ConfigureCommand) {
-  const packageJson = await PackageJson.load(command.app.appRoot.pathname)
-  const dependencies = Object.keys(packageJson.content.dependencies ?? [])
-
-  return DEPENDENCIES_MATCHER.filter((item) => !dependencies.includes(item.dependency))
 }

@@ -6,6 +6,7 @@ export default function cockpit() {
       optimizeDeps: {
         include: [
           'qs',
+          'deepmerge',
           'primevue/toast',
           'primevue/usetoast',
           'primevue/useconfirm',

@@ -2,6 +2,7 @@ import { mkdir, rm, writeFile } from 'node:fs/promises'
 import { BASE_URL, setupApp } from '../utils.js'
 import Configure from '@adonisjs/core/commands/configure'
 import PackageJson from '@npmcli/package-json'
+import { ApplicationService } from '@adonisjs/core/types'
 
 const PACKAGE_JSON_ALL_DEPS = {
   dependencies: {
@@ -20,6 +21,20 @@ const PACKAGE_JSON_ONLY_EDGE = {
   },
 }
 
+async function prepareApp(
+  app: ApplicationService,
+  packageJson: PackageJson.Content = PACKAGE_JSON_ALL_DEPS
+) {
+  await writeFile(app.makePath('.env'), '')
+  await writeFile(app.makePath('tsconfig.json'), '{}')
+  await writeFile(app.makePath('start/env.ts'), `export default Env.create(new URL('./'), {})`)
+  await writeFile(app.makePath('adonisrc.ts'), 'export default defineConfig({})')
+  await writeFile(app.makePath('vite.config.ts'), 'export default defineConfig({ plugins: [] })')
+  await PackageJson.create(app.appRoot.pathname)
+    .then((p) => p.update(packageJson))
+    .then((p) => p.save())
+}
+
 describe('Configure', () => {
   beforeEach(async () => {
     await mkdir(BASE_URL)
@@ -31,19 +46,13 @@ describe('Configure', () => {
   })
 
   test.only('should detect no missing dependencies', async () => {
-    const { app, ace, readFile } = await setupApp()
+    const { app, ace, readFile } = await setupApp([
+      () => import('@adonisjs/core/providers/edge_provider'),
+      () => import('@adonisjs/core/providers/vinejs_provider'),
+    ])
 
-    await writeFile(app.makePath('.env'), '')
-    await writeFile(app.makePath('tsconfig.json'), '{}')
+    await prepareApp(app, { ...PACKAGE_JSON_ALL_DEPS, imports: { '#models/*': './app/models/*' } })
     await writeFile(app.makePath('tailwind.config.ts'), '')
-    await writeFile(app.makePath('start/env.ts'), `export default Env.create(new URL('./'), {})`)
-    await writeFile(app.makePath('adonisrc.ts'), 'export default defineConfig({})')
-    await writeFile(app.makePath('vite.config.ts'), 'export default defineConfig({ plugins: [] })')
-    await PackageJson.create(app.appRoot.pathname)
-      .then((p) =>
-        p.update({ ...PACKAGE_JSON_ALL_DEPS, imports: { '#models/*': './app/models/*' } })
-      )
-      .then((p) => p.save())
 
     const command = await ace.create(Configure, ['../../index.js'])
     await command.exec()
@@ -63,17 +72,12 @@ describe('Configure', () => {
   test.only('should propose to install missing dependencies', async () => {
     const { app, ace } = await setupApp()
 
-    await writeFile(app.makePath('.env'), '')
-    await writeFile(app.makePath('tsconfig.json'), '{}')
+    await prepareApp(app, PACKAGE_JSON_ONLY_EDGE)
     await writeFile(app.makePath('tailwind.config.ts'), '')
-    await writeFile(app.makePath('start/env.ts'), `export default Env.create(new URL('./'), {})`)
-    await writeFile(app.makePath('adonisrc.ts'), 'export default defineConfig({})')
-    await writeFile(app.makePath('package.json'), JSON.stringify(PACKAGE_JSON_ONLY_EDGE))
-    await writeFile(app.makePath('vite.config.ts'), 'export default defineConfig({ plugins: [] })')
 
     const command = await ace.create(Configure, ['../../index.js'])
 
-    command.prompt.trap('missing_dependencies').reject()
+    command.prompt.trap('configure_missing_dependencies').reject()
 
     await command.exec()
 
@@ -81,19 +85,14 @@ describe('Configure', () => {
   })
 
   test.only('should propose to install tailwindcss', async () => {
-    const { app, ace, readFile } = await setupApp()
+    const { app, ace, readFile } = await setupApp([
+      () => import('@adonisjs/core/providers/edge_provider'),
+      () => import('@adonisjs/core/providers/vinejs_provider'),
+    ])
 
-    await writeFile(app.makePath('.env'), '')
-    await writeFile(app.makePath('tsconfig.json'), '{}')
-    await writeFile(app.makePath('start/env.ts'), `export default Env.create(new URL('./'), {})`)
-    await writeFile(app.makePath('adonisrc.ts'), 'export default defineConfig({})')
-    await writeFile(app.makePath('package.json'), JSON.stringify(PACKAGE_JSON_ALL_DEPS))
-    await writeFile(app.makePath('vite.config.ts'), 'export default defineConfig({ plugins: [] })')
+    await prepareApp(app, PACKAGE_JSON_ALL_DEPS)
 
     const command = await ace.create(Configure, ['../../index.js'])
-
-    command.prompt.trap('missing_tailwind').accept()
-
     await command.exec()
 
     command.assertSucceeded()

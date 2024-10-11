@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import '../css/app.css'
 import 'primeicons/primeicons.css'
 import type { InferSerializable } from '../../src/types'
 import type { BaseResource } from '../../src/resources/base_resource'

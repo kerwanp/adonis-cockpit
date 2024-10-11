@@ -3,13 +3,14 @@ export const BASE_URL = new URL('./tmp/', import.meta.url)
 import { IgnitorFactory } from '@adonisjs/core/factories'
 import { readFile } from 'node:fs/promises'
 
-export async function setupApp() {
+export async function setupApp(providers: any[] = []) {
   const ignitor = new IgnitorFactory()
     .withCoreProviders()
     .withCoreConfig()
     .merge({
       rcFileContents: {
         commands: [() => import('@adonisjs/core/commands')],
+        providers,
       },
     })
     .create(BASE_URL, {

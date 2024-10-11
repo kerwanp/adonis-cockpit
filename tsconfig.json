@@ -9,7 +9,8 @@
       "@adonisjs/core/providers/vinejs_provider",
       "@adonisjs/core/providers/edge_provider",
       "@adonisjs/inertia/inertia_middleware",
-      "vitest/globals"
+      "vitest/globals",
+      "vite/client"
     ]
   },
   "exclude": ["build"]
