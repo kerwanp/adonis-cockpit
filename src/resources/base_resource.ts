@@ -49,16 +49,6 @@ export abstract class BaseResource<Record = any> implements Serializable {
   abstract idKey(): string
 
   /**
-   * The slug of the resource.
-   * Must be a valid slug.
-   *
-   * @example "users"
-   */
-  slug(): string {
-    return string.create(this.name()).plural().slugify().noCase().toString()
-  }
-
-  /**
    * The icon of the resource.
    *
    * @example "pi pi-user"
@@ -78,7 +68,7 @@ export abstract class BaseResource<Record = any> implements Serializable {
   route(action: 'show' | 'delete' | 'edit', id: string): string
   route(action: 'index' | 'create'): string
   route(action: CrudAction, id?: string): string {
-    return router.makeUrl(`cockpit.resources.${action}`, { id, slug: this.slug() })
+    return router.makeUrl(`cockpit.resources.${action}`, { id, slug: this.name() })
   }
 
   /**
@@ -127,7 +117,7 @@ export abstract class BaseResource<Record = any> implements Serializable {
         label: this.label(),
         labelPlural: this.labelPlural(),
         icon: this.icon?.(),
-        slug: this.slug(),
+        slug: this.name(),
         idKey: this.idKey(),
         titleKey: this.titleKey(),
         actions: this.actions().map((action) => action.toJSON()),

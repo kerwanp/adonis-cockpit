@@ -33,7 +33,7 @@ const items: Ref<PrimeMenuItem[]> = ref([
   {
     label: 'Resources',
     items: Object.values(resources).map((resource) => ({
-      label: resource.label,
+      label: resource.labelPlural,
       url: resource.routes.index,
       icon: resource.icon,
     })),

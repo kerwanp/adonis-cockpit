@@ -54,13 +54,12 @@ const handleSubmit = async (data: any) => {
     ]"
   >
     <Header>
-      <Heading variant="h1">Create {{ resource.name }}</Heading>
+      <Heading variant="h1">Create {{ resource.label }}</Heading>
     </Header>
     <ResourceForm :resource="resource" action="create" @submit="handleSubmit">
       <template #actions>
         <Button as="Link" :href="resource.routes.index" text>Cancel</Button>
-        <Button type="submit">Submit & Create Another</Button>
-        <Button type="submit">Create {{ resource.name }}</Button>
+        <Button type="submit">Create {{ resource.label }}</Button>
       </template>
     </ResourceForm>
   </Layout>

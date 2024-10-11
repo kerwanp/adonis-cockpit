@@ -22,9 +22,7 @@ export abstract class ModelResource<Model extends LucidModel = LucidModel> exten
   }
 
   name(): string {
-    // WARNING: Model must be booted or table name can be taken from mixin (idk why)
-    this.model.boot()
-    return this.model.table
+    return stringHelpers.create(this.model.table).noCase().slugify().toString()
   }
 
   idKey(): string {
@@ -32,7 +30,7 @@ export abstract class ModelResource<Model extends LucidModel = LucidModel> exten
   }
 
   label(): string {
-    return stringHelpers.create(this.name()).capitalCase().singular().toString()
+    return stringHelpers.create(this.name()).noCase().capitalCase().singular().toString()
   }
 
   actions(): Action[] {

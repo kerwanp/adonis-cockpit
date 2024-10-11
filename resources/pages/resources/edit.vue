@@ -69,7 +69,7 @@ const handleSubmit = async (data: any) => {
     ]"
   >
     <Header>
-      <Heading variant="h1">Edit {{ resource.name }}: {{ data[resource.titleKey] }}</Heading>
+      <Heading variant="h1">Edit {{ resource.label }}: {{ data[resource.titleKey] }}</Heading>
       <template #actions>
         <DeleteButton :record-id="data[resource.idKey]" @success="handleDeleted" />
       </template>
@@ -77,8 +77,7 @@ const handleSubmit = async (data: any) => {
     <ResourceForm :resource="resource" :initial-data="data" action="edit" @submit="handleSubmit">
       <template #actions>
         <Button type="button" as="Link" text :href="resource.routes.index">Cancel</Button>
-        <Button type="submit">Update & continue editing</Button>
-        <Button type="submit">Update {{ resource.name }}</Button>
+        <Button type="submit">Update {{ resource.label }}</Button>
       </template>
     </ResourceForm>
   </Layout>
