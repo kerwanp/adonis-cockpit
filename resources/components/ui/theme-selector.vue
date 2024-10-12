@@ -1,27 +1,13 @@
 <script setup lang="ts">
 import ToggleButton from 'primevue/togglebutton'
+import { useDark } from '@vueuse/core'
 
-function toggleDarkMode(value: boolean) {
-  const element = document.querySelector('html')
-  if (value) {
-    element.classList.add('dark')
-  } else {
-    element.classList.remove('dark')
-  }
-}
-
-const darkMode = defineModel({
-  default: true,
-  set: (value) => {
-    toggleDarkMode(value)
-    return value
-  },
-})
+const isDark = useDark()
 </script>
 <template>
   <ToggleButton
     class="w-full"
-    v-model="darkMode"
+    v-model="isDark"
     on-label="Dark"
     on-icon="pi pi-moon"
     off-label="Light"
