@@ -20,11 +20,11 @@ provideResource(props.field.resource)
   <div class="flex flex-col gap-2">
     <ResourceTable
       :resource="field.resource"
-      :additional-filters="[{ field: 'brandId', value: form[resource.idKey] }]"
+      :additional-filters="[{ field: field.relationship.foreignKey, value: form[resource.idKey] }]"
       :create-params="{ initialData: { [field.relationship.foreignKey]: form[resource.idKey] } }"
     >
       <template #title>
-        <Heading variant="h2">{{ resource.label }} {{ field.resource.labelPlural }}</Heading>
+        <Heading variant="h2">{{ field.resource.labelPlural }}</Heading>
       </template>
     </ResourceTable>
   </div>
