@@ -27,6 +27,7 @@ export default function cockpit(options: Parameters<typeof adonisjs>[0]) {
             'primevue/password',
             'primevue/confirmdialog',
             'primevue/confirmpopup',
+            '@vueuse/core',
           ],
         },
       }),
