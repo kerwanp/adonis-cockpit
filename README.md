@@ -14,8 +14,8 @@
 
 #### [🚀 Get started](https://adonis-cockpit.com/docs/getting-started/installation) • [🌐 Website](https://adonis-cockpit.com/docs/getting-started/installation) • [✍ Contribute](./CONTRIBUTING.md)
 
-![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/kerwanp/adonis-cockpit/test?style=flat-square&label=tests)
-![Lines](https://img.shields.io/badge/coverage-20.21%25-red.svg?style=flat-square) [![adonis-cockpit](https://img.shields.io/npm/v/adonis-cockpit?style=flat-square)](https://www.npmjs.com/package/adonis-cockpit)
+![GitHub branch check runs](https://img.shields.io/github/check-runs/kerwanp/adonis-cockpit/main?style=flat-square)
+![Lines](https://img.shields.io/badge/coverage-19.94%25-red.svg?style=flat-square) [![adonis-cockpit](https://img.shields.io/npm/v/adonis-cockpit?style=flat-square)](https://www.npmjs.com/package/adonis-cockpit)
 
 [![PRs Welcome](https://img.shields.io/badge/PRs-Are%20welcome-brightgreen.svg?style=flat-square)](https://makeapullrequest.com) [![License](https://img.shields.io/github/license/kerwanp/adonis-cockpit?label=License&style=flat-square)](LICENCE)
 
