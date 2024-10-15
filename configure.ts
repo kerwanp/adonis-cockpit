@@ -46,7 +46,7 @@ const missingDependenciesSteps: {
   {
     title: 'Lucid is not configured',
     detect: async (command) => {
-      const packageJson = await PackageJson.load(command.app.appRoot.pathname)
+      const packageJson = await PackageJson.load(command.app.makePath())
       const dependencies = Object.keys(packageJson.content.dependencies ?? [])
       return dependencies.includes('@adonisjs/lucid')
     },
@@ -58,7 +58,7 @@ const missingDependenciesSteps: {
   {
     title: 'InertiaJS is not configured',
     detect: async (command) => {
-      const packageJson = await PackageJson.load(command.app.appRoot.pathname)
+      const packageJson = await PackageJson.load(command.app.makePath())
       const dependencies = Object.keys(packageJson.content.dependencies ?? [])
       return dependencies.includes('@adonisjs/inertia')
     },
@@ -199,7 +199,7 @@ async function installTailwindCSS(command: ConfigureCommand, codemods: Codemods)
 }
 
 async function updatePackageJson(command: ConfigureCommand) {
-  const packageJson = await PackageJson.load(command.app.appRoot.pathname)
+  const packageJson = await PackageJson.load(command.app.makePath())
 
   packageJson.update({
     imports: {

@@ -30,7 +30,7 @@ async function prepareApp(
   await writeFile(app.makePath('start/env.ts'), `export default Env.create(new URL('./'), {})`)
   await writeFile(app.makePath('adonisrc.ts'), 'export default defineConfig({})')
   await writeFile(app.makePath('vite.config.ts'), 'export default defineConfig({ plugins: [] })')
-  await PackageJson.create(app.appRoot.pathname)
+  await PackageJson.create(app.makePath())
     .then((p) => p.update(packageJson))
     .then((p) => p.save())
 }
