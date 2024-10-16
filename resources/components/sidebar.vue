@@ -4,6 +4,7 @@ import type { BaseResource } from '../../src/resources/base_resource'
 import CreateMenu from './resource/create-menu.vue'
 import { Menu as MenuData } from '../../src/menu/menu'
 import Menu from './ui/menu/index.vue'
+import ThemeSelector from './ui/theme-selector.vue'
 
 defineProps<{
   menu: InferSerializable<MenuData>[]
@@ -19,6 +20,7 @@ defineProps<{
       <img src="https://adonis-cockpit.com/logo-horizontal.png" />
     </div>
     <CreateMenu />
-    <Menu :menu="menu" />
+    <Menu class="flex-1" :menu="menu" />
+    <ThemeSelector />
   </div>
 </template>
