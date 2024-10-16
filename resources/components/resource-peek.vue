@@ -12,21 +12,26 @@ defineProps<{
 
 <template>
   <div class="flex flex-col min-w-[300px]">
-    <template v-for="field of resource.fields.filter((f) => f.type === 'field')">
-      <div v-if="field.visibility.detail" class="flex border-b dark:border-surface-800">
-        <div class="w-24 flex items-center py-2">
-          {{ field.label }}
+    <div>
+      <template v-for="field of resource.fields.filter((f) => f.type === 'field')">
+        <div
+          v-if="field.visibility.detail"
+          class="flex border-b last:border-none dark:border-surface-800"
+        >
+          <div class="w-24 flex items-center py-2">
+            {{ field.label }}
+          </div>
+          <div class="flex items-center py-2">
+            <component
+              :is="field.detailComponent ?? field.indexComponent"
+              :field="field"
+              :record="data"
+              :value="data[field.name]"
+            />
+          </div>
         </div>
-        <div class="flex items-center py-2">
-          <component
-            :is="field.detailComponent ?? field.indexComponent"
-            :field="field"
-            :record="data"
-            :value="data[field.name]"
-          />
-        </div>
-      </div>
-    </template>
+      </template>
+    </div>
     <div class="mt-3 flex gap-2">
       <EditButton
         class="flex-1"

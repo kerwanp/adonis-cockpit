@@ -6,6 +6,7 @@ export class MenuItem {
   #href?: string
   #target?: string
   #icon?: string
+  #prefixMatch = false
 
   constructor(label: string) {
     this.#label = label
@@ -36,16 +37,21 @@ export class MenuItem {
     return this
   }
 
-  // public static resource(Resource: Type<BaseResource>): MenuItem {
-  //   const resource = new Resource()
-  //   const item = this.make().label(resource.labelPlural()).href(resource.route('index'))
-  //
-  //   if (resource.icon) {
-  //     item.icon(resource.icon())
-  //   }
-  //
-  //   return item
-  // }
+  /**
+   * Make the item active using prefix matching.
+   */
+  prefixMatch(): this {
+    this.#prefixMatch = true
+    return this
+  }
+
+  /**
+   * Make the item active using exact matching.
+   */
+  exactMatch(): this {
+    this.#prefixMatch = false
+    return this
+  }
 
   toJSON(): PrimeMenuItem {
     return {
@@ -53,6 +59,7 @@ export class MenuItem {
       url: this.#href,
       target: this.#target,
       icon: this.#icon,
+      prefixMatch: this.#prefixMatch,
     }
   }
 }

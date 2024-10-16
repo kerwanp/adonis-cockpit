@@ -44,7 +44,10 @@ const emit = defineEmits<{
     <form class="flex flex-col gap-8" @submit.prevent="emit('submit', form.data())">
       <Card>
         <template v-for="field of resource.fields.filter((f) => f.type === 'field')">
-          <div v-if="field.visibility[action]" class="flex border-b dark:border-surface-800">
+          <div
+            v-if="field.visibility[action]"
+            class="flex border-b last:border-none dark:border-surface-800"
+          >
             <div class="w-64 flex items-center py-4">
               <label :for="field.name" class="cursor-pointer">
                 {{ field.label }}

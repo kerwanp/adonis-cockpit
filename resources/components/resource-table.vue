@@ -71,16 +71,18 @@ function handleDeleted() {
         v-model:selected-rows="selectedRows"
       >
         <template #rowActions="{ data }">
-          <DetailButton rounded text label severity="secondary" :record-id="data.id" />
-          <EditButton rounded text label severity="info" :record-id="data.id" />
-          <DeleteButton
-            rounded
-            text
-            label
-            severity="danger"
-            :record-id="data.id"
-            @success="handleDeleted"
-          />
+          <div class="flex gap-1 flex-nowrap">
+            <DetailButton rounded text label severity="secondary" :record-id="data.id" />
+            <EditButton rounded text label severity="info" :record-id="data.id" />
+            <DeleteButton
+              rounded
+              text
+              label
+              severity="danger"
+              :record-id="data.id"
+              @success="handleDeleted"
+            />
+          </div>
         </template>
       </DataTable>
     </template>

@@ -20,15 +20,18 @@ export class MenuCategory implements Serializable {
     return item
   }
 
+  /**
+   * Adds an item from a resource.
+   */
   resource(resource: (new () => BaseResource) | BaseResource): MenuItem {
     const instance = resource instanceof BaseResource ? resource : new resource()
     const item = this.item(instance.labelPlural())
+      .prefixMatch()
+      .route(`cockpit.resources.index`, { slug: instance.name() })
 
     if (instance.icon) {
       item.icon(instance.icon())
     }
-
-    item.route(`cockpit.resources.index`, { slug: instance.name() })
 
     return item
   }
