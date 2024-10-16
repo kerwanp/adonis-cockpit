@@ -1,5 +1,18 @@
 # adonis-cockpit
 
+## 0.1.0
+
+### Minor Changes
+
+- f66035d: Migrate to Inertia V2
+- 1744362: Ability to configure the sidebar Menu
+- 1744362: HasMany index field with fancy ressource peek
+
+### Patch Changes
+
+- 1744362: Fix issue where inertia and vue are not optimized
+- f66035d: Use Inertia layout feature to keep state between navigation
+
 ## 0.0.1
 
 ### Patch Changes
