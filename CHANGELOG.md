@@ -1,5 +1,11 @@
 # adonis-cockpit
 
+## 0.1.1
+
+### Patch Changes
+
+- c18ed8f: Bring back theme selector
+
 ## 0.1.0
 
 ### Minor Changes
