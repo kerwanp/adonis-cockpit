@@ -8,6 +8,8 @@ export default function cockpit(options: Parameters<typeof adonisjs>[0]) {
       config: () => ({
         optimizeDeps: {
           include: [
+            '@inertiajs/vue3',
+            'vue',
             'qs',
             'deepmerge',
             'primevue/toast',
