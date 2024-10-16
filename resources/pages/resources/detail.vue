@@ -16,7 +16,7 @@ import { useToast } from 'primevue/usetoast'
 const props = defineProps<{
   menu: InferSerializable<MenuItem>[]
   resource: InferSerializable<BaseResource>
-  resources: InferSerializable<BaseResource>[]
+  resources: Record<string, InferSerializable<BaseResource>>
   data: any
 }>()
 

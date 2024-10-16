@@ -2,9 +2,14 @@
 import type { Field } from '../../../../src/fields/field'
 import type { InferSerializable, RecordId } from '../../../../src/types'
 
+defineOptions({
+  inheritAttrs: false,
+})
+
 defineProps<{
   field: InferSerializable<Field>
   value: RecordId
+  record: any
 }>()
 </script>
 

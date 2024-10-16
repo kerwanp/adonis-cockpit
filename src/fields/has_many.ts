@@ -47,6 +47,8 @@ export default class HasMany extends Field {
       )
     }
 
+    source.$preload.push(relationName)
+
     return new HasMany(resource, relationship)
   }
 
@@ -56,6 +58,7 @@ export default class HasMany extends Field {
       relationship: {
         foreignKey: this.$relationship.foreignKey,
         resourceName: this.$relationship.relatedModel().name,
+        relationName: this.$relationship.relationName,
       },
       resource: this.$resource.toJSON(),
     }

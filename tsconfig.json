@@ -12,6 +12,5 @@
       "vitest/globals",
       "vite/client"
     ]
-  },
-  "exclude": ["build"]
+  }
 }

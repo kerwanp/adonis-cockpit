@@ -15,6 +15,11 @@ export abstract class ModelResource<Model extends LucidModel = LucidModel> exten
   abstract model: Model
 
   /**
+   * The relations that must be preloaded.
+   */
+  $preload: string[] = []
+
+  /**
    * The searchable fields of this resource.
    */
   searchable(): string[] {
@@ -41,8 +46,18 @@ export abstract class ModelResource<Model extends LucidModel = LucidModel> exten
     return this.model.create(data)
   }
 
-  async list(params: ApiIndexParams): Promise<SimplePaginatorContract<InstanceType<Model>>> {
+  baseQuery() {
     const query = this.model.query()
+
+    for (const relation of this.$preload) {
+      query.preload(relation as any) // TODO: Maybe this could be typed properly
+    }
+
+    return query
+  }
+
+  async list(params: ApiIndexParams): Promise<SimplePaginatorContract<InstanceType<Model>>> {
+    const query = this.baseQuery()
 
     if (params.search) {
       for (const key of this.searchable()) {
@@ -71,7 +86,7 @@ export abstract class ModelResource<Model extends LucidModel = LucidModel> exten
   }
 
   retrieve(id: RecordId): Promise<InstanceType<Model>> {
-    return this.model.findOrFail(id)
+    return this.baseQuery().where(this.idKey(), id).firstOrFail()
   }
 
   async update(id: RecordId, data: any): Promise<InstanceType<Model>> {

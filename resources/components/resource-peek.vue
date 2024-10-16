@@ -21,6 +21,7 @@ defineProps<{
           <component
             :is="field.detailComponent ?? field.indexComponent"
             :field="field"
+            :record="data"
             :value="data[field.name]"
           />
         </div>

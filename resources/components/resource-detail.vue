@@ -22,6 +22,7 @@ defineProps<{
               <component
                 :is="field.detailComponent ?? field.indexComponent"
                 :field="field"
+                :record="data"
                 :value="data[field.name]"
               />
             </div>
@@ -31,7 +32,7 @@ defineProps<{
     </div>
     <div>
       <template v-for="field of resource.fields.filter((f) => f.type === 'panel')">
-        <component :is="field.fieldComponent" :resource="resource" :form="data" :field="field" />
+        <component :is="field.fieldComponent" :resource="resource" :record="data" :field="field" />
       </template>
     </div>
   </div>

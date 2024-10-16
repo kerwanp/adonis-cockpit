@@ -55,7 +55,7 @@ const emit = defineEmits<{
                 :is="field.fieldComponent"
                 :field="field"
                 :error="form.errors[field.name]"
-                :form="form"
+                :record="form"
                 v-model="form[field.name]"
               />
             </div>
@@ -70,7 +70,7 @@ const emit = defineEmits<{
     </form>
     <div v-if="action === 'edit'">
       <template v-for="field of resource.fields.filter((f) => f.type === 'panel')">
-        <component :is="field.fieldComponent" :field="field" :resource="resource" :form="form" />
+        <component :is="field.fieldComponent" :record="form" :field="field" :resource="resource" />
       </template>
     </div>
   </div>

@@ -47,6 +47,8 @@ export default class BelongsTo extends Field {
       )
     }
 
+    source.$preload.push(relationName)
+
     return new BelongsTo(resource, relationship)
   }
 
@@ -54,6 +56,9 @@ export default class BelongsTo extends Field {
     return {
       ...super.toJSON(),
       resource: this.$resource.toJSON(true),
+      relationship: {
+        relationName: this.$relationship.relationName,
+      },
     }
   }
 }

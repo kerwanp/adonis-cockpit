@@ -2,9 +2,14 @@
 import type Boolean from '../../../../src/fields/boolean'
 import type { InferSerializable } from '../../../../src/types'
 
+defineOptions({
+  inheritAttrs: false,
+})
+
 defineProps<{
   field: InferSerializable<Boolean>
   value?: any
+  record: any
 }>()
 </script>
 

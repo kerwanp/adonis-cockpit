@@ -69,7 +69,12 @@ function sort(event: DataTableSortEvent) {
         :sortable="field.sortable"
       >
         <template #body="row">
-          <component :is="field.indexComponent" :field="field" :value="row.data[field.name]" />
+          <component
+            :is="field.indexComponent"
+            :field="field"
+            :value="row.data[field.name]"
+            :record="row.data"
+          />
         </template>
         <template #filter="{ filterModel }">
           <InputText v-model="filterModel.value" type="text" placeholder="Search by name" />

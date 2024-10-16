@@ -43,13 +43,13 @@ export function provideResource(resource: InferSerializable<BaseResource>) {
 }
 
 export function useResourceQuery(
-  resource: InferSerializable<BaseResource>,
+  resource: string,
   recordId: MaybeRefOrGetter<string>,
   enabled: MaybeRefOrGetter<boolean> = true
 ) {
   return useQuery({
-    queryKey: ['resources', resource.slug, recordId],
-    queryFn: () => ResourceService.retrieve(resource.slug, toValue(recordId)),
+    queryKey: ['resources', resource, recordId],
+    queryFn: () => ResourceService.retrieve(resource, toValue(recordId)),
     enabled,
   })
 }
