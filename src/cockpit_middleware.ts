@@ -4,7 +4,7 @@ import { NextFn } from '@adonisjs/core/types/http'
 
 export async function cockpitMiddleware(ctx: HttpContext, next: NextFn) {
   ctx.inertia.share({
-    menu: () => admin.getMenu().map((i) => i.toJSON()),
+    menu: () => admin.buildMenu().toJSON(),
     resources: () =>
       Object.entries(admin.getResources()).reduce(
         (acc, [name, item]) => ({

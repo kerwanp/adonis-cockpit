@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import type { InferSerializable } from '../../src/types'
-import type { MenuItem } from '../../src/menu/menu_item'
 import type { BaseResource } from '../../src/resources/base_resource'
 import { MenuItem as PrimeMenuItem } from 'primevue/menuitem'
 import { Link } from '@inertiajs/vue3'
@@ -8,42 +7,20 @@ import { Ref, ref } from 'vue'
 import Menu from 'primevue/menu'
 import ThemeSelector from './ui/theme-selector.vue'
 import CreateMenu from './resource/create-menu.vue'
-import { injectResources } from '../composables/resources'
 import Badge from 'primevue/badge'
+import { Menu as MenuData } from '../../src/menu/menu'
 
 const props = defineProps<{
-  menu: InferSerializable<MenuItem>[]
+  menu: InferSerializable<MenuData>[]
   resources: InferSerializable<BaseResource>[]
 }>()
 
-const resources = injectResources()
-
-const items: Ref<PrimeMenuItem[]> = ref([
-  {
-    label: 'Home',
-    url: '/admin',
-    icon: 'pi pi-home',
-  },
-  ...props.menu.map((item) => ({
-    label: item.label,
-    url: item.href,
-    target: item.target,
-    icon: item.icon,
-  })),
-  {
-    label: 'Resources',
-    items: Object.values(resources).map((resource) => ({
-      label: resource.labelPlural,
-      url: resource.routes.index,
-      icon: resource.icon,
-    })),
-  },
-])
+const items: Ref<PrimeMenuItem[]> = ref(props.menu)
 </script>
 
 <template>
   <div
-    class="w-[250px] h-full flex flex-col border-r border-surface-200 bg-surface-0 dark:bg-surface-950 dark:border-surface-800 p-3"
+    class="w-[250px] h-full flex flex-col border-r border-surface-200 bg-surface-0 dark:bg-surface-900 dark:border-surface-800 p-3"
   >
     <div class="p-4">
       <img src="https://adonis-cockpit.com/logo-horizontal.png" />
@@ -54,10 +31,13 @@ const items: Ref<PrimeMenuItem[]> = ref([
       class="h-full flex flex-col border-none bg-transparent py-4"
       :pt="{ list: { class: 'flex-1' } }"
     >
+      <template #submenulabel="{ item }">
+        <span class="text-muted-color font-semibold text-sm">{{ item.label }}</span>
+      </template>
       <template #item="{ item, props }">
-        <Link v-if="item.url" :href="item.url" class="flex items-center w-full py-1 px-3">
-          <span :class="item.icon" />
-          <span class="ml-3">{{ item.label }}</span>
+        <Link v-if="item.url" :href="item.url" class="flex items-center w-full py-1 px-3 gap-2">
+          <div class="w-4 h-4" :class="item.icon" />
+          <div>{{ item.label }}</div>
           <Badge v-if="item.badge" class="ml-auto" :value="item.badge" />
           <span
             v-if="item.shortcut"
@@ -65,10 +45,6 @@ const items: Ref<PrimeMenuItem[]> = ref([
             >{{ item.shortcut }}</span
           >
         </Link>
-        <a v-else class="flex items-center w-full py-1 px-3" v-bind="props.action">
-          <span :class="item.icon" />
-          <span class="ml-3">{{ item.label }}</span>
-        </a>
       </template>
       <template #end>
         <ThemeSelector />

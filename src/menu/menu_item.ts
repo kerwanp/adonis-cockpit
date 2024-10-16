@@ -1,12 +1,15 @@
 import router from '@adonisjs/core/services/router'
-import { Type } from '../types.js'
-import { BaseResource } from '../resources/base_resource.js'
+import { MenuItem as PrimeMenuItem } from 'primevue/menuitem'
 
 export class MenuItem {
-  #label?: string
+  #label: string
   #href?: string
   #target?: string
   #icon?: string
+
+  constructor(label: string) {
+    this.#label = label
+  }
 
   label(label: string): this {
     this.#label = label
@@ -33,25 +36,21 @@ export class MenuItem {
     return this
   }
 
-  public static make() {
-    return new MenuItem()
-  }
+  // public static resource(Resource: Type<BaseResource>): MenuItem {
+  //   const resource = new Resource()
+  //   const item = this.make().label(resource.labelPlural()).href(resource.route('index'))
+  //
+  //   if (resource.icon) {
+  //     item.icon(resource.icon())
+  //   }
+  //
+  //   return item
+  // }
 
-  public static resource(Resource: Type<BaseResource>): MenuItem {
-    const resource = new Resource()
-    const item = this.make().label(resource.labelPlural()).href(resource.route('index'))
-
-    if (resource.icon) {
-      item.icon(resource.icon())
-    }
-
-    return item
-  }
-
-  toJSON() {
+  toJSON(): PrimeMenuItem {
     return {
       label: this.#label,
-      href: this.#href,
+      url: this.#href,
       target: this.#target,
       icon: this.#icon,
     }

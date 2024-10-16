@@ -1,11 +1,11 @@
 import { BaseResource } from './resources/base_resource.js'
 import { CockpitConfig, Type } from './types.js'
-import { MenuItem } from './menu/menu_item.js'
 import { RoutesManager } from './routes/manager.js'
 import { ResourcesManager } from './resources/manager.js'
 import { ApplicationService } from '@adonisjs/core/types'
 import { Logger } from '@adonisjs/core/logger'
 import { relative } from 'node:path'
+import { Menu } from './menu/menu.js'
 
 export default class Cockpit {
   readonly config: CockpitConfig
@@ -13,7 +13,7 @@ export default class Cockpit {
   #app: ApplicationService
   #resourcesManager: ResourcesManager
   #logger: Logger
-  #menu: () => MenuItem[] = () => []
+  #menu: (menu: Menu) => void = () => {}
 
   constructor(app: ApplicationService, config: CockpitConfig, logger: Logger) {
     this.#app = app
@@ -40,12 +40,14 @@ export default class Cockpit {
     return this.#resourcesManager.get(name)
   }
 
-  menu(menu: () => MenuItem[]) {
+  menu(menu: (menu: Menu) => void) {
     this.#menu = menu
   }
 
-  getMenu() {
-    return this.#menu()
+  buildMenu() {
+    const menu = new Menu()
+    this.#menu(menu)
+    return menu
   }
 
   getResources(): Record<string, BaseResource> {
