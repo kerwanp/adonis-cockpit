@@ -1,11 +1,2 @@
 {{{ exports({ to: app.startPath('cockpit.ts') }) }}}
 import cockpit from 'adonis-cockpit/services/main'
-
-cockpit.menu((menu) => {
-  menu.item('Home').icon('pi pi-home').route('cockpit.home')
-  menu.category('Resources', (category) => {
-    for (const resource of Object.values(cockpit.getResources())) {
-      category.resource(resource)
-    }
-  })
-})

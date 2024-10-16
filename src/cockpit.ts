@@ -13,7 +13,7 @@ export default class Cockpit {
   #app: ApplicationService
   #resourcesManager: ResourcesManager
   #logger: Logger
-  #menu: (menu: Menu) => void = () => {}
+  #menu?: (menu: Menu) => void
 
   constructor(app: ApplicationService, config: CockpitConfig, logger: Logger) {
     this.#app = app
@@ -46,6 +46,16 @@ export default class Cockpit {
 
   buildMenu() {
     const menu = new Menu()
+    if (!this.#menu) {
+      menu.item('Home').icon('pi pi-home').route('cockpit.home')
+      menu.category('Resources', (category) => {
+        for (const resource of Object.values(this.getResources())) {
+          category.resource(resource)
+        }
+      })
+      return menu
+    }
+
     this.#menu(menu)
     return menu
   }
