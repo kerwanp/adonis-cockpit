@@ -6,11 +6,15 @@ import ResourceTable from '../../resource-table.vue'
 import { provideResource } from '../../../composables/resource'
 import Heading from '../../ui/heading.vue'
 
+defineOptions({
+  inheritAttrs: false,
+})
+
 const props = defineProps<{
   error?: string[]
   resource: InferSerializable<BaseResource>
   field: InferSerializable<HasMany>
-  form: any
+  record: any
 }>()
 
 provideResource(props.field.resource)
@@ -20,8 +24,10 @@ provideResource(props.field.resource)
   <div class="flex flex-col gap-2">
     <ResourceTable
       :resource="field.resource"
-      :additional-filters="[{ field: field.relationship.foreignKey, value: form[resource.idKey] }]"
-      :create-params="{ initialData: { [field.relationship.foreignKey]: form[resource.idKey] } }"
+      :additional-filters="[
+        { field: field.relationship.foreignKey, value: record[resource.idKey] },
+      ]"
+      :create-params="{ initialData: { [field.relationship.foreignKey]: record[resource.idKey] } }"
     >
       <template #title>
         <Heading variant="h2">{{ field.resource.labelPlural }}</Heading>

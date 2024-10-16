@@ -12,6 +12,10 @@ import { provideResource, useResource } from '../../composables/resource'
 import Header from '../../components/ui/header.vue'
 import Button from 'primevue/button'
 
+defineOptions({
+  layout: Layout,
+})
+
 const props = defineProps<{
   menu: InferSerializable<MenuItem>[]
   resource: InferSerializable<BaseResource>
@@ -45,22 +49,13 @@ const handleSubmit = async (data: any) => {
 </script>
 
 <template>
-  <Layout
-    :menu="menu"
-    :resources="resources"
-    :breadcrumb="[
-      { label: resource.labelPlural, icon: resource.icon, url: resource.routes.index },
-      { label: 'Create' },
-    ]"
-  >
-    <Header>
-      <Heading variant="h1">Create {{ resource.label }}</Heading>
-    </Header>
-    <ResourceForm :resource="resource" action="create" @submit="handleSubmit">
-      <template #actions>
-        <Button as="Link" :href="resource.routes.index" text>Cancel</Button>
-        <Button type="submit">Create {{ resource.label }}</Button>
-      </template>
-    </ResourceForm>
-  </Layout>
+  <Header>
+    <Heading variant="h1">Create {{ resource.label }}</Heading>
+  </Header>
+  <ResourceForm :resource="resource" action="create" @submit="handleSubmit">
+    <template #actions>
+      <Button as="Link" :href="resource.routes.index" text>Cancel</Button>
+      <Button type="submit">Create {{ resource.label }}</Button>
+    </template>
+  </ResourceForm>
 </template>

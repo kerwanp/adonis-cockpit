@@ -7,6 +7,10 @@ import ResourceTable from '../../components/resource-table.vue'
 import Layout from '../../layouts/app.vue'
 import { provideResource } from '../../composables/resource'
 
+defineOptions({
+  layout: Layout,
+})
+
 const props = defineProps<{
   resource: InferSerializable<BaseResource>
   resources: Record<string, InferSerializable<BaseResource>>
@@ -17,15 +21,9 @@ provideResource(props.resource)
 </script>
 
 <template>
-  <Layout
-    :menu="menu"
-    :breadcrumb="[{ label: resource.labelPlural, icon: resource.icon }]"
-    :resources="resources"
-  >
-    <ResourceTable :resource="resource">
-      <template #title>
-        <Heading variant="h1">{{ resource.labelPlural }}</Heading>
-      </template>
-    </ResourceTable>
-  </Layout>
+  <ResourceTable :resource="resource">
+    <template #title>
+      <Heading variant="h1">{{ resource.labelPlural }}</Heading>
+    </template>
+  </ResourceTable>
 </template>

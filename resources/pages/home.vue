@@ -4,6 +4,10 @@ import type { MenuItem } from '../../src/menu/menu_item'
 import type { InferSerializable } from '../../src/types'
 import Layout from '../layouts/app.vue'
 
+defineOptions({
+  layout: Layout,
+})
+
 defineProps<{
   menu: InferSerializable<MenuItem>[]
   resources: Record<string, InferSerializable<BaseResource>>
@@ -11,5 +15,5 @@ defineProps<{
 </script>
 
 <template>
-  <Layout :breadcrumb="[]" :menu="menu" :resources="resources"> </Layout>
+  <!-- <Layout :breadcrumb="[]" :menu="menu" :resources="resources"> </Layout> -->
 </template>

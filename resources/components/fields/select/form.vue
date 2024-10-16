@@ -3,10 +3,14 @@ import Select from 'primevue/select'
 import type SelectField from '../../../../src/fields/select'
 import type { InferSerializable } from '../../../../src/types'
 
+defineOptions({
+  inheritAttrs: false,
+})
+
 const props = defineProps<{
   error?: string[]
   field: InferSerializable<SelectField>
-  form: any
+  record: any
 }>()
 
 const options = Object.entries(props.field.options).map(([value, label]) => ({
@@ -18,7 +22,7 @@ const options = Object.entries(props.field.options).map(([value, label]) => ({
 <template>
   <div class="flex flex-col gap-2">
     <Select
-      v-model="form[field.name]"
+      v-model="record[field.name]"
       :name="field.name"
       :input-id="field.name"
       option-label="label"

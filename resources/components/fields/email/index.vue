@@ -9,7 +9,7 @@ defineOptions({
 defineProps<{
   field: InferSerializable<Field>
   value?: string
-  row: any
+  record: any
 }>()
 </script>
 

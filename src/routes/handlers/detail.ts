@@ -15,5 +15,9 @@ export async function resourceDetailHandler({ request, response, inertia }: Http
   return inertia.render('cockpit::resources/detail', {
     resource: resource.toJSON(),
     data: model.serialize(),
+    breadcrumb: [
+      { label: resource.labelPlural(), icon: resource.icon?.(), url: resource.route('index') },
+      { label: 'Detail' },
+    ],
   })
 }

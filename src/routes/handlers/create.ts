@@ -10,5 +10,11 @@ export async function resourceCreateHandler({ request, response, inertia }: Http
     return response.status(404)
   }
 
-  return inertia.render('cockpit::resources/create', { resource: resource.toJSON() })
+  return inertia.render('cockpit::resources/create', {
+    resource: resource.toJSON(),
+    breadcrumb: [
+      { label: resource.labelPlural(), icon: resource.icon?.(), url: resource.route('index') },
+      { label: 'Detail' },
+    ],
+  })
 }

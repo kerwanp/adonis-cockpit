@@ -36,7 +36,7 @@ export class RoutesManager {
       .group(() => {
         router
           .get('/', (ctx) => {
-            return ctx.inertia.render('cockpit::home')
+            return ctx.inertia.render('cockpit::home', { breadcrumb: [] })
           })
           .as('home')
         this.#registerResourceRoutes(router)

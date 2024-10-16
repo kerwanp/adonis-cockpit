@@ -5,10 +5,14 @@ import { ref } from 'vue'
 import { useResourceApi } from '../../../composables/resource'
 import Select from 'primevue/select'
 
+defineOptions({
+  inheritAttrs: false,
+})
+
 const props = defineProps<{
   error?: string[]
   field: InferSerializable<BelongsTo>
-  form: any
+  record: any
 }>()
 
 const filter = ref('')

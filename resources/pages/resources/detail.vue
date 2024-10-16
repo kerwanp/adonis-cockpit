@@ -13,6 +13,10 @@ import { provideResource } from '../../composables/resource'
 import { router } from '@inertiajs/vue3'
 import { useToast } from 'primevue/usetoast'
 
+defineOptions({
+  layout: Layout,
+})
+
 const props = defineProps<{
   menu: InferSerializable<MenuItem>[]
   resource: InferSerializable<BaseResource>
@@ -39,21 +43,12 @@ function handleDeleted() {
 </script>
 
 <template>
-  <Layout
-    :menu="menu"
-    :resources="resources"
-    :breadcrumb="[
-      { label: resource.labelPlural, icon: resource.icon, url: resource.routes.index },
-      { label: 'Detail' },
-    ]"
-  >
-    <Header>
-      <Heading variant="h1">{{ resource.label }} Details: {{ data[resource.titleKey] }}</Heading>
-      <template #actions>
-        <EditButton size="small" :record-id="data[resource.idKey]" />
-        <DeleteButton size="small" :record-id="data[resource.idKey]" @success="handleDeleted" />
-      </template>
-    </Header>
-    <ResourceDetail :resource="resource" :data="data" />
-  </Layout>
+  <Header>
+    <Heading variant="h1">{{ resource.label }} Details: {{ data[resource.titleKey] }}</Heading>
+    <template #actions>
+      <EditButton size="small" :record-id="data[resource.idKey]" />
+      <DeleteButton size="small" :record-id="data[resource.idKey]" @success="handleDeleted" />
+    </template>
+  </Header>
+  <ResourceDetail :resource="resource" :data="data" />
 </template>

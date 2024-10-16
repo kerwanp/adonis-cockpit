@@ -20,5 +20,11 @@ export async function makeIndexHandler({ request, response, inertia }: HttpConte
 
   return inertia.render('cockpit::resources/index', {
     resource: resource.toJSON(),
+    breadcrumb: [
+      {
+        label: resource.labelPlural(),
+        icon: resource.icon?.(),
+      },
+    ],
   })
 }

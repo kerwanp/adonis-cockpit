@@ -3,9 +3,14 @@ import InputText from 'primevue/inputtext'
 import type Text from '../../../../src/fields/text'
 import type { InferSerializable } from '../../../../src/types'
 
+defineOptions({
+  inheritAttrs: false,
+})
+
 defineProps<{
   error?: string[]
   field: InferSerializable<Text>
+  record: any
 }>()
 
 const model = defineModel<any>()

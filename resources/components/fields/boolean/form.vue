@@ -3,9 +3,14 @@ import ToggleSwitch from 'primevue/toggleswitch'
 import type Boolean from '../../../../src/fields/boolean'
 import type { InferSerializable } from '../../../../src/types'
 
+defineOptions({
+  inheritAttrs: false,
+})
+
 defineProps<{
   error?: string[]
   field: InferSerializable<Boolean>
+  record: any
 }>()
 
 const model = defineModel<string | boolean | undefined>()

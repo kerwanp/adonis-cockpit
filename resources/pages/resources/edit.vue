@@ -13,6 +13,10 @@ import { provideResource, useResource } from '../../composables/resource'
 import { useToast } from 'primevue/usetoast'
 import Button from 'primevue/button'
 
+defineOptions({
+  layout: Layout,
+})
+
 const props = defineProps<{
   menu: InferSerializable<MenuItem>[]
   resource: InferSerializable<BaseResource>
@@ -60,25 +64,16 @@ const handleSubmit = async (data: any) => {
 </script>
 
 <template>
-  <Layout
-    :menu="menu"
-    :resources="resources"
-    :breadcrumb="[
-      { label: resource.labelPlural, icon: resource.icon, url: resource.routes.index },
-      { label: 'Edit' },
-    ]"
-  >
-    <Header>
-      <Heading variant="h1">Edit {{ resource.label }}: {{ data[resource.titleKey] }}</Heading>
-      <template #actions>
-        <DeleteButton :record-id="data[resource.idKey]" @success="handleDeleted" />
-      </template>
-    </Header>
-    <ResourceForm :resource="resource" :initial-data="data" action="edit" @submit="handleSubmit">
-      <template #actions>
-        <Button type="button" as="Link" text :href="resource.routes.index">Cancel</Button>
-        <Button type="submit">Update {{ resource.label }}</Button>
-      </template>
-    </ResourceForm>
-  </Layout>
+  <Header>
+    <Heading variant="h1">Edit {{ resource.label }}: {{ data[resource.titleKey] }}</Heading>
+    <template #actions>
+      <DeleteButton :record-id="data[resource.idKey]" @success="handleDeleted" />
+    </template>
+  </Header>
+  <ResourceForm :resource="resource" :initial-data="data" action="edit" @submit="handleSubmit">
+    <template #actions>
+      <Button type="button" as="Link" text :href="resource.routes.index">Cancel</Button>
+      <Button type="submit">Update {{ resource.label }}</Button>
+    </template>
+  </ResourceForm>
 </template>

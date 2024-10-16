@@ -3,10 +3,14 @@ import type MultiSelectField from '../../../../src/fields/multi_select'
 import type { InferSerializable } from '../../../../src/types'
 import MultiSelect from 'primevue/multiselect'
 
+defineOptions({
+  inheritAttrs: false,
+})
+
 const props = defineProps<{
   error?: string[]
   field: InferSerializable<MultiSelectField>
-  form: any
+  record: any
 }>()
 
 const options = Object.entries(props.field.options).map(([value, label]) => ({
@@ -18,7 +22,7 @@ const options = Object.entries(props.field.options).map(([value, label]) => ({
 <template>
   <div class="flex flex-col gap-2">
     <MultiSelect
-      v-model="form[field.name]"
+      v-model="record[field.name]"
       :name="field.name"
       :input-id="field.name"
       display="chip"

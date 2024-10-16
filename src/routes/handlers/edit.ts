@@ -21,5 +21,9 @@ export async function resourceEditHandler({ request, response, inertia }: HttpCo
   return inertia.render('cockpit::resources/edit', {
     resource: resource.toJSON(),
     data: model.serialize(),
+    breadcrumb: [
+      { label: resource.labelPlural(), icon: resource.icon?.(), url: resource.route('index') },
+      { label: 'Edit' },
+    ],
   })
 }
