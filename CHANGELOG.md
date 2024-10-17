@@ -1,5 +1,18 @@
 # adonis-cockpit
 
+## 0.2.0
+
+### Minor Changes
+
+- bbb98ab: Frontend relationship management
+- bbb98ab: Authentication system
+- bbb98ab: Implementation of the validation system
+
+### Patch Changes
+
+- bbb98ab: Rename admin variables to cockpit
+- bbb98ab: Refactoring of the frontend code
+
 ## 0.1.1
 
 ### Patch Changes
