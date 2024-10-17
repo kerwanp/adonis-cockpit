@@ -9,7 +9,7 @@ import Button from 'primevue/button'
 defineProps<{
   menu: InferSerializable<MenuData>[]
   resources: Resource[]
-  auth?: AuthOptions
+  auth: AuthOptions
 }>()
 </script>
 
@@ -25,7 +25,6 @@ defineProps<{
     <div class="flex flex-col gap-2">
       <ThemeSelector />
       <Button
-        v-if="auth"
         as="a"
         :href="auth.logoutUrl"
         icon="pi pi-sign-out"

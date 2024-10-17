@@ -1,10 +1,18 @@
 import { HttpContext } from '@adonisjs/core/http'
 import cockpit from '../services/main.js'
 import { NextFn } from '@adonisjs/core/types/http'
+import { User } from './types.js'
 
 export async function cockpitMiddleware(ctx: HttpContext, next: NextFn) {
+  let user: User | undefined
   if ('auth' in ctx) {
     await ctx.auth.check()
+
+    if (cockpit.config.auth?.user) {
+      user = cockpit.config.auth.user(ctx)
+    } else {
+      user = ctx.auth.user
+    }
   }
 
   if (cockpit.$routesManager.$policy) {
@@ -27,15 +35,10 @@ export async function cockpitMiddleware(ctx: HttpContext, next: NextFn) {
         }),
         {}
       ),
-    ...(cockpit.config.auth
-      ? {
-          auth: {
-            loginUrl: cockpit.config.auth.loginUrl,
-            logoutUrl: cockpit.config.auth.logoutUrl,
-            user: cockpit.config.auth.user(ctx),
-          },
-        }
-      : {}),
+    auth: () => ({
+      logoutUrl: cockpit.config.auth?.logoutUrl ?? '/logout',
+      user,
+    }),
   })
 
   await next()

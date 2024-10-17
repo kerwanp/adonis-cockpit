@@ -24,9 +24,8 @@ export type InferSerializable<T extends Serializable> = ReturnType<T['toJSON']>
 export type CockpitConfig = {
   entrypoint: string
   auth?: {
-    loginUrl: string
-    logoutUrl: string
-    user: (ctx: HttpContext) => User
+    logoutUrl?: string
+    user?: (ctx: HttpContext) => User
   }
 }
 

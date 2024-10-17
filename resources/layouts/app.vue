@@ -14,7 +14,7 @@ const props = defineProps<{
   breadcrumb: MenuItem[]
   menu: any[]
   resources: Record<string, Resource>
-  auth?: AuthOptions
+  auth: AuthOptions
 }>()
 
 provideResources(props.resources)
