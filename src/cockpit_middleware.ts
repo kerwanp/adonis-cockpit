@@ -3,17 +3,9 @@ import cockpit from '../services/main.js'
 import { NextFn } from '@adonisjs/core/types/http'
 
 export async function cockpitMiddleware(ctx: HttpContext, next: NextFn) {
-  ctx.inertia.share({
-    menu: () => cockpit.buildMenu().toJSON(),
-    resources: () =>
-      Object.entries(cockpit.getResources()).reduce(
-        (acc, [name, item]) => ({
-          ...acc,
-          [name]: item.toJSON(),
-        }),
-        {}
-      ),
-  })
+  if ('auth' in ctx) {
+    await ctx.auth.check()
+  }
 
   if (cockpit.$routesManager.$policy) {
     if ('bouncer' in ctx) {
@@ -24,6 +16,27 @@ export async function cockpitMiddleware(ctx: HttpContext, next: NextFn) {
       }
     }
   }
+
+  ctx.inertia.share({
+    menu: () => cockpit.buildMenu().toJSON(),
+    resources: () =>
+      Object.entries(cockpit.getResources()).reduce(
+        (acc, [name, item]) => ({
+          ...acc,
+          [name]: item.toJSON(),
+        }),
+        {}
+      ),
+    ...(cockpit.config.auth
+      ? {
+          auth: {
+            loginUrl: cockpit.config.auth.loginUrl,
+            logoutUrl: cockpit.config.auth.logoutUrl,
+            user: cockpit.config.auth.user(ctx),
+          },
+        }
+      : {}),
+  })
 
   await next()
 }

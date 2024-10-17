@@ -4,7 +4,7 @@ import type { InferSerializable } from '../src/types.js'
 export type Resource = InferSerializable<BaseResource>
 export type ResourceRecord = Record<string, any>
 
-export type { RecordId, InferSerializable } from '../src/types.js'
+export type { RecordId, InferSerializable, AuthOptions } from '../src/types.js'
 
 export type ViaRelationship = {
   resource: string
