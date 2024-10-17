@@ -1,5 +1,5 @@
 import { HttpContext } from '@adonisjs/core/http'
-import admin from '../../../../services/main.js'
+import cockpit from '../../../../services/main.js'
 import vine from '@vinejs/vine'
 
 const validator = vine.compile(
@@ -13,7 +13,7 @@ const validator = vine.compile(
 
 export async function handleApiRetrieve({ request, response }: HttpContext) {
   const { params } = await request.validateUsing(validator)
-  const resource = admin.findResourceBySlug(params.resourceSlug)
+  const resource = cockpit.findResourceBySlug(params.resourceSlug)
 
   if (!resource) {
     return response.status(404)

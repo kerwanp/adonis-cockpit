@@ -1,5 +1,5 @@
 import { BaseResource } from './resources/base_resource.js'
-import { CockpitConfig, Type } from './types.js'
+import { CockpitConfig, MiddlewareOption, Type } from './types.js'
 import { RoutesManager } from './routes/manager.js'
 import { ResourcesManager } from './resources/manager.js'
 import { ApplicationService } from '@adonisjs/core/types'
@@ -10,14 +10,13 @@ import { Menu } from './menu/menu.js'
 export default class Cockpit {
   readonly config: CockpitConfig
   $routesManager: RoutesManager
+  $initialized = false
   #app: ApplicationService
   #resourcesManager: ResourcesManager
-  #logger: Logger
   #menu?: (menu: Menu) => void
 
   constructor(app: ApplicationService, config: CockpitConfig, logger: Logger) {
     this.#app = app
-    this.#logger = logger
     this.#resourcesManager = new ResourcesManager(logger)
     this.$routesManager = new RoutesManager(logger)
     this.config = config
@@ -69,6 +68,11 @@ export default class Cockpit {
     return this
   }
 
+  middleware(middleware: MiddlewareOption): this {
+    this.$routesManager.middleware(middleware)
+    return this
+  }
+
   /**
    * Generates a Vite asset pathname from a page name.
    */
@@ -78,13 +82,8 @@ export default class Cockpit {
     return `@fs/${relative(this.#app.makePath(), pagesUrl.pathname)}`
   }
 
-  /**
-   * Boots Cockpit.
-   */
   async boot(app: ApplicationService) {
-    this.#logger.trace({ cockpit: this }, 'booting cockpit')
     const router = await app.container.make('router')
-
-    this.$routesManager.registerRoutes(router)
+    return this.$routesManager.registerRoutes(router)
   }
 }

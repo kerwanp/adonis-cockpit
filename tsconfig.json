@@ -9,6 +9,7 @@
       "@adonisjs/core/providers/vinejs_provider",
       "@adonisjs/core/providers/edge_provider",
       "@adonisjs/inertia/inertia_middleware",
+      "@adonisjs/auth/initialize_auth_middleware",
       "vitest/globals",
       "vite/client"
     ]

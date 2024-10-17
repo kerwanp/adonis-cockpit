@@ -1,12 +1,11 @@
 <script setup lang="ts">
-import type { InferSerializable } from '../../src/types'
-import type { BaseResource } from '../../src/resources/base_resource'
-import EditButton from './resource/edit-button.vue'
-import DetailButton from './resource/detail-button.vue'
+import type { Resource, ResourceRecord } from '../types'
+import EditButton from './resource/buttons/edit-button.vue'
+import DetailButton from './resource/buttons/detail-button.vue'
 
 defineProps<{
-  resource: InferSerializable<BaseResource>
-  data: any
+  resource: Resource
+  record: ResourceRecord
 }>()
 </script>
 
@@ -25,8 +24,8 @@ defineProps<{
             <component
               :is="field.detailComponent ?? field.indexComponent"
               :field="field"
-              :record="data"
-              :value="data[field.name]"
+              :record="record"
+              :value="record[field.name]"
             />
           </div>
         </div>
@@ -36,14 +35,14 @@ defineProps<{
       <EditButton
         class="flex-1"
         :resource="resource"
-        :record-id="data[resource.idKey]"
+        :record-id="record[resource.idKey]"
         size="small"
         outlined
       />
       <DetailButton
         class="flex-1"
         :resource="resource"
-        :record-id="data[resource.idKey]"
+        :record-id="record[resource.idKey]"
         size="small"
         outlined
       />

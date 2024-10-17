@@ -10,11 +10,13 @@ import { handleApiDelete } from './handlers/api/delete.js'
 import { handleApiAction } from './handlers/api/action.js'
 import { handleApiUpdate } from './handlers/api/update.js'
 import { handleApiRetrieve } from './handlers/api/retrieve.js'
+import { MiddlewareOption } from '../types.js'
 import { cockpitMiddleware } from '../cockpit_middleware.js'
 
 export class RoutesManager {
   #logger: Logger
   $policy?: any
+  $middleware?: MiddlewareOption
 
   constructor(logger: Logger) {
     this.#logger = logger
@@ -28,11 +30,16 @@ export class RoutesManager {
     return this
   }
 
+  middleware(middleware: MiddlewareOption): this {
+    this.$middleware = middleware
+    return this
+  }
+
   /**
    * Registers Cockpit routes.
    */
   registerRoutes(router: Router) {
-    router
+    return router
       .group(() => {
         router
           .get('/', (ctx) => {
@@ -42,9 +49,9 @@ export class RoutesManager {
         this.#registerResourceRoutes(router)
         this.#registerApiRoutes(router)
       })
-      .as('cockpit')
       .prefix('/admin')
-      .middleware(cockpitMiddleware)
+      .as('cockpit')
+      .use(cockpitMiddleware)
   }
 
   /**

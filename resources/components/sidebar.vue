@@ -1,14 +1,15 @@
 <script setup lang="ts">
-import type { InferSerializable } from '../../src/types'
-import type { BaseResource } from '../../src/resources/base_resource'
 import CreateMenu from './resource/create-menu.vue'
 import { Menu as MenuData } from '../../src/menu/menu'
 import Menu from './ui/menu/index.vue'
 import ThemeSelector from './ui/theme-selector.vue'
+import { AuthOptions, InferSerializable, Resource } from '../types'
+import Button from 'primevue/button'
 
 defineProps<{
   menu: InferSerializable<MenuData>[]
-  resources: InferSerializable<BaseResource>[]
+  resources: Resource[]
+  auth: AuthOptions
 }>()
 </script>
 
@@ -21,6 +22,17 @@ defineProps<{
     </div>
     <CreateMenu />
     <Menu class="flex-1" :menu="menu" />
-    <ThemeSelector />
+    <div class="flex flex-col gap-2">
+      <ThemeSelector />
+      <Button
+        as="a"
+        :href="auth.logoutUrl"
+        icon="pi pi-sign-out"
+        severity="danger"
+        label="Logout"
+        text
+        size="small"
+      />
+    </div>
   </div>
 </template>

@@ -4,6 +4,7 @@ import vine from '@vinejs/vine'
 
 export default class MultiSelect extends Select {
   validator: SchemaTypes = vine.array(vine.string())
+  $initialValue = []
 
   formComponent(): string {
     return 'CockpitMultiSelectForm'

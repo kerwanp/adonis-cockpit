@@ -3,7 +3,7 @@ import { Field } from './field.js'
 import vine, { VineString } from '@vinejs/vine'
 import { OptionalModifier } from '@vinejs/vine/schema/base/literal'
 
-export default class Text extends Field {
+export default class Text extends Field<string> {
   validator: SchemaTypes = vine.string().optional()
 
   protected $required = false
@@ -44,7 +44,7 @@ export default class Text extends Field {
     return 'CockpitTextForm'
   }
 
-  $validate(value: any): Promise<any> {
+  $validator(): SchemaTypes {
     let schema: OptionalModifier<VineString> | VineString = vine.string()
 
     if (this.$minLength) {
@@ -63,8 +63,7 @@ export default class Text extends Field {
       schema = schema.optional()
     }
 
-    const validator = vine.compile(schema)
-    return validator.validate(value)
+    return schema
   }
 
   public static make<T extends Field>(this: new (name: string) => T, name: string): T {

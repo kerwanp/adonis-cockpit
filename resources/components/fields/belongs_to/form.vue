@@ -1,36 +1,54 @@
 <script setup lang="ts">
-import type { InferSerializable } from '../../../../src/types'
 import type BelongsTo from '../../../../src/fields/belongs_to'
-import { ref } from 'vue'
+import { computed, ref, toValue } from 'vue'
 import { useResourceApi } from '../../../composables/resource'
 import Select from 'primevue/select'
+import { useField } from '../../../composables/field'
+import InputText from 'primevue/inputtext'
+import { useFormValues } from 'vee-validate'
+import { useSearchParams } from '../../../composables/route'
+import { ViaRelationship } from '../../../types'
 
 defineOptions({
   inheritAttrs: false,
 })
 
-const props = defineProps<{
-  error?: string[]
-  field: InferSerializable<BelongsTo>
-  record: any
-}>()
-
 const filter = ref('')
-const model = defineModel()
+const params = useSearchParams<{ via?: ViaRelationship }>()
+const record = useFormValues()
+const { field, name, value, errorMessage, setValue, handleBlur } = useField<BelongsTo>()
+const { data, isLoading } = useResourceApi.list(field.resource.slug, { search: filter })
 
-const { data, isLoading } = useResourceApi.list(props.field.resource.slug, { search: filter })
+const options = computed(() => {
+  // TODO: This might not be really performant
+  const options = data.value ? [...data.value.data] : []
+  if (!options.some((r) => r[field.resource.idKey] === value.value)) {
+    options.unshift(record.value[field.relationship.relationName])
+  }
+  return options
+})
+
+const isVia = params.via?.foreignKey === toValue(name)
+
+if (isVia) {
+  setValue(params.via?.value)
+}
 </script>
 
 <template>
   <div class="flex flex-col gap-2">
     <Select
-      v-model="model"
-      :options="data?.data ?? []"
+      :id="name"
+      :name="name"
+      v-model="value"
+      :options="options"
       :loading="isLoading"
       :option-label="field.resource.titleKey"
       :option-value="field.resource.idKey"
-      :placeholder="`Select ${field.resource.name}`"
+      :placeholder="`Select ${field.resource.label}`"
+      :disabled="isVia"
       v-bind="field.attributes"
+      @blur="handleBlur"
     >
       <template #header>
         <div class="p-2">
@@ -38,6 +56,6 @@ const { data, isLoading } = useResourceApi.list(props.field.resource.slug, { sea
         </div>
       </template>
     </Select>
-    <small class="text-red-400" v-if="error">{{ error.join('\n') }}</small>
+    <errorMessage />
   </div>
 </template>

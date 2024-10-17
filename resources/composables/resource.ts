@@ -1,9 +1,9 @@
 import type { ApiIndexInputParams } from '../../src/routes/handlers/api/index.js'
-import type { InferSerializable, RecordId } from '../../src/types.js'
-import type { BaseResource } from '../../src/resources/base_resource.js'
-import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/vue-query'
+import type { RecordId, Resource } from '../types.js'
 import ResourceService from '../services/resource_service.js'
+import { keepPreviousData, useMutation, useQuery, useQueryClient } from '@tanstack/vue-query'
 import { inject, MaybeRefOrGetter, provide, Ref, toValue } from 'vue'
+import { useToast } from 'primevue/usetoast'
 
 type ListParams = {
   page?: Ref<number | undefined> | number
@@ -33,12 +33,12 @@ export const useResourceApi = {
 }
 
 export function injectResource() {
-  const resource = inject<InferSerializable<BaseResource>>('resource')
+  const resource = inject<Resource>('resource')
   if (!resource) throw new Error(`Resource is not provided`)
   return resource
 }
 
-export function provideResource(resource: InferSerializable<BaseResource>) {
+export function provideResource(resource: Resource) {
   return provide('resource', resource)
 }
 
@@ -54,7 +54,7 @@ export function useResourceQuery(
   })
 }
 
-export function useCreateResourceMutation(resource: InferSerializable<BaseResource>) {
+export function useCreateResourceMutation(resource: Resource) {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: (data: any) => ResourceService.create(resource.slug, data),
@@ -64,7 +64,7 @@ export function useCreateResourceMutation(resource: InferSerializable<BaseResour
   })
 }
 
-export function useUpdateResourceMutation(resource: InferSerializable<BaseResource>) {
+export function useUpdateResourceMutation(resource: Resource) {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: ({ id, data }: { id: RecordId; data: any }) =>
@@ -75,7 +75,7 @@ export function useUpdateResourceMutation(resource: InferSerializable<BaseResour
   })
 }
 
-export function useDeleteResourceMutation(resource: InferSerializable<BaseResource>) {
+export function useDeleteResourceMutation(resource: Resource) {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: (id: RecordId) => ResourceService.delete(resource.slug, id),
@@ -85,7 +85,7 @@ export function useDeleteResourceMutation(resource: InferSerializable<BaseResour
   })
 }
 
-export function useActionResourceMutation(resource: InferSerializable<BaseResource>) {
+export function useActionResourceMutation(resource: Resource) {
   const queryClient = useQueryClient()
   return useMutation({
     mutationFn: ({ action, ids }: { action: string; ids: RecordId[] }) =>
@@ -96,11 +96,12 @@ export function useActionResourceMutation(resource: InferSerializable<BaseResour
   })
 }
 
-export function useResource(resource?: InferSerializable<BaseResource>) {
+export function useResource(resource?: Resource) {
   if (!resource) {
     resource = injectResource()
   }
 
+  const toasts = useResourceToasts(resource)
   const deleteMutation = useDeleteResourceMutation(resource)
   const createMutation = useCreateResourceMutation(resource)
   const updateMutation = useUpdateResourceMutation(resource)
@@ -108,9 +109,46 @@ export function useResource(resource?: InferSerializable<BaseResource>) {
 
   return {
     ...resource,
+    toasts,
     delete: deleteMutation.mutateAsync,
     create: createMutation.mutateAsync,
     update: updateMutation.mutateAsync,
     runAction: actionMutation.mutateAsync,
   }
+}
+
+export function useResourceToasts(resource?: Resource) {
+  if (!resource) {
+    resource = injectResource()
+  }
+  const toast = useToast()
+
+  function edited() {
+    toast.add({
+      severity: 'success',
+      summary: `${resource!.label} edited`,
+      detail: `The ${resource!.label} has been succesfully updated.`,
+      life: 3000,
+    })
+  }
+
+  function deleted() {
+    toast.add({
+      severity: 'error',
+      summary: `${resource!.label} deleted`,
+      detail: `The ${resource!.label} has been succesfully deleted.`,
+      life: 3000,
+    })
+  }
+
+  function created() {
+    toast.add({
+      severity: 'success',
+      summary: `${resource!.label} created`,
+      detail: `The ${resource!.label} has been succesfully created.`,
+      life: 3000,
+    })
+  }
+
+  return { edited, deleted, created }
 }
