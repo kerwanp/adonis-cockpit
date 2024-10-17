@@ -1,10 +1,15 @@
-import { FormOptions, GenericObject, useForm as useFormBase } from 'vee-validate'
+import { FormContext, FormOptions, GenericObject, useForm as useFormBase } from 'vee-validate'
 import { isValidationError } from '../utils/errors.js'
+import { ResourceRecord } from '../types.js'
 
-export function useForm(options?: FormOptions<GenericObject>) {
+type UseFormResult = Omit<FormContext<GenericObject, GenericObject>, 'handleSubmit'> & {
+  handleSubmit(data: ResourceRecord): any
+}
+
+export function useForm(options?: FormOptions<GenericObject>): UseFormResult {
   const form = useFormBase(options)
 
-  function handleSubmit(handler: (data: any) => Promise<void>) {
+  function handleSubmit(handler: (data: ResourceRecord) => Promise<void>) {
     return form.handleSubmit(async (data) => {
       try {
         await handler(data)
