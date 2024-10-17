@@ -20,7 +20,10 @@ export async function handleApiUpdate({ request, response }: HttpContext) {
     return response.status(404)
   }
 
-  // TODO: Validation
+  // TODO: Workaround, must be done properly
+  delete payload.data[resource.idKey()]
 
-  return resource.update(params.recordId, payload.data)
+  const data = await resource.validate(payload.data)
+
+  return resource.update(params.recordId, data)
 }

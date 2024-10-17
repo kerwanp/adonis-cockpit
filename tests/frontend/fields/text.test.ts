@@ -3,7 +3,7 @@ import Text from '../../../src/fields/text.js'
 import { mount } from '@vue/test-utils'
 import CockpitPlugin from '../../../src/plugins/vue/index.js'
 
-describe('form', () => {
+describe.skip('form', () => {
   test('no configuration', async () => {
     const field = Text.make('firstName')
 

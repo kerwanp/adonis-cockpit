@@ -11,8 +11,7 @@ export async function handleApiCreate({ request, response }: HttpContext) {
     return response.status(404)
   }
 
-  // const data = await resource.validate(payload)
-  const data = payload
+  const data = await resource.validate(payload)
 
   const record = await resource.create(data)
   return record

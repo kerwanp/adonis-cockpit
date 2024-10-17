@@ -3,6 +3,7 @@ import TextForm from '../../../resources/components/fields/text/form.vue'
 import { mount } from '@vue/test-utils'
 import Id from '../../../src/fields/id.js'
 import CockpitPlugin from '../../../src/plugins/vue/index.js'
+import { FieldContextSymbol, provideField } from '../../../resources/composables/field.js'
 
 describe('index', () => {
   test('render numbers with #', () => {
@@ -12,6 +13,7 @@ describe('index', () => {
       props: {
         field: field.toJSON(),
         value: 12,
+        record: {},
       },
     })
 
@@ -25,6 +27,7 @@ describe('index', () => {
       props: {
         field: field.toJSON(),
         value: 'f2004007-c3b9-4dc9-b38c-3cf1e4597478',
+        record: {},
       },
     })
 
@@ -39,10 +42,9 @@ describe('form', () => {
     const wrapper = mount(TextForm, {
       global: {
         plugins: [[CockpitPlugin, { primeVue: {} }]],
-      },
-      props: {
-        field: field.toJSON(),
-        modelValue: '12',
+        provide: {
+          [FieldContextSymbol]: field.toJSON(),
+        },
       },
     })
 

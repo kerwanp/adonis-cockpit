@@ -1,16 +1,15 @@
 <script setup lang="ts">
-import type { BaseResource } from '../../../src/resources/base_resource'
-import type { InferSerializable, RecordId } from '../../../src/types'
+import type { RecordId, Resource } from '../../../types'
 import Button from 'primevue/button'
-import ResourceService from '../../services/resource_service'
-import { injectResource } from '../../composables/resource'
+import ResourceService from '../../../services/resource_service'
+import { useResource } from '../../../composables/resource'
 
 const props = defineProps<{
-  resource?: InferSerializable<BaseResource>
+  resource?: Resource
   recordId: RecordId
 }>()
 
-const resource = props.resource ?? injectResource()
+const resource = useResource(props.resource)
 </script>
 
 <template>

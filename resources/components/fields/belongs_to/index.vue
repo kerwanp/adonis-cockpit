@@ -7,6 +7,7 @@ import { useResourceQuery } from '../../../composables/resource'
 import { injectResources } from '../../../composables/resources'
 import Popover from 'primevue/popover'
 import Button from 'primevue/button'
+import { ResourceRecord } from '../../../types'
 
 defineOptions({
   inheritAttrs: false,
@@ -14,8 +15,8 @@ defineOptions({
 
 const props = defineProps<{
   field: InferSerializable<BelongsTo>
+  record: ResourceRecord
   value: any
-  record: any
 }>()
 
 const opened = ref(false)
@@ -36,6 +37,6 @@ const label = relation[props.field.resource.titleKey] ?? props.value
 <template>
   <Button @click="toggle" size="small" text :label="label" severity="info" />
   <Popover ref="popover" class="px-2">
-    <ResourcePeek v-if="data" :resource="resources[field.resource.name]" :data="data" />
+    <ResourcePeek v-if="data" :resource="resources[field.resource.name]" :record="data" />
   </Popover>
 </template>

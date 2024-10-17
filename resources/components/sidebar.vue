@@ -1,14 +1,14 @@
 <script setup lang="ts">
 import type { InferSerializable } from '../../src/types'
-import type { BaseResource } from '../../src/resources/base_resource'
 import CreateMenu from './resource/create-menu.vue'
 import { Menu as MenuData } from '../../src/menu/menu'
 import Menu from './ui/menu/index.vue'
 import ThemeSelector from './ui/theme-selector.vue'
+import { Resource } from '../types'
 
 defineProps<{
   menu: InferSerializable<MenuData>[]
-  resources: InferSerializable<BaseResource>[]
+  resources: Resource[]
 }>()
 </script>
 

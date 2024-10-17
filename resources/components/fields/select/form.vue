@@ -1,19 +1,16 @@
 <script setup lang="ts">
-import Select from 'primevue/select'
 import type SelectField from '../../../../src/fields/select'
-import type { InferSerializable } from '../../../../src/types'
+import Select from 'primevue/select'
+import FormMessage from '../../form/form-message.vue'
+import { useField } from '../../../composables/field'
 
 defineOptions({
   inheritAttrs: false,
 })
 
-const props = defineProps<{
-  error?: string[]
-  field: InferSerializable<SelectField>
-  record: any
-}>()
+const { field, value, name, errorMessage, handleBlur } = useField<SelectField>()
 
-const options = Object.entries(props.field.options).map(([value, label]) => ({
+const options = Object.entries(field.options).map(([value, label]) => ({
   label,
   value,
 }))
@@ -22,13 +19,16 @@ const options = Object.entries(props.field.options).map(([value, label]) => ({
 <template>
   <div class="flex flex-col gap-2">
     <Select
-      v-model="record[field.name]"
-      :name="field.name"
+      :id="name"
+      :name="name"
       :input-id="field.name"
+      :options="options"
+      :invalid="errorMessage"
       option-label="label"
       option-value="value"
-      :options="options"
+      v-model="value"
+      @blur="handleBlur"
     />
-    <small class="text-red-400" v-if="error">{{ error.join('\n') }}</small>
+    <FormMessage />
   </div>
 </template>

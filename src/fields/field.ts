@@ -12,8 +12,9 @@ export type FieldVisibility = {
 
 type FieldType = 'field' | 'panel'
 
-export abstract class Field implements Serializable {
+export abstract class Field<Value = any> implements Serializable {
   $type: FieldType = 'field'
+  $initialValue?: Value
 
   $name: string
   $label: string
@@ -65,6 +66,14 @@ export abstract class Field implements Serializable {
    */
   label(label: string): this {
     this.$label = label
+    return this
+  }
+
+  /**
+   * Defines the default value.
+   */
+  default(value: Value): this {
+    this.$initialValue = value
     return this
   }
 
@@ -251,8 +260,16 @@ export abstract class Field implements Serializable {
   /**
    * Validates a value against this field.
    */
-  async $validate(value: any): Promise<any> {
-    return value
+  async $validate(value: Value): Promise<any> {
+    const validator = vine.compile(this.$validator())
+    return validator.validate(value)
+  }
+
+  /**
+   * Returns the Vine schema to validate the value.
+   */
+  $validator(): SchemaTypes {
+    return vine.any()
   }
 
   toJSON() {
@@ -266,6 +283,7 @@ export abstract class Field implements Serializable {
       sortable: this.$sortable,
       name: this.$name,
       label: this.$label,
+      initialValue: this.$initialValue,
     }
   }
 }

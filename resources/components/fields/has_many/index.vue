@@ -68,6 +68,6 @@ function toggleMore(event: Event) {
     </div>
   </Popover>
   <Popover ref="peekPopover" class="px-2">
-    <ResourcePeek v-if="data" :resource="resources[field.resource.name]" :data="data" />
+    <ResourcePeek v-if="data" :resource="resources[field.resource.name]" :record="data" />
   </Popover>
 </template>

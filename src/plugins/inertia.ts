@@ -33,10 +33,13 @@ export default function createCockpitApp(
     },
     // TODO: Fix types
     setup({ el, App, props, plugin }: any) {
-      createApp({ render: () => h(App, props) })
+      const app = createApp({ render: () => h(App, props) })
         .use(plugin)
         .use(CockpitPlugin, pluginOptions)
-        .mount(el)
+
+      app.config.performance = true
+
+      app.mount(el)
     },
   })
 }

@@ -104,7 +104,7 @@ export abstract class ModelResource<Model extends LucidModel = LucidModel> exten
     const fields = BaseResource.storage.run(this, () => this.fields())
 
     for (const field of fields) {
-      obj[field.$name] = field.validator
+      obj[field.$name] = field.$validator()
     }
 
     const validator = vine.compile(vine.object(obj))

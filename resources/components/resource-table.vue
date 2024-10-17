@@ -1,23 +1,21 @@
 <script setup lang="ts">
+import type { Resource } from '../types'
 import type { ApiIndexInputParams } from '../../src/routes/handlers/api'
-import type { BaseResource } from '../../src/resources/base_resource'
-import type { InferSerializable } from '../../src/types'
-import { Link } from '@inertiajs/vue3'
 import { useToast } from 'primevue/usetoast'
 import { useResourceApi } from '../composables/resource'
 import { ref } from 'vue'
 import DataTable from './ui/datatable.vue'
 import Header from './ui/header.vue'
 import Heading from './ui/heading.vue'
-import EditButton from './resource/edit-button.vue'
-import DetailButton from './resource/detail-button.vue'
-import DeleteButton from './resource/delete-button.vue'
-import CreateButton from './resource/create-button.vue'
+import EditButton from './resource/buttons/edit-button.vue'
+import DetailButton from './resource/buttons/detail-button.vue'
+import DeleteButton from './resource/buttons/delete-button.vue'
+import CreateButton from './resource/buttons/create-button.vue'
 import ActionsMenu from './resource/actions-menu.vue'
 import InputText from 'primevue/inputtext'
 
 const props = defineProps<{
-  resource: InferSerializable<BaseResource>
+  resource: Resource
   additionalFilters?: ApiIndexInputParams['filters']
   createParams?: any
 }>()

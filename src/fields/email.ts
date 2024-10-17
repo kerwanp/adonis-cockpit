@@ -14,7 +14,7 @@ export default class Email extends Text {
     return 'CockpitEmailIndex'
   }
 
-  $validate(value: any): Promise<any> {
+  $validator(): SchemaTypes {
     let schema: SchemaTypes
 
     if (this.$required) {
@@ -23,7 +23,6 @@ export default class Email extends Text {
       schema = vine.string().email().optional()
     }
 
-    const validator = vine.compile(schema)
-    return validator.validate(value)
+    return schema
   }
 }

@@ -4,6 +4,7 @@ import { Field } from './field.js'
 export default class Boolean extends Field {
   protected $trueValue: any = true
   protected $falseValue: any = false
+  $initialValue = true
 
   constructor(name: string) {
     super(name)
@@ -24,6 +25,7 @@ export default class Boolean extends Field {
   values(trueValue: any, falseValue: any): this {
     this.$trueValue = trueValue
     this.$falseValue = falseValue
+    this.$initialValue = falseValue
     return this
   }
 

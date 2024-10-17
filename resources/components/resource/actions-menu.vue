@@ -1,6 +1,5 @@
 <script setup lang="ts">
-import type { BaseResource } from '../../../src/resources/base_resource'
-import type { InferSerializable } from '../../../src/types'
+import type { Resource, ResourceRecord } from '../../types'
 import { ref } from 'vue'
 import { useResource } from '../../composables/resource'
 import { useConfirm } from 'primevue/useconfirm'
@@ -9,8 +8,8 @@ import Menu from 'primevue/menu'
 import ConfirmDialog from 'primevue/confirmdialog'
 
 const props = defineProps<{
-  resource?: InferSerializable<BaseResource>
-  records: any[]
+  resource?: Resource
+  records: ResourceRecord[]
 }>()
 
 const menu = ref()

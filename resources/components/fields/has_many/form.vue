@@ -1,23 +1,18 @@
 <script setup lang="ts">
-import type { InferSerializable } from '../../../../src/types'
-import type { BaseResource } from '../../../../src/resources/base_resource'
 import type HasMany from '../../../../src/fields/has_many'
 import ResourceTable from '../../resource-table.vue'
-import { provideResource } from '../../../composables/resource'
 import Heading from '../../ui/heading.vue'
+import { useResource } from '../../../composables/resource'
+import { useField } from '../../../composables/field'
+import { useFormValues } from 'vee-validate'
 
 defineOptions({
   inheritAttrs: false,
 })
 
-const props = defineProps<{
-  error?: string[]
-  resource: InferSerializable<BaseResource>
-  field: InferSerializable<HasMany>
-  record: any
-}>()
-
-provideResource(props.field.resource)
+const resource = useResource()
+const record = useFormValues()
+const { field } = useField<HasMany>()
 </script>
 
 <template>

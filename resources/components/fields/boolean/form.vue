@@ -1,30 +1,27 @@
 <script setup lang="ts">
-import ToggleSwitch from 'primevue/toggleswitch'
 import type Boolean from '../../../../src/fields/boolean'
-import type { InferSerializable } from '../../../../src/types'
+import ToggleSwitch from 'primevue/toggleswitch'
+import FormMessage from '../../form/form-message.vue'
+import { useField } from '../../../composables/field'
 
 defineOptions({
   inheritAttrs: false,
 })
 
-defineProps<{
-  error?: string[]
-  field: InferSerializable<Boolean>
-  record: any
-}>()
-
-const model = defineModel<string | boolean | undefined>()
+const { field, name, value, errorMessage, handleBlur } = useField<Boolean>()
 </script>
 
 <template>
   <div class="flex flex-col gap-2">
     <ToggleSwitch
-      v-model="model"
+      :id="name"
+      :input-id="field.name"
       :true-value="field.trueValue"
       :false-value="field.falseValue"
-      :input-id="field.name"
-      :invalid="!!error?.length"
+      :invalid="!!errorMessage"
+      v-model="value"
+      @blur="handleBlur"
     />
-    <small class="text-red-400" v-if="error">{{ error.join('\n') }}</small>
+    <FormMessage />
   </div>
 </template>

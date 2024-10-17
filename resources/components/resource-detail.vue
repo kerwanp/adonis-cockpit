@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import type { InferSerializable } from '../../src/types'
-import type { BaseResource } from '../../src/resources/base_resource'
+import type { Resource, ResourceRecord } from '../types'
 import Card from './ui/card.vue'
+import InjectField from './form/inject-field.vue'
 
 defineProps<{
-  resource: InferSerializable<BaseResource>
-  data: any
+  resource: Resource
+  record: ResourceRecord
 }>()
 </script>
 
@@ -25,8 +25,8 @@ defineProps<{
               <component
                 :is="field.detailComponent ?? field.indexComponent"
                 :field="field"
-                :record="data"
-                :value="data[field.name]"
+                :record="record"
+                :value="record[field.name]"
               />
             </div>
           </div>
@@ -35,7 +35,13 @@ defineProps<{
     </div>
     <div>
       <template v-for="field of resource.fields.filter((f) => f.type === 'panel')">
-        <component :is="field.fieldComponent" :resource="resource" :record="data" :field="field" />
+        <InjectField :field="field">
+          <component
+            :is="field.detailComponent ?? field.indexComponent"
+            :field="field"
+            :record="record"
+          />
+        </InjectField>
       </template>
     </div>
   </div>

@@ -21,3 +21,5 @@ export type InferSerializable<T extends Serializable> = ReturnType<T['toJSON']>
 export type CockpitConfig = {
   entrypoint: string
 }
+
+export type VineError = { message: string; field: string; rule: string }

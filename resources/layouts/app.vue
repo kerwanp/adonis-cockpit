@@ -1,20 +1,19 @@
 <script setup lang="ts">
 import '../css/app.css'
 import 'primeicons/primeicons.css'
-import type { InferSerializable } from '../../src/types'
-import type { BaseResource } from '../../src/resources/base_resource'
+import type { Resource } from '../types'
 import Sidebar from '../components/sidebar.vue'
 import Toast from 'primevue/toast'
 import Breadcrumb from 'primevue/breadcrumb'
+import ConfirmPopup from 'primevue/confirmpopup'
 import { Link } from '@inertiajs/vue3'
 import { MenuItem } from 'primevue/menuitem'
 import { provideResources } from '../composables/resources'
-import ConfirmPopup from 'primevue/confirmpopup'
 
 const props = defineProps<{
   breadcrumb: MenuItem[]
   menu: any[]
-  resources: Record<string, InferSerializable<BaseResource>>
+  resources: Record<string, Resource>
 }>()
 
 provideResources(props.resources)

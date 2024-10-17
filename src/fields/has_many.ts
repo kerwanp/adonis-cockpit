@@ -30,6 +30,10 @@ export default class HasMany extends Field {
     return 'CockpitHasManyIndex'
   }
 
+  detailComponent(): string {
+    return 'CockpitHasManyDetail'
+  }
+
   static make(Resource: Type<ModelResource>, relationName: string) {
     const resource = new Resource()
 
