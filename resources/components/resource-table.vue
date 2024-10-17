@@ -1,8 +1,8 @@
 <script setup lang="ts">
-import type { Resource } from '../types'
+import type { Resource, ViaRelationship } from '../types'
 import type { ApiIndexInputParams } from '../../src/routes/handlers/api'
 import { useToast } from 'primevue/usetoast'
-import { useResourceApi } from '../composables/resource'
+import { useResource, useResourceApi } from '../composables/resource'
 import { ref } from 'vue'
 import DataTable from './ui/datatable.vue'
 import Header from './ui/header.vue'
@@ -15,9 +15,9 @@ import ActionsMenu from './resource/actions-menu.vue'
 import InputText from 'primevue/inputtext'
 
 const props = defineProps<{
-  resource: Resource
+  resource?: Resource
   additionalFilters?: ApiIndexInputParams['filters']
-  createParams?: any
+  via?: ViaRelationship
 }>()
 
 const selectedRows = ref([])
@@ -26,7 +26,9 @@ const page = ref(1)
 const perPage = ref(25)
 const sorts = ref<ApiIndexInputParams['sorts']>([])
 
-const { data: paginator } = useResourceApi.list(props.resource.slug, {
+const resource = useResource(props.resource)
+
+const { data: paginator } = useResourceApi.list(resource.slug, {
   page,
   perPage,
   sorts,
@@ -52,7 +54,7 @@ function handleDeleted() {
     <template #actions>
       <ActionsMenu :records="selectedRows" />
       <InputText v-model="search" :placeholder="`Search ${resource.labelPlural}...`" />
-      <CreateButton :params="props.createParams" />
+      <CreateButton :via="via" />
     </template>
   </Header>
   <div
@@ -71,7 +73,7 @@ function handleDeleted() {
         <template #rowActions="{ data }">
           <div class="flex gap-1 flex-nowrap">
             <DetailButton rounded text label severity="secondary" :record-id="data.id" />
-            <EditButton rounded text label severity="info" :record-id="data.id" />
+            <EditButton rounded text label severity="info" :record-id="data.id" :via="via" />
             <DeleteButton
               rounded
               text
@@ -87,7 +89,7 @@ function handleDeleted() {
     <div v-else class="h-full flex flex-col gap-2 justify-center items-center">
       <span class="pi pi-info-circle text-3xl mb-4"></span>
       <Heading variant="h3">You do not have any {{ resource.name }} yet!</Heading>
-      <CreateButton as="Link" label="Create one" />
+      <CreateButton as="Link" label="Create one" :via="via" />
     </div>
   </div>
 </template>

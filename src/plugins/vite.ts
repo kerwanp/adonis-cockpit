@@ -14,6 +14,7 @@ export default function cockpit(options: Parameters<typeof adonisjs>[0]) {
             'deepmerge',
             'vee-validate',
             'primevue/toast',
+            'primevue/drawer',
             'primevue/usetoast',
             'primevue/useconfirm',
             'primevue/button',

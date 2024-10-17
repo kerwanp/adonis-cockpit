@@ -29,8 +29,6 @@ export abstract class Field<Value = any> implements Serializable {
     this.$label = string.create(name).capitalCase().toString()
   }
 
-  validator: SchemaTypes = vine.any().optional()
-
   renderCell?(value?: string): Promise<[string, any]>
   renderField?(value?: string): Promise<[string, any]>
 
@@ -258,17 +256,9 @@ export abstract class Field<Value = any> implements Serializable {
   }
 
   /**
-   * Validates a value against this field.
-   */
-  async $validate(value: Value): Promise<any> {
-    const validator = vine.compile(this.$validator())
-    return validator.validate(value)
-  }
-
-  /**
    * Returns the Vine schema to validate the value.
    */
-  $validator(): SchemaTypes {
+  $validator(): SchemaTypes | undefined {
     return vine.any()
   }
 

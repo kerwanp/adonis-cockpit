@@ -2,7 +2,8 @@
 import Create from '../../components/resource/views/create.vue'
 import Layout from '../../layouts/app.vue'
 import ProvideResource from '../../components/resource/provide-resource.vue'
-import { Resource } from '../../types'
+import { Resource, ViaRelationship } from '../../types'
+import { useSearchParams } from '../../composables/route'
 
 defineOptions({
   layout: Layout,
@@ -11,10 +12,12 @@ defineOptions({
 defineProps<{
   resource: Resource
 }>()
+
+const params = useSearchParams<{ via?: ViaRelationship }>()
 </script>
 
 <template>
   <ProvideResource :resource="resource">
-    <Create />
+    <Create :via="params.via" />
   </ProvideResource>
 </template>

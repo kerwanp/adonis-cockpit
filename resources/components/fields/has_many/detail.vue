@@ -25,8 +25,10 @@ const resource = props.field.resource
         :additional-filters="[
           { field: field.relationship.foreignKey, value: record[resource.idKey] },
         ]"
-        :create-params="{
-          initialData: { [field.relationship.foreignKey]: record[resource.idKey] },
+        :via="{
+          resource: resource.name,
+          foreignKey: field.relationship.foreignKey,
+          value: record[resource.idKey],
         }"
       >
         <template #title>

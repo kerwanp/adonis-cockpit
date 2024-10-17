@@ -31,12 +31,14 @@ function toggle(event: Event) {
 }
 
 const relation = props.record[props.field.relationship.relationName]
-const label = relation[props.field.resource.titleKey] ?? props.value
+const label = relation ? (relation[props.field.resource.titleKey] ?? props.value) : ''
 </script>
 
 <template>
-  <Button @click="toggle" size="small" text :label="label" severity="info" />
-  <Popover ref="popover" class="px-2">
-    <ResourcePeek v-if="data" :resource="resources[field.resource.name]" :record="data" />
-  </Popover>
+  <div v-if="value">
+    <Button @click="toggle" size="small" text :label="label" severity="info" />
+    <Popover ref="popover" class="px-2">
+      <ResourcePeek v-if="data" :resource="resources[field.resource.name]" :record="data" />
+    </Popover>
+  </div>
 </template>

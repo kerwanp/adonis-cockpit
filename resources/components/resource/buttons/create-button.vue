@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Resource } from '../../../types'
+import type { Resource, ViaRelationship } from '../../../types'
 import Button from 'primevue/button'
 import ResourceService from '../../../services/resource_service'
 import qs from 'qs'
@@ -7,15 +7,15 @@ import { useResource } from '../../../composables/resource'
 
 const props = defineProps<{
   resource?: Resource
-  params?: any
+  via?: ViaRelationship
 }>()
 
 const resource = useResource(props.resource)
 
 let url = ResourceService.makeUrl(resource.slug, 'create')
 
-if (props.params) {
-  url += `?${qs.stringify(props.params)}`
+if (props.via) {
+  url += `?${qs.stringify({ via: props.via })}`
 }
 </script>
 

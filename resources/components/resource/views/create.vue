@@ -1,25 +1,35 @@
 <script setup lang="ts">
-import type { Resource } from '../../../types'
-import ResourceForm from '../../components/resource-form.vue'
-import Heading from '../../components/ui/heading.vue'
-import Header from '../../components/ui/header.vue'
+import type { Resource, ViaRelationship } from '../../../types'
+import ResourceForm from '../../resource-form.vue'
+import Heading from '../../ui/heading.vue'
+import Header from '../../ui/header.vue'
 import Button from 'primevue/button'
 import ResourceService from '../../../services/resource_service'
 import { router } from '@inertiajs/vue3'
 import { useResource } from '../../../composables/resource'
 import { useForm } from '../../../composables/form'
+import { computed } from 'vue'
 
 const props = defineProps<{
   resource?: Resource
+  via?: ViaRelationship
 }>()
 
 const resource = useResource(props.resource)
 const form = useForm()
 
-const handleSubmit = form.handleSubmit(async (values) => {
-  const result = await resource.create(values)
+const redirectUrl = computed(() => {
+  if (props.via) {
+    return ResourceService.makeUrl(props.via.resource, 'edit', props.via.value)
+  }
 
-  router.visit(ResourceService.makeUrl(resource.slug, 'detail', result[resource.idKey]), {
+  return ResourceService.makeUrl(resource.slug, 'index')
+})
+
+const handleSubmit = form.handleSubmit(async (values) => {
+  await resource.create(values)
+
+  router.visit(redirectUrl.value, {
     onSuccess: () => resource.toasts.created(),
   })
 })
@@ -33,8 +43,10 @@ const handleSubmit = form.handleSubmit(async (values) => {
   </Header>
   <ResourceForm :resource="resource" action="create" @submit="handleSubmit">
     <template #actions>
-      <Button as="Link" :href="resource.routes.index" text>Cancel</Button>
-      <Button type="button" @click="handleSubmit">Create {{ resource.label }}</Button>
+      <slot name="actions">
+        <Button as="Link" :href="redirectUrl" text>Cancel</Button>
+        <Button type="submit">Create {{ resource.label }}</Button>
+      </slot>
     </template>
   </ResourceForm>
 </template>

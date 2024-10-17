@@ -126,8 +126,8 @@ export function useResourceToasts(resource?: Resource) {
   function edited() {
     toast.add({
       severity: 'success',
-      summary: `${resource!.name} edited`,
-      detail: `The ${resource!.name} has been succesfully updated.`,
+      summary: `${resource!.label} edited`,
+      detail: `The ${resource!.label} has been succesfully updated.`,
       life: 3000,
     })
   }
@@ -135,8 +135,8 @@ export function useResourceToasts(resource?: Resource) {
   function deleted() {
     toast.add({
       severity: 'error',
-      summary: 'Record deleted',
-      detail: `The ${resource!.name} has been succesfully deleted.`,
+      summary: `${resource!.label} deleted`,
+      detail: `The ${resource!.label} has been succesfully deleted.`,
       life: 3000,
     })
   }
@@ -144,8 +144,8 @@ export function useResourceToasts(resource?: Resource) {
   function created() {
     toast.add({
       severity: 'success',
-      summary: `${resource!.name} created`,
-      detail: `The ${resource!.name} has been succesfully created.`,
+      summary: `${resource!.label} created`,
+      detail: `The ${resource!.label} has been succesfully created.`,
       life: 3000,
     })
   }

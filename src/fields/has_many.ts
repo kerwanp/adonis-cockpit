@@ -34,6 +34,10 @@ export default class HasMany extends Field {
     return 'CockpitHasManyDetail'
   }
 
+  $validator(): undefined {
+    return
+  }
+
   static make(Resource: Type<ModelResource>, relationName: string) {
     const resource = new Resource()
 

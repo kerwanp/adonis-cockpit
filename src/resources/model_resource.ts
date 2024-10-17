@@ -60,9 +60,11 @@ export abstract class ModelResource<Model extends LucidModel = LucidModel> exten
     const query = this.baseQuery()
 
     if (params.search) {
-      for (const key of this.searchable()) {
-        query.orWhereLike(key, `%${params.search}%`)
-      }
+      query.andWhere((q) => {
+        for (const key of this.searchable()) {
+          q.orWhere(key, `%${params.search}%`)
+        }
+      })
     }
 
     if (params.sorts) {
@@ -104,7 +106,10 @@ export abstract class ModelResource<Model extends LucidModel = LucidModel> exten
     const fields = BaseResource.storage.run(this, () => this.fields())
 
     for (const field of fields) {
-      obj[field.$name] = field.$validator()
+      const validator = field.$validator()
+      if (validator) {
+        obj[field.$name] = validator
+      }
     }
 
     const validator = vine.compile(vine.object(obj))

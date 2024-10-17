@@ -1,5 +1,5 @@
 <script setup lang="ts">
-import type { Resource, ResourceRecord } from '../../../types'
+import type { Resource, ResourceRecord, ViaRelationship } from '../../../types'
 import ResourceService from '../../../services/resource_service'
 import Header from '../../ui/header.vue'
 import ResourceForm from '../../resource-form.vue'
@@ -9,10 +9,12 @@ import { useForm } from '../../../composables/form'
 import { useResource } from '../../../composables/resource'
 import Heading from '../../ui/heading.vue'
 import DeleteButton from '../buttons/delete-button.vue'
+import { computed } from 'vue'
 
 const props = defineProps<{
   resource?: Resource
   record: ResourceRecord
+  via?: ViaRelationship
 }>()
 
 const resource = useResource(props.resource)
@@ -29,9 +31,18 @@ function updateResource(data: ResourceRecord) {
   return resource.update({ id: props.record[resource.idKey], data })
 }
 
+const redirectUrl = computed(() => {
+  if (props.via) {
+    return ResourceService.makeUrl(props.via.resource, 'edit', props.via.value)
+  }
+
+  return ResourceService.makeUrl(resource.slug, 'index')
+})
+
 const handleSubmit = form.handleSubmit(async (data: ResourceRecord) => {
   await updateResource(data)
-  router.visit(ResourceService.makeUrl(resource.slug, 'index'), {
+
+  router.visit(redirectUrl.value, {
     onSuccess: () => resource.toasts.edited(),
   })
 })
@@ -51,7 +62,7 @@ const handleSubmitAndContinue = form.handleSubmit(async (data: ResourceRecord) =
   </Header>
   <ResourceForm :resource="resource" :initial-data="record" action="edit" @submit="handleSubmit">
     <template #actions>
-      <Button type="button" as="Link" text :href="resource.routes.index">Cancel</Button>
+      <Button type="button" as="Link" text :href="redirectUrl">Cancel</Button>
       <Button type="button" @click="handleSubmitAndContinue">Update & Continue Editing</Button>
       <Button type="submit">Update {{ resource.label }}</Button>
     </template>

@@ -1,20 +1,22 @@
 <script setup lang="ts">
 import type BelongsTo from '../../../../src/fields/belongs_to'
-import { computed, ref } from 'vue'
+import { computed, ref, toValue } from 'vue'
 import { useResourceApi } from '../../../composables/resource'
 import Select from 'primevue/select'
 import { useField } from '../../../composables/field'
 import InputText from 'primevue/inputtext'
 import { useFormValues } from 'vee-validate'
+import { useSearchParams } from '../../../composables/route'
+import { ViaRelationship } from '../../../types'
 
 defineOptions({
   inheritAttrs: false,
 })
 
 const filter = ref('')
-
+const params = useSearchParams<{ via?: ViaRelationship }>()
 const record = useFormValues()
-const { field, name, value, errorMessage, handleBlur } = useField<BelongsTo>()
+const { field, name, value, errorMessage, setValue, handleBlur } = useField<BelongsTo>()
 const { data, isLoading } = useResourceApi.list(field.resource.slug, { search: filter })
 
 const options = computed(() => {
@@ -25,6 +27,12 @@ const options = computed(() => {
   }
   return options
 })
+
+const isVia = params.via?.foreignKey === toValue(name)
+
+if (isVia) {
+  setValue(params.via?.value)
+}
 </script>
 
 <template>
@@ -38,6 +46,7 @@ const options = computed(() => {
       :option-label="field.resource.titleKey"
       :option-value="field.resource.idKey"
       :placeholder="`Select ${field.resource.name}`"
+      :disabled="isVia"
       v-bind="field.attributes"
       @blur="handleBlur"
     >
