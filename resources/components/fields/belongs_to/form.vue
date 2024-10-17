@@ -45,7 +45,7 @@ if (isVia) {
       :loading="isLoading"
       :option-label="field.resource.titleKey"
       :option-value="field.resource.idKey"
-      :placeholder="`Select ${field.resource.name}`"
+      :placeholder="`Select ${field.resource.label}`"
       :disabled="isVia"
       v-bind="field.attributes"
       @blur="handleBlur"

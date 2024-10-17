@@ -9,7 +9,6 @@ import ConfirmPopup from 'primevue/confirmpopup'
 import { Link } from '@inertiajs/vue3'
 import { MenuItem } from 'primevue/menuitem'
 import { provideResources } from '../composables/resources'
-import CreateDrawer from '../components/resource/drawers/create-drawer.vue'
 
 const props = defineProps<{
   breadcrumb: MenuItem[]
@@ -50,9 +49,7 @@ provideResources(props.resources)
         <template #separator><span class="font-bold"> / </span></template>
       </Breadcrumb>
       <div class="flex-1 flex flex-col min-h-0">
-        <CreateDrawer>
-          <slot />
-        </CreateDrawer>
+        <slot />
       </div>
     </div>
   </div>
