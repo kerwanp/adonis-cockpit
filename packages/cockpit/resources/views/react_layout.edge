@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title inertia>
+      Adonis Cockpit
+    </title>
+
+    @stack('dumper')
+    @viteReactRefresh()
+    @inertiaHead()
+    @vite(['inertia/app/cockpit.tsx', `inertia/pages/${page.component}.tsx`])
+  </head>
+
+  <body class="bg-background min-h-svh font-sans dark">
+    @inertia()
+  </body>
+
+</html>
+

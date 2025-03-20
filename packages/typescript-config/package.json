@@ -1,9 +1,12 @@
 {
-  "name": "@repo/typescript-config",
+  "name": "@adonis-cockpit/typescript-config",
   "version": "0.0.0",
   "private": true,
   "license": "MIT",
   "publishConfig": {
     "access": "public"
+  },
+  "dependencies": {
+    "@adonisjs/tsconfig": "^1.4.0"
   }
 }

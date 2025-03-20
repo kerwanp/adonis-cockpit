@@ -1,0 +1,9 @@
+{
+  "extends": "@adonis-cockpit/typescript-config/adonis.package.json",
+  "compilerOptions": {
+    "rootDir": "./",
+    "outDir": "./build",
+    "jsx": "preserve",
+    "resolveJsonModule": true
+  }
+}

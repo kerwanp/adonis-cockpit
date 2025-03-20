@@ -1,16 +1,14 @@
 {
-  "name": "@repo/eslint-config",
+  "name": "@adonis-cockpit/eslint-config",
   "version": "0.0.0",
   "type": "module",
   "private": true,
   "exports": {
-    "./base": "./base.js",
-    "./next-js": "./next.js",
-    "./react-internal": "./react-internal.js"
+    "./adonis.package": "./adonis.package.js"
   },
   "devDependencies": {
     "@eslint/js": "^9.22.0",
-    "@next/eslint-plugin-next": "^15.2.1",
+    "@next/eslint-plugin-next": "^15.2.3",
     "eslint": "^9.22.0",
     "eslint-config-prettier": "^10.1.1",
     "eslint-plugin-only-warn": "^1.1.0",
@@ -19,6 +17,9 @@
     "eslint-plugin-turbo": "^2.4.4",
     "globals": "^16.0.0",
     "typescript": "^5.8.2",
-    "typescript-eslint": "^8.26.0"
+    "typescript-eslint": "^8.26.1"
+  },
+  "dependencies": {
+    "@adonisjs/eslint-config": "^2.0.0"
   }
 }

@@ -1,5 +1,5 @@
 {
-  "name": "adonis-cockpit",
+  "name": "workspace",
   "private": true,
   "scripts": {
     "build": "turbo run build",
@@ -16,7 +16,7 @@
   "engines": {
     "node": ">=18"
   },
-  "packageManager": "yarn@1.22.22",
+  "packageManager": "yarn@4.7.0",
   "workspaces": [
     "apps/*",
     "packages/*"
