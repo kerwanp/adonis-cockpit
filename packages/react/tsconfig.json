@@ -3,7 +3,9 @@
   "compilerOptions": {
     "rootDir": "./",
     "outDir": "./build",
-    "jsx": "preserve",
-    "resolveJsonModule": true
+    "module": "ESNext",
+    "jsx": "react-jsx",
+    "moduleResolution": "bundler",
+    "lib": ["DOM", "ESNext", "DOM.Iterable", "ES2020"]
   }
 }

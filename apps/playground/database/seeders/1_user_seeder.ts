@@ -7,9 +7,10 @@ export default class UserSeeder extends BaseSeeder {
 
   async run(): Promise<void> {
     await User.create({
-      userName: 'admin',
-      email: 'admin@adonis-cockpit.com',
-      password: 'admin',
+      firstName: 'Demo',
+      lastName: 'Cockpit',
+      email: 'demo@adonis-cockpit.com',
+      password: 'password',
       isAdmin: true,
     })
 
@@ -20,9 +21,7 @@ export default class UserSeeder extends BaseSeeder {
   generate() {
     const firstName = faker.person.firstName()
     const lastName = faker.person.lastName()
-    const userName = faker.internet.username()
     return {
-      userName: userName,
       firstName: firstName,
       lastName: lastName,
       email: faker.internet.email({ firstName, lastName }),

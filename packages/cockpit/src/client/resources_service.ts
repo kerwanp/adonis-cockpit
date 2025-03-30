@@ -1,36 +1,44 @@
-import type { InferSerializable, RecordId } from "../types.js";
+import type {
+  InferSerializable,
+  RecordId,
+  ResourceListParams,
+} from "../types.js";
 import type { SimplePaginator } from "@adonisjs/lucid/database";
 import ky from "ky";
+import qs from "qs";
 
-export type ListParams = {};
 type ListReturn = InferSerializable<SimplePaginator>;
 
 const client = ky.create();
 
 export class ResourceService {
-  static async list(name: string, params: ListParams) {
-    return client.get<ListReturn>(`/admin/api/resources/${name}`, {
-      searchParams: params,
+  static async list(resource: string, params: ResourceListParams) {
+    return client.get<ListReturn>(`/admin/api/resources/${resource}`, {
+      searchParams: qs.stringify(params),
     });
   }
 
-  static async retrieve(slug: string, id: RecordId) {
-    return client.get(`/admin/api/${slug}/${id}`);
+  static async retrieve(resource: string, id: RecordId) {
+    return client.get<Record<string, any>>(
+      `/admin/api/resources/${resource}/${id}`,
+    );
   }
 
-  static async create(name: string, data: any) {
-    return client.post(`/admin/api/${name}`, { body: data });
+  static async create(resource: string, data: any) {
+    return client.post(`/admin/api/resources/${resource}`, { json: { data } });
   }
 
-  static async update(slug: string, id: RecordId, data: any) {
-    return client.put(`/admin/api/${slug}/${id}`, { body: data });
+  static async update(resource: string, id: RecordId, data: any) {
+    return client.put(`/admin/api/resources/${resource}/${id}`, {
+      json: { data },
+    });
   }
 
   static async delete(name: string, id: RecordId) {
-    return client.delete(`/admin/api/${name}/${id}`);
+    return client.delete(`/admin/api/resources/${name}/${id}`);
   }
 
-  static async action(slug: string, action: string, ids: RecordId[]) {
+  static async action(slug: string, action: string, _ids: RecordId[]) {
     return client.post(`/admin/api/${slug}/actions/${action}`);
   }
 

@@ -1,13 +1,10 @@
-import { Field } from "./field.js";
+import { TextField } from "./text.js";
 
-export class Url extends Field<string> {
-  $defaultValue = "";
+export class UrlField extends TextField {
+  protected $icon = "fas fa-link";
 
-  public static make<T extends Url>(
-    this: new (name: string) => T,
-    name: string,
-  ): T {
-    const self = new this(name);
-    return self;
+  constructor(name: string) {
+    super(name);
+    this.type("url");
   }
 }

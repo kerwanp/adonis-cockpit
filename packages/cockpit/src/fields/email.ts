@@ -1,13 +1,8 @@
-import { Field } from "./field.js";
+import { TextField } from "./text.js";
 
-export class Email extends Field<string> {
-  $defaultValue = "";
-
-  public static make<T extends Email>(
-    this: new (name: string) => T,
-    name: string,
-  ): T {
-    const self = new this(name);
-    return self;
+export class EmailField extends TextField {
+  constructor(name: string) {
+    super(name);
+    this.type("email");
   }
 }

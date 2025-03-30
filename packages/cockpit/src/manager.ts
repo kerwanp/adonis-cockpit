@@ -4,18 +4,26 @@ import { RoutesManager } from "./routes/manager.js";
 import { errors } from "./errors/index.js";
 import { Constructor } from "type-fest";
 import { BaseResource } from "./resources/base_resource.js";
+import { Menu } from "./menu/menu.js";
+import { HttpContext, RouteGroup } from "@adonisjs/core/http";
+import { ResolvedConfig } from "./types.js";
 
 export default class CockpitManager {
   $resourcesManager: ResourcesManager;
   $routesManager: RoutesManager;
 
-  constructor(router: HttpRouterService) {
+  protected config: ResolvedConfig;
+
+  sidebar = new Menu();
+
+  constructor(router: HttpRouterService, config: ResolvedConfig) {
     this.$routesManager = new RoutesManager(router);
     this.$resourcesManager = new ResourcesManager();
+    this.config = config;
   }
 
-  registerRoutes() {
-    this.$routesManager.registerRoutes();
+  registerRoutes(modifier?: (group: RouteGroup) => void) {
+    return this.$routesManager.registerRoutes(modifier);
   }
 
   resources(...resources: Constructor<BaseResource>[]) {
@@ -36,5 +44,29 @@ export default class CockpitManager {
     }
 
     return resource;
+  }
+
+  getUser(ctx: HttpContext) {
+    return this.config.auth.user?.(ctx);
+  }
+
+  getMenu() {
+    // if (!this.#menuBuilder) {
+    //   menu.item("Home").icon("pi pi-home").route("cockpit.home");
+    //   menu.category("Resources", (category) => {
+    //     for (const resource of Object.values(
+    //       this.$resourcesManager.resources,
+    //     )) {
+    //       category.resource(resource);
+    //     }
+    //   });
+    //   return menu;
+    // }
+
+    // const menu = new Menu();
+
+    // MenuStorage.run(menu, () => this.#menuBuilder!(menu));
+
+    return this.sidebar.toJSON();
   }
 }

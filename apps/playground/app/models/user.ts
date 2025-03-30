@@ -7,7 +7,7 @@ import type { HasMany } from '@adonisjs/lucid/types/relations'
 import Post from './post.js'
 
 const AuthFinder = withAuthFinder(() => hash.use('scrypt'), {
-  uids: ['userName'],
+  uids: ['email'],
   passwordColumnName: 'password',
 })
 
@@ -20,9 +20,6 @@ export default class User extends compose(BaseModel, AuthFinder) {
 
   @column()
   declare lastName: string | null
-
-  @column()
-  declare userName: string
 
   @column()
   declare email: string

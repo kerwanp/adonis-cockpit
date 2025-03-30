@@ -1,13 +1,10 @@
-import { Field } from "./field.js";
+import { TextField } from "./text.js";
 
-export class Id extends Field<string> {
-  $defaultValue = "";
+export class IdField extends TextField {
+  protected $icon = "fas fa-fingerprint";
 
-  public static make<T extends Id>(
-    this: new (name: string) => T,
-    name: string,
-  ): T {
-    const self = new this(name);
-    return self;
+  constructor(name: string) {
+    super(name);
+    this.disabled();
   }
 }

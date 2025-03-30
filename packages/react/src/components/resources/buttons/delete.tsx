@@ -6,36 +6,28 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "../../ui/dialog.jsx";
+} from "../../ui/dialog.js";
 import { useState } from "react";
-import { useResource } from "../../../providers/resource.jsx";
-import { useRecord } from "../../../providers/record.jsx";
-import { Button, ButtonProps } from "../../ui/button.jsx";
+import { Button, ButtonProps } from "../../ui/button.js";
+import { useResourceDelete } from "../../../hooks/resources.js";
+import { useRecord } from "../../../providers/record.js";
+import { useResource } from "../../../providers/resource.js";
 
-export const DeleteButton = (
-  {
-    ref,
-    children,
-    ...props
-  }: ButtonProps & {
-    ref: React.RefObject<HTMLButtonElement>;
-  }
-) => {
-  const { resource } = useResource();
-  const { record } = useRecord();
-
+export const DeleteButton = ({ children, ...props }: ButtonProps) => {
   const [open, setOpen] = useState(false);
+  const { record } = useRecord();
+  const { resource } = useResource();
+  const { mutate } = useResourceDelete();
 
   async function handleDelete() {
     setOpen(false);
+    await mutate({ id: record[resource.idKey] });
   }
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
-        <Button {...props} ref={ref}>
-          {children ?? "Delete"}
-        </Button>
+        <Button {...props}>{children ?? "Delete"}</Button>
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>

@@ -1,0 +1,8 @@
+{{{ exports({ to: app.startPath('cockpit.ts') }) }}}
+import cockpit from 'adonis-cockpit/services/main'
+
+cockpit.sidebar.content((menu) => {
+  menu.group((group) => {
+    group.item('Dashboard').icon('fa-solid fa-house').route('cockpit.home')
+  })
+})

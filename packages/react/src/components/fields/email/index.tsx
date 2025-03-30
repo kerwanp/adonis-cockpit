@@ -1,7 +1,9 @@
+import { EmailField } from "adonis-cockpit/fields";
 import { defineField } from "../../../define_field.js";
+import { CockpitText } from "../text/index.js";
 
-export const CockpitEmail = defineField({
-  name: "Email",
+export const CockpitEmail = defineField<EmailField>({
+  name: "EmailField",
   index: (t) => {
     return (
       <a
@@ -14,4 +16,5 @@ export const CockpitEmail = defineField({
       </a>
     );
   },
+  form: (props) => CockpitText.form(props),
 });

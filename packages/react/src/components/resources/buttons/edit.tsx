@@ -1,25 +1,16 @@
 import { Link } from "@inertiajs/react";
-import { useResource } from "../../../providers/resource.jsx";
-import { Button, ButtonProps } from "../../ui/button.jsx";
-import { useRecord } from "../../../providers/record.jsx";
+import { useResource } from "../../../providers/resource.js";
+import { Button, ButtonProps } from "../../ui/button.js";
+import { useRecord } from "../../../providers/record.js";
 
-export const EditButton = (
-  {
-    ref,
-    children,
-    ...props
-  }: ButtonProps & {
-    ref: React.RefObject<HTMLButtonElement>;
-  }
-) => {
+export const EditButton = ({ children, ...props }: ButtonProps) => {
   const { resource } = useResource();
   const { record } = useRecord();
 
-  // TODO: Use url builder
-  const url = `/admin/resources/${resource.name}/${record[resource.idKey]}/edit`;
+  const url = `${resource.route}/${record[resource.idKey]}/edit`;
 
   return (
-    <Button asChild {...props} ref={ref}>
+    <Button asChild {...props}>
       <Link href={url}>{children ?? "Edit"}</Link>
     </Button>
   );

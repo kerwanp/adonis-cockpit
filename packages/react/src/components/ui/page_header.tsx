@@ -6,9 +6,9 @@ import {
   BreadcrumbList,
   BreadcrumbPage,
   BreadcrumbSeparator,
-} from "./breadcrumb.jsx";
-import { SidebarTrigger } from "./navbar.jsx";
-import { Separator } from "./separator.jsx";
+} from "./breadcrumb.js";
+import { SidebarTrigger } from "./navbar.js";
+import { Separator } from "./separator.js";
 import { BreadcrumbItem as BreadcrumbItemData } from "../../../src/types.js";
 import { Fragment } from "react";
 
@@ -36,7 +36,13 @@ export const PageHeader = ({
               <Fragment key={i}>
                 <BreadcrumbSeparator />
                 <BreadcrumbItem>
-                  <BreadcrumbPage>{item.label}</BreadcrumbPage>
+                  {item.url ? (
+                    <BreadcrumbLink asChild>
+                      <Link href={item.url}>{item.label}</Link>
+                    </BreadcrumbLink>
+                  ) : (
+                    <BreadcrumbPage>{item.label}</BreadcrumbPage>
+                  )}
                 </BreadcrumbItem>
               </Fragment>
             ))}

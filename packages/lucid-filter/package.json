@@ -1,0 +1,94 @@
+{
+  "name": "@adonis-cockpit/lucid-filter",
+  "description": "Additional drivers for @adonisjs/ally package",
+  "version": "0.0.0",
+  "engines": {
+    "node": ">=20.6.0"
+  },
+  "type": "module",
+  "files": [
+    "build",
+    "!build/bin",
+    "!build/tests"
+  ],
+  "exports": {
+    ".": "./build/index.js",
+    "./types": "./build/types.d.ts"
+  },
+  "scripts": {
+    "clean": "del-cli build",
+    "copy:templates": "copyfiles -V \"stubs/**/*.stub\" \"resources/**/*.edge\" build",
+    "index:commands": "adonis-kit index build/commands",
+    "typecheck": "tsc --noEmit",
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "quick:test": "node --import=./tsnode.esm.js --enable-source-maps bin/test.ts",
+    "test": "c8 yarn quick:test",
+    "prebuild": "yarn clean",
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "version": "yarn build"
+  },
+  "keywords": [
+    "adonis",
+    "adonisjs",
+    "ally",
+    "oidc",
+    "authentik"
+  ],
+  "author": {
+    "name": "Martin Paucot",
+    "email": "contact@martin-paucot.fr"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/FriendsOfAdonis/FriendsOfAdonis",
+    "directory": "packages/ally-extra"
+  },
+  "bugs": {
+    "url": "https://github.com/FriendsOfAdonis/FriendsOfAdonis/issues"
+  },
+  "homepage": "https://friendsofadonis.com/docs/ally-extra",
+  "license": "MIT",
+  "devDependencies": {
+    "@adonis-cockpit/eslint-config": "workspace:*",
+    "@adonis-cockpit/typescript-config": "workspace:*",
+    "@adonisjs/assembler": "^7.8.2",
+    "@adonisjs/core": "^6.17.2",
+    "@adonisjs/lucid": "^21.6.1",
+    "@japa/assert": "^4.0.1",
+    "@japa/expect-type": "^2.0.3",
+    "@japa/file-system": "^2.3.2",
+    "@japa/plugin-adonisjs": "^4.0.0",
+    "@japa/runner": "^4.2.0",
+    "@swc/core": "1.11.13",
+    "@types/node": "^22.13.14",
+    "c8": "^10.1.3",
+    "copyfiles": "^2.4.1",
+    "del-cli": "^6.0.0",
+    "prettier": "^3.5.3",
+    "reflect-metadata": "^0.2.2",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.2"
+  },
+  "peerDependencies": {
+    "@adonisjs/core": "^6.2.0",
+    "@adonisjs/lucid": "^21.6.1"
+  },
+  "publishConfig": {
+    "access": "public",
+    "tag": "latest"
+  },
+  "c8": {
+    "reporter": [
+      "text",
+      "html"
+    ],
+    "exclude": [
+      "tests/**"
+    ]
+  },
+  "dependencies": {
+    "@vinejs/vine": "^3.0.1"
+  }
+}

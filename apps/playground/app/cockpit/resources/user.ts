@@ -1,17 +1,32 @@
+/* eslint-disable @typescript-eslint/no-shadow */
 import User from '#models/user'
-import { ModelResource } from 'adonis-cockpit'
-import { Email, Id, Text, Boolean } from 'adonis-cockpit/fields'
+import { LucidResource } from 'adonis-cockpit'
+import { BaseLayout, LayoutBuilder } from 'adonis-cockpit/fields'
 
-export default class UserResource extends ModelResource {
-  model = User
+export default class UserResource extends LucidResource(User) {
+  icon(): string {
+    return 'fa fa-users'
+  }
 
-  fields() {
+  searchKeys(): string[] {
+    return ['id', 'email', 'firstName', 'lastName']
+  }
+
+  fields(form: LayoutBuilder<User>): BaseLayout[] {
     return [
-      Id.make('id'),
-      Text.make('firstName'),
-      Text.make('lastName'),
-      Email.make('email'),
-      Boolean.make('isAdmin'),
+      form
+        .panel((form) => {
+          form.id('id')
+          form
+            .email('email')
+            .required()
+            .placeholder('john.doe@example.org')
+            .hint('Put the email here Lois')
+          form.text('firstName').required().placeholder('John')
+          form.text('lastName').required().placeholder('Doe')
+          form.boolean('isAdmin')
+        })
+        .title('General'),
     ]
   }
 }

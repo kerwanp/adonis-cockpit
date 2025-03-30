@@ -2,7 +2,7 @@ import { createContext, PropsWithChildren } from "react";
 import { InferSerializable } from "adonis-cockpit/types";
 import { BaseResource } from "adonis-cockpit";
 import { useSafeContext } from "../hooks/use_safe_context.js";
-import { useApp } from "./app.jsx";
+import { useApp } from "./app.js";
 
 type State = {
   resource: InferSerializable<BaseResource>;
@@ -22,7 +22,13 @@ const ResourceProvider = ({
   return <Context.Provider value={{ resource }}>{children}</Context.Provider>;
 };
 
-function useResource() {
+function useResource(name?: string) {
+  const { resources } = useApp();
+
+  if (name) {
+    return { resource: resources[name] }; // TODO:: Throw error if not found
+  }
+
   return useSafeContext(Context, "Resource");
 }
 

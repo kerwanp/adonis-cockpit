@@ -1,13 +1,23 @@
-import { Field } from "./field.js";
+import { BaseField } from "./base.js";
 
-export class Boolean extends Field<boolean> {
-  $defaultValue = false;
+export class BooleanField extends BaseField {
+  constructor(name: string) {
+    super(name, false);
+  }
 
-  public static make<T extends Boolean>(
-    this: new (name: string) => T,
-    name: string,
-  ): T {
-    const self = new this(name);
-    return self;
+  /**
+   * Defines the field as disabled.
+   */
+  disabled(value = true) {
+    this.attributes["disabled"] = value;
+    return this;
+  }
+
+  /**
+   * Marks this field as required.
+   */
+  required(value = true): this {
+    this.attributes["required"] = value;
+    return this;
   }
 }

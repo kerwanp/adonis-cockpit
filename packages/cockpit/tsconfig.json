@@ -3,7 +3,7 @@
   "compilerOptions": {
     "rootDir": "./",
     "outDir": "./build",
-    "jsx": "preserve",
-    "resolveJsonModule": true
+    "resolveJsonModule": true,
+    "stripInternal": true
   }
 }

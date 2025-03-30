@@ -1,6 +1,5 @@
 import { flexRender, Table as TSTable } from "@tanstack/react-table";
-import { useResourceTable } from "../../hooks/use_resource_table.jsx";
-import { columns } from "../ui/data-table.jsx";
+import { useResourceTable } from "../../hooks/use_resource_table.js";
 import {
   Table,
   TableBody,
@@ -8,8 +7,8 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from "../ui/table.jsx";
-import { ChevronsLeft, ChevronsRight } from "lucide-react";
+} from "../ui/table.js";
+import { ChevronsLeft, ChevronsRight, Search } from "lucide-react";
 import {
   Pagination,
   PaginationContent,
@@ -17,65 +16,127 @@ import {
   PaginationItem,
   PaginationPrevious,
   PaginationNext,
-} from "../ui/pagination.jsx";
+} from "../ui/pagination.js";
 import {
   Select,
   SelectContent,
   SelectItem,
   SelectTrigger,
   SelectValue,
-} from "../ui/select.jsx";
-import { RecordProvider } from "../../providers/record.jsx";
+} from "../ui/select.js";
+import { RecordProvider } from "../../providers/record.js";
+import { ComponentProps, useEffect, useRef } from "react";
+import { cn } from "../../utils/cn.js";
+import { Input } from "../ui/input.js";
+import { useTableNavigation } from "../../hooks/use_table_navigation.js";
+import { router } from "@inertiajs/react";
+import { useResource } from "../../providers/resource.js";
+import { useCommand } from "../../providers/command.js";
 
-export const ResourceTable = () => {
-  const table = useResourceTable();
+export const ResourceTable = ({
+  options = {},
+  className,
+  ...props
+}: ComponentProps<"div"> & {
+  options?: Parameters<typeof useResourceTable>[0];
+}) => {
+  const tableRef = useRef<HTMLTableElement>(null);
+  const inputRef = useRef<HTMLInputElement>(null);
+  const command = useCommand();
+  const { resource } = useResource();
+  const { table, query, setQuery } = useResourceTable(options);
+  const { getRowProps } = useTableNavigation({
+    table,
+    tableRef,
+    inputRef,
+    onKeyDown: (e, row) => {
+      if (e.key === "Enter") {
+        router.visit(`/admin/resources/${resource.name}/${row.id}/edit`);
+      }
+    },
+  });
+
+  useEffect(() => {
+    command.updateCommands({
+      icon: Search,
+      label: `Search ${resource.name}`,
+      onSelect: () => {
+        // NOTE: Run on next tick, because i dont know. Dont touch it
+        setTimeout(() => inputRef.current?.focus(), 0);
+      },
+      group: "page-actions",
+    });
+  }, []);
+
   return (
-    <div className="rounded-lg border overflow-hidden grow min-h-0 flex flex-col justify-between">
-      <Table>
-        <TableHeader className="bg-muted sticky top-0">
-          {table.getHeaderGroups().map((headerGroup) => (
-            <TableRow key={headerGroup.id}>
-              {headerGroup.headers.map((header) => {
-                return (
-                  <TableHead key={header.id}>
-                    {header.isPlaceholder
-                      ? null
-                      : flexRender(
-                          header.column.columnDef.header,
-                          header.getContext(),
+    <div
+      className={cn("rounded-lg border grow min-h-0 flex flex-col", className)}
+      {...props}
+    >
+      <div className="flex justify-between p-4">
+        <div></div>
+        <div>
+          <Input
+            ref={inputRef}
+            value={query}
+            onChange={(e) => setQuery(e.target.value)}
+            placeholder="Search..."
+          />
+        </div>
+        {/* <Filters properties={resourceToFilterProperties(resource)} /> */}
+      </div>
+      <div className="grow min-h-0 flex flex-col justify-between">
+        <Table autoFocus ref={tableRef} tabIndex={0}>
+          <TableHeader className="bg-muted sticky top-0">
+            {table.getHeaderGroups().map((headerGroup) => (
+              <TableRow key={headerGroup.id}>
+                {headerGroup.headers.map((header) => {
+                  return (
+                    <TableHead key={header.id}>
+                      {header.isPlaceholder
+                        ? null
+                        : flexRender(
+                            header.column.columnDef.header,
+                            header.getContext(),
+                          )}
+                    </TableHead>
+                  );
+                })}
+              </TableRow>
+            ))}
+          </TableHeader>
+          <TableBody>
+            {table.getRowModel().rows?.length ? (
+              table.getRowModel().rows.map((row) => (
+                <RecordProvider key={row.id} record={row.original}>
+                  <TableRow
+                    tabIndex={0}
+                    data-state={row.getIsSelected() && "selected"}
+                    className="focus:bg-muted/50 focus:outline-none"
+                    {...getRowProps(row.id)}
+                  >
+                    {row.getVisibleCells().map((cell) => (
+                      <TableCell key={cell.id}>
+                        {flexRender(
+                          cell.column.columnDef.cell,
+                          cell.getContext(),
                         )}
-                  </TableHead>
-                );
-              })}
-            </TableRow>
-          ))}
-        </TableHeader>
-        <TableBody>
-          {table.getRowModel().rows?.length ? (
-            table.getRowModel().rows.map((row) => (
-              <RecordProvider key={row.id} record={row.original}>
-                <TableRow data-state={row.getIsSelected() && "selected"}>
-                  {row.getVisibleCells().map((cell) => (
-                    <TableCell key={cell.id}>
-                      {flexRender(
-                        cell.column.columnDef.cell,
-                        cell.getContext(),
-                      )}
-                    </TableCell>
-                  ))}
-                </TableRow>
-              </RecordProvider>
-            ))
-          ) : (
-            <TableRow>
-              <TableCell colSpan={columns.length} className="h-24 text-center">
-                No results.
-              </TableCell>
-            </TableRow>
-          )}
-        </TableBody>
-      </Table>
-      <TablePagination table={table} />
+                      </TableCell>
+                    ))}
+                  </TableRow>
+                </RecordProvider>
+              ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={12} className="h-24 text-center">
+                  No results.
+                </TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+        <TablePagination table={table} />
+      </div>
     </div>
   );
 };

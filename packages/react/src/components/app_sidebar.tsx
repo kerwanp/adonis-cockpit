@@ -1,92 +1,34 @@
-import { Home, Package, Shirt, Tag, User } from "lucide-react";
 import {
   Sidebar,
   SidebarContent,
   SidebarFooter,
-  SidebarGroup,
-  SidebarGroupContent,
-  SidebarGroupLabel,
   SidebarHeader,
-  SidebarMenu,
-  SidebarMenuButton,
-  SidebarMenuItem,
-} from "./ui/navbar.jsx";
-import { NavUser } from "./nav_user.jsx";
-import { Link } from "@inertiajs/react";
+} from "./ui/navbar.js";
+import { NavUser } from "./nav_user.js";
+import { AppMenu } from "./menu/menu.js";
+import { InferSerializable, User } from "adonis-cockpit/types";
+import { Menu } from "adonis-cockpit/menu";
 
-export const AppSidebar = () => {
+export const AppSidebar = ({
+  menu,
+  user,
+}: {
+  menu: InferSerializable<Menu>;
+  user: User;
+}) => {
   return (
-    <Sidebar collapsible="offcanvas" variant="inset">
+    <Sidebar collapsible="icon" variant="inset">
       <SidebarHeader>
         <div className="p-4">
           <img src="https://adonis-cockpit.com/logo-horizontal.png" />
         </div>
       </SidebarHeader>
       <SidebarContent>
-        <SidebarGroup>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link href="/admin">
-                    <Home />
-                    Dashboard
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
-        <SidebarGroup>
-          <SidebarGroupLabel>Resources</SidebarGroupLabel>
-          <SidebarGroupContent>
-            <SidebarMenu>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link href="/admin/resources/users">
-                    <User />
-                    Users
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton asChild>
-                  <Link href="/admin/resources/brands">
-                    <User />
-                    Brands
-                  </Link>
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton>
-                  <Tag />
-                  Categories
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton>
-                  <Package />
-                  Orders
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-              <SidebarMenuItem>
-                <SidebarMenuButton>
-                  <Shirt />
-                  Products
-                </SidebarMenuButton>
-              </SidebarMenuItem>
-            </SidebarMenu>
-          </SidebarGroupContent>
-        </SidebarGroup>
+        <AppMenu items={menu.content} />
       </SidebarContent>
       <SidebarFooter>
-        <NavUser
-          user={{
-            name: "John Doe",
-            email: "contact@adonis-cockpit.com",
-            avatar: "/avatars/shadcn.jpg",
-          }}
-        />
+        <AppMenu items={menu.footer} />
+        <NavUser user={user} />
       </SidebarFooter>
     </Sidebar>
   );

@@ -10,8 +10,7 @@ export default class extends BaseSchema {
       table.string('first_name')
       table.string('last_name')
 
-      table.string('user_name').unique().notNullable()
-      table.string('email').unique().notNullable()
+      table.string('email', 254).unique().notNullable()
       table.boolean('newsletter').defaultTo(false)
 
       table.jsonb('roles').defaultTo([])

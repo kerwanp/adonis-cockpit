@@ -1,0 +1,16 @@
+{{{
+  exports({
+    to: resourcePath
+  })
+}}}
+import { LucidResource } from 'adonis-cockpit'
+import { LayoutBuilder, BaseLayout } from 'adonis-cockpit/fields'
+import {{ modelName }} from '{{ modelPath }}'
+
+export default class {{ resourceName }} extends LucidResource({{ modelName }}) {
+  fields(form: LayoutBuilder<User>): BaseLayout[] {
+    return [
+      form.panel((form) => [\n{{ fields }}\n      ])
+    ]
+  }
+}

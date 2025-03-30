@@ -1,7 +1,7 @@
 /// <reference types="@adonisjs/inertia/inertia_middleware" />
 
 import { HttpRouterService } from "@adonisjs/core/types";
-import { cockpitMiddleware } from "../middleware.js";
+import { RouteGroup } from "@adonisjs/core/http";
 
 const CockpitController = () => import("../controllers/cockpit_controller.js");
 const ResourcesController = () =>
@@ -17,17 +17,18 @@ export class RoutesManager {
     this.#router = router;
   }
 
-  registerRoutes() {
+  registerRoutes(modifier?: (group: RouteGroup) => void) {
     const router = this.#router;
-    router
+    const route = router
       .group(() => {
         this.#registerBaseRoutes();
         this.#registerResourceRoutes();
         this.#registerApiRoutes();
       })
-      .use(cockpitMiddleware)
       .prefix("/admin")
       .as("cockpit");
+
+    modifier?.(route);
   }
 
   #registerBaseRoutes() {
@@ -41,9 +42,9 @@ export class RoutesManager {
     router
       .group(() => {
         router.get("/", [ResourcesController, "index"]).as("index");
-        // router.get("/create", [ResourcesController, "create"]).as("create");
+        router.get("/create", [ResourcesController, "create"]).as("create");
         // router.get("/:resource", [ResourcesController, "detail"]).as("detail");
-        // router.get("/:resouce/edit", [ResourcesController, "edit"]).as("edit");
+        router.get("/:record/edit", [ResourcesController, "edit"]).as("edit");
       })
       .prefix("/resources/:resource")
       .as("resources");
@@ -57,8 +58,16 @@ export class RoutesManager {
         router
           .group(() => {
             router.get("/", [ApiResourcesController, "index"]).as("index");
-            // router.get("/create", [ResourcesController, "create"]).as("create");
-            // router.get("/:resource", [ResourcesController, "detail"]).as("detail");
+            router.post("/", [ApiResourcesController, "create"]).as("create");
+            router
+              .get("/:record", [ApiResourcesController, "retrieve"])
+              .as("retrieve");
+            router
+              .put("/:record", [ApiResourcesController, "update"])
+              .as("update");
+            router
+              .delete("/:record", [ApiResourcesController, "delete"])
+              .as("delete");
             // router.get("/:resouce/edit", [ResourcesController, "edit"]).as("edit");
           })
           .prefix("/resources/:resource")

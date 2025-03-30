@@ -1,5 +1,9 @@
 import { ApplicationService } from "@adonisjs/core/types";
 import CockpitManager from "../src/manager.js";
+import { CockpitConfig, ResolvedConfig } from "../src/types.js";
+import { configProvider } from "@adonisjs/core";
+import { RuntimeException } from "@adonisjs/core/exceptions";
+import "../src/extensions.js";
 
 export default class CockpitProvider {
   constructor(protected app: ApplicationService) {}
@@ -7,7 +11,20 @@ export default class CockpitProvider {
   register() {
     this.app.container.singleton(CockpitManager, async (container) => {
       const router = await container.make("router");
-      return new CockpitManager(router);
+      const cockpitConfigProvider =
+        this.app.config.get<CockpitConfig>("cockpit");
+      const config = await configProvider.resolve<ResolvedConfig>(
+        this.app,
+        cockpitConfigProvider,
+      );
+
+      if (!config) {
+        throw new RuntimeException(
+          'Invalid "config/cockpit.ts" file. Make sure you are using the "defineConfig" method',
+        );
+      }
+
+      return new CockpitManager(router, config);
     });
   }
 

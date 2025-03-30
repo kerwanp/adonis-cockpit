@@ -12,14 +12,16 @@
     "!build/tests"
   ],
   "exports": {
-    ".": "./build/index.mjs",
-    "./fields": "./build/fields/main.mjs",
-    "./client": "./build/client/main.mjs",
-    "./commands": "./build/commands/main.mjs",
-    "./services/main": "./build/services/main.mjs",
-    "./providers/cockpit_provider": "./build/providers/cockpit_provider.mjs",
-    "./plugins/inertia": "./build/plugins/inertia/main.mjs",
-    "./types": "./build/types.d.ts"
+    ".": "./build/index.js",
+    "./fields": "./build/src/fields/main.js",
+    "./menu": "./build/src/menu/main.js",
+    "./client": "./build/src/client/main.js",
+    "./plugins/inertia": "./build/src/plugins/inertia/main.js",
+    "./commands": "./build/commands/main.js",
+    "./services/main": "./build/services/main.js",
+    "./cockpit_provider": "./build/providers/cockpit_provider.js",
+    "./cockpit_middleware": "./build/src/middleware.js",
+    "./types": "./build/src/types.d.ts"
   },
   "scripts": {
     "clean": "del-cli build",
@@ -31,8 +33,8 @@
     "quick:test": "node --import=./tsnode.esm.js --enable-source-maps bin/test.ts",
     "test": "c8 yarn quick:test",
     "prebuild": "yarn clean",
-    "build": "unbuild",
-    "dev": "unbuild --watch",
+    "build": "tsc",
+    "dev": "tsc --watch",
     "version": "yarn build"
   },
   "keywords": [
@@ -62,13 +64,15 @@
     "@adonisjs/assembler": "^7.8.2",
     "@adonisjs/core": "^6.17.2",
     "@adonisjs/inertia": "^3.1.1",
+    "@adonisjs/lucid": "^21.6.1",
     "@japa/assert": "^4.0.1",
     "@japa/expect-type": "^2.0.3",
     "@japa/file-system": "^2.3.2",
     "@japa/plugin-adonisjs": "^4.0.0",
     "@japa/runner": "^4.2.0",
-    "@swc/core": "1.11.11",
-    "@types/node": "^22.13.10",
+    "@swc/core": "1.11.13",
+    "@types/node": "^22.13.14",
+    "@types/qs": "^6.9.18",
     "c8": "^10.1.3",
     "copyfiles": "^2.4.1",
     "del-cli": "^6.0.0",
@@ -76,12 +80,12 @@
     "prettier": "^3.5.3",
     "reflect-metadata": "^0.2.2",
     "ts-node": "^10.9.2",
-    "typescript": "^5.8.2",
-    "unbuild": "^3.5.0"
+    "typescript": "^5.8.2"
   },
   "peerDependencies": {
     "@adonisjs/core": "^6.2.0",
-    "@adonisjs/inertia": "^3.1.1"
+    "@adonisjs/inertia": "^3.1.1",
+    "@adonisjs/lucid": "^21.6.1"
   },
   "publishConfig": {
     "access": "public",
@@ -97,9 +101,15 @@
     ]
   },
   "dependencies": {
-    "@adonisjs/lucid": "^21.6.1",
+    "@adonis-cockpit/lucid-filter": "workspace:*",
+    "@adonis-cockpit/lucid-infer": "workspace:*",
+    "@clack/prompts": "^0.10.0",
+    "@poppinss/macroable": "^1.0.4",
     "@vinejs/vine": "^3.0.1",
+    "adonis-lucid-filter": "^5.2.0",
     "ky": "^1.7.5",
-    "type-fest": "^4.37.0"
+    "pkg-types": "^2.1.0",
+    "qs": "^6.14.0",
+    "type-fest": "^4.38.0"
   }
 }
