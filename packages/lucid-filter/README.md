@@ -1,34 +1,25 @@
 <div align="center">
 <br/>
 
-## @foadonis/ally-extra
+## @adonis-cockpit/lucid-filter
 
-### Additional drivers for @adonisjs/ally package
+### A Lucid utility package to apply filters and sorts to your query builders
 
 <br/>
 </div>
 
 <div align="center">
 
-<!-- automd:badges color="brightgreen" license name="@foadonis/ally-extra" bundlephobia packagephobia -->
+<!-- automd:badges color="brightgreen" license name="@adonis-cockpit/lucid-filter" bundlephobia packagephobia -->
 
-[![npm version](https://img.shields.io/npm/v/@foadonis/ally-extra?color=brightgreen)](https://npmjs.com/package/@foadonis/ally-extra)
-[![npm downloads](https://img.shields.io/npm/dm/@foadonis/ally-extra?color=brightgreen)](https://npm.chart.dev/@foadonis/ally-extra)
-[![bundle size](https://img.shields.io/bundlephobia/minzip/@foadonis/ally-extra?color=brightgreen)](https://bundlephobia.com/package/@foadonis/ally-extra)
-
-<!-- /automd -->
-
-<!-- automd:coverage -->
-
-![Coverage](https://img.shields.io/badge/coverage-0%25-red)
+[![npm version](https://img.shields.io/npm/v/@adonis-cockpit/lucid-filter?color=brightgreen)](https://npmjs.com/package/@adonis-cockpit/lucid-filter)
+[![npm downloads](https://img.shields.io/npm/dm/@adonis-cockpit/lucid-filter?color=brightgreen)](https://npm.chart.dev/@adonis-cockpit/lucid-filter)
+[![bundle size](https://img.shields.io/bundlephobia/minzip/@adonis-cockpit/lucid-filter?color=brightgreen)](https://bundlephobia.com/package/@adonis-cockpit/lucid-filter)
+[![install size](https://badgen.net/packagephobia/install/@adonis-cockpit/lucid-filter?color=brightgreen)](https://packagephobia.com/result?p=@adonis-cockpit/lucid-filter)
 
 <!-- /automd -->
 
 </div>
-
-## Quickstart
-
-[Installation & Getting Started](https://friendsofadonis.github.io/docs/ally-extra/getting-started)
 
 ## License
 

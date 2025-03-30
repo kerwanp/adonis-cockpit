@@ -4,14 +4,12 @@
   "scripts": {
     "build": "turbo run build",
     "dev": "turbo run dev --filter='./packages/*'",
+    "play": "turbo run dev",
     "lint": "turbo run lint",
     "format": "prettier --write \"**/*.{ts,tsx,md}\"",
-    "check-types": "turbo run check-types"
-  },
-  "devDependencies": {
-    "prettier": "^3.5.3",
-    "turbo": "^2.4.4",
-    "typescript": "5.8.2"
+    "check-types": "turbo run check-types",
+    "automd": "automd",
+    "manypkg": "manypkg"
   },
   "engines": {
     "node": ">=18"
@@ -20,5 +18,13 @@
   "workspaces": [
     "apps/*",
     "packages/*"
-  ]
+  ],
+  "devDependencies": {
+    "@changesets/cli": "^2.28.1",
+    "@manypkg/cli": "^0.23.0",
+    "automd": "^0.4.0",
+    "prettier": "^3.5.3",
+    "turbo": "^2.4.4",
+    "typescript": "^5.8.2"
+  }
 }

@@ -6,7 +6,6 @@ import { AppProvider } from "../providers/app.js";
 import { Toaster } from "../components/ui/sonner.js";
 import { BackHandler } from "../components/back_handler.js";
 import { CommandProvider } from "../providers/command.js";
-import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
 
 export const RootLayout = ({
   children,
@@ -24,7 +23,6 @@ export const RootLayout = ({
   return (
     <BackHandler>
       <AppProvider resources={resources} fields={fields} layouts={layouts}>
-        <ReactQueryDevtools />
         <CommandProvider>
           <SidebarProvider>
             <AppSidebar menu={menu} user={user} />

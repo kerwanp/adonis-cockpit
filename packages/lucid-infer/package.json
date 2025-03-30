@@ -1,6 +1,6 @@
 {
   "name": "@adonis-cockpit/lucid-infer",
-  "description": "Package to infer model columns from models",
+  "description": "Package to infer Lucid model attributes by parsing AST tree",
   "version": "0.0.0",
   "engines": {
     "node": ">=20.6.0"

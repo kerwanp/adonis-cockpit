@@ -1,34 +1,36 @@
 <div align="center">
 <br/>
+  
+[![Adonis Cockpit](https://github.com/kerwanp/adonis-cockpit/blob/main/.github/images/logo-horizontal.png?raw=true)](https://adonis-cockpit.com)
 
-## @foadonis/ally-extra
+## The ultimate Admin Panel Builder for [AdonisJS](https://adonisjs.com/)
 
-### Additional drivers for @adonisjs/ally package
+### Cockpit is the fastest way to build production-ready administration panels with Adonis
 
 <br/>
 </div>
 
 <div align="center">
 
-<!-- automd:badges color="brightgreen" license name="@foadonis/ally-extra" bundlephobia packagephobia -->
+#### [🚀 Get started](https://adonis-cockpit.com/docs/getting-started/installation) • [🌐 Website](https://adonis-cockpit.com/docs/getting-started/installation) • [✍ Contribute](./CONTRIBUTING.md)
 
-[![npm version](https://img.shields.io/npm/v/@foadonis/ally-extra?color=brightgreen)](https://npmjs.com/package/@foadonis/ally-extra)
-[![npm downloads](https://img.shields.io/npm/dm/@foadonis/ally-extra?color=brightgreen)](https://npm.chart.dev/@foadonis/ally-extra)
-[![bundle size](https://img.shields.io/bundlephobia/minzip/@foadonis/ally-extra?color=brightgreen)](https://bundlephobia.com/package/@foadonis/ally-extra)
+![GitHub branch check runs](https://img.shields.io/github/check-runs/kerwanp/adonis-cockpit/main?style=flat-square)
+![Lines](https://img.shields.io/badge/coverage-19.94%25-red.svg?style=flat-square) [![adonis-cockpit](https://img.shields.io/npm/v/adonis-cockpit?style=flat-square)](https://www.npmjs.com/package/adonis-cockpit)
 
-<!-- /automd -->
+[![PRs Welcome](https://img.shields.io/badge/PRs-Are%20welcome-brightgreen.svg?style=flat-square)](https://makeapullrequest.com) [![License](https://img.shields.io/github/license/kerwanp/adonis-cockpit?label=License&style=flat-square)](LICENCE)
 
-<!-- automd:coverage -->
+![Screenshot](https://github.com/kerwanp/adonis-cockpit/blob/main/.github/images/screenshot.png?raw=true)
 
-![Coverage](https://img.shields.io/badge/coverage-0%25-red)
-
-<!-- /automd -->
+```sh
+node ace add adonis-cockpit
+```
 
 </div>
 
-## Quickstart
+---
 
-[Installation & Getting Started](https://friendsofadonis.github.io/docs/ally-extra/getting-started)
+> [!CAUTION]
+> This project is in prerelease stage. It might not work as expected and is subject to change.
 
 ## License
 

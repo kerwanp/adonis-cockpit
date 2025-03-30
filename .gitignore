@@ -33,6 +33,9 @@ npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
 
+# Yarn
+.yarn/install-stage.gz
+
 # Misc
 .DS_Store
 *.pem
