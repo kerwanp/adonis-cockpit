@@ -1,19 +1,32 @@
 import { ColumnOptions } from "@adonisjs/lucid/types/model";
+import { RelationshipsContract } from "@adonisjs/lucid/types/relations";
 
 export type ColumnType =
   | "string"
   | "number"
   | "boolean"
   | "unknown"
-  | "complex";
+  | "complex"
+  | string;
 
-export type Column = {
+export type Relationship = {
+  kind: "relationship";
   key: string;
-  optional: boolean;
-  options: ColumnOptions;
-  type: ColumnType;
+  type: RelationshipsContract["type"];
+  options: RelationshipsContract;
 };
 
+export type Column = {
+  kind: "column";
+  key: string;
+  type: ColumnType;
+  optional: boolean;
+  isArray: boolean;
+  options: ColumnOptions;
+};
+
+export type Definition = Relationship | Column;
+
 export type InferedModel = {
-  columns: Column[];
+  columns: Definition[];
 };

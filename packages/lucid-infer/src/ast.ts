@@ -20,7 +20,20 @@ export function getColumnsFromAST(ast: Node) {
     .filter((node) => {
       const decorator = node.decorators?.find((d) => {
         if (d.expression.type !== "CallExpression") return false;
-        return d.expression.callee.loc?.identifierName === "column";
+        const callee = d.expression.callee;
+
+        if (
+          callee.type === "MemberExpression" &&
+          callee.object.type === "Identifier"
+        ) {
+          return callee.object.name === "column";
+        }
+
+        if (callee.type === "Identifier") {
+          return callee.name === "column";
+        }
+
+        return false;
       });
 
       return Boolean(decorator);
@@ -55,23 +68,43 @@ export function isClassPropertyNullable(property: ClassProperty) {
   );
 }
 
-export function getColumnType(property: ClassProperty): ColumnType {
-  if (property.typeAnnotation?.type !== "TSTypeAnnotation") return "unknown";
+export function getColumnType(property: ClassProperty): {
+  isArray: boolean;
+  type: ColumnType;
+} {
+  if (property.typeAnnotation?.type !== "TSTypeAnnotation")
+    return { isArray: false, type: "unknown" };
   const annotation = property.typeAnnotation.typeAnnotation;
 
   return getColumnTypeFromTSType(annotation);
 }
 
-export function getColumnTypeFromTSType(type: TSType): ColumnType {
-  if (type.type === "TSStringKeyword") return "string";
-  if (type.type === "TSNumberKeyword") return "number";
-  if (type.type === "TSBooleanKeyword") return "boolean";
+export function getColumnTypeFromTSType(type: TSType): {
+  isArray: boolean;
+  type: ColumnType;
+} {
+  if (type.type === "TSStringKeyword")
+    return { isArray: false, type: "string" };
+  if (type.type === "TSNumberKeyword")
+    return { isArray: false, type: "number" };
+  if (type.type === "TSBooleanKeyword")
+    return { isArray: false, type: "boolean" };
 
   if (type.type === "TSUnionType") {
     const nonNull = type.types.filter((f) => f.type !== "TSNullKeyword");
-    if (nonNull.length > 1) return "complex";
+    if (nonNull.length > 1) return { isArray: false, type: "complex" };
     return getColumnTypeFromTSType(nonNull[0]);
   }
 
-  return "unknown";
+  if (type.type === "TSArrayType") {
+    const child = getColumnTypeFromTSType(type.elementType);
+    if (child.isArray) return { isArray: true, type: "complex" };
+    return { isArray: true, type: child.type };
+  }
+
+  if (type.type === "TSTypeReference" && type.typeName.type === "Identifier") {
+    return { isArray: false, type: type.typeName.name };
+  }
+
+  return { isArray: false, type: "unknown" };
 }

@@ -1,6 +1,6 @@
 import cockpit from 'adonis-cockpit/services/main'
 import BrandResource from '../app/cockpit/resources/brand.js'
-import UserResource from '../app/cockpit/resources/user.js'
+import UserResource from '../app/cockpit/resources/users.js'
 import ProductResource from '../app/cockpit/resources/product.js'
 
 cockpit.resources(BrandResource, UserResource, ProductResource)

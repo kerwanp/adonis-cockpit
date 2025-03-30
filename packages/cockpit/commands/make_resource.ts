@@ -6,11 +6,11 @@ import "../src/extensions.js";
 import { resourceFileName, resourceName } from "../src/utils/generators.js";
 import { LucidModel } from "@adonisjs/lucid/types/model";
 import { inferModel } from "@adonis-cockpit/lucid-infer";
-import { Column } from "@adonis-cockpit/lucid-infer/types";
+import { Column, Definition } from "@adonis-cockpit/lucid-infer/types";
 
 type FieldDef = {
   name: string;
-  isApplicable: (model: LucidModel, column: Column) => boolean;
+  isApplicable: (model: LucidModel, column: Definition) => boolean;
   statement: (model: LucidModel, column: Column) => string;
 };
 
@@ -25,13 +25,14 @@ function matchRegex(value: string, regexp: RegExp) {
 const FIELDS: FieldDef[] = [
   {
     name: "Id",
-    isApplicable: (_model, column) => column.options.isPrimary,
+    isApplicable: (_model, column) =>
+      column.kind === "column" && column.options.isPrimary,
     statement: (_model, column) => buildStatement(`form.id('${column.key}')`),
   },
   {
     name: "Email",
     isApplicable: (_model, column) =>
-      column.type === "string" &&
+      column.kind === "column" &&
       column.type === "string" &&
       matchRegex(column.key, /(mail)/),
     statement: (_, column) =>
@@ -44,7 +45,9 @@ const FIELDS: FieldDef[] = [
   {
     name: "Url",
     isApplicable: (_model, column) =>
-      column.type === "string" && matchRegex(column.key, /(site|url)/),
+      column.kind === "column" &&
+      column.type === "string" &&
+      matchRegex(column.key, /(site|url)/),
     statement: (_, column) =>
       buildStatement(
         "form",
@@ -53,13 +56,41 @@ const FIELDS: FieldDef[] = [
       ),
   },
   {
+    name: "Boolean",
+    isApplicable: (_model, column) =>
+      column.kind === "column" && column.type === "boolean",
+    statement: (_, column) =>
+      buildStatement(
+        `form.boolean('${column.key}')`,
+        !column.optional && "required()",
+      ),
+  },
+  {
+    // TODO: Make date field
+    name: "Date",
+    isApplicable: (_model, column) =>
+      column.kind === "column" && column.type === "DateTime",
+    statement: (_, column) =>
+      buildStatement(
+        `form.date('${column.key}')`,
+        !column.optional && "required()",
+      ),
+  },
+  {
     name: "Text",
-    isApplicable: (_model, column) => column.type === "string",
+    isApplicable: (_model, column) =>
+      column.kind === "column" && column.type === "string",
     statement: (_, column) =>
       buildStatement(
         `form.text('${column.key}')`,
         !column.optional && "required()",
       ),
+  },
+  {
+    name: "Has Many",
+    isApplicable: (_model, column) =>
+      column.kind === "relationship" && column.type === "hasMany",
+    statement: (_, _column) => buildStatement(`form.hasMany()`),
   },
 ];
 
@@ -133,7 +164,7 @@ export default class MakeResource extends BaseCommand {
 
     const columns = await inferModel(modelInfo.path);
 
-    const fields: { field?: FieldDef; column: Column }[] = [];
+    const fields: { field?: FieldDef; column: Definition }[] = [];
     for (const column of columns) {
       const field = FIELDS.find((f) => f.isApplicable(Model, column));
       fields.push({
@@ -148,9 +179,14 @@ export default class MakeResource extends BaseCommand {
         name: field.column.key,
         hint: field.field
           ? [
+              field.column.kind === "column" && field.column.isArray && "List",
               field.field.name,
-              field.column.optional ? "Optional" : "Required",
-            ].join(" | ")
+              field.column.kind === "column" && field.column.optional
+                ? "Optional"
+                : "Required",
+            ]
+              .filter(Boolean)
+              .join(" | ")
           : "Unkown type",
         disabled: !field.field,
       })),

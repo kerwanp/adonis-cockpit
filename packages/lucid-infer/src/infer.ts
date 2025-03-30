@@ -1,5 +1,5 @@
 import { LucidModel, ModelColumnOptions } from "@adonisjs/lucid/types/model";
-import { Column } from "./types.js";
+import { Definition } from "./types.js";
 import { loadFile } from "magicast";
 import { fileURLToPath } from "node:url";
 import {
@@ -17,7 +17,7 @@ function loadModule(specifier: string) {
 export async function inferModel(path: string) {
   const { default: Model } = (await import(path)) as { default: LucidModel };
 
-  const columns: Column[] = [];
+  const columns: Definition[] = [];
 
   const mod = await loadModule(path);
   const propertiesAST = getColumnsFromAST(mod.$ast);
@@ -28,11 +28,20 @@ export async function inferModel(path: string) {
     );
 
     if (!property) {
-      console.warn("Could not find property"); // TODO: ERror
+      console.warn(`Could not find property ${key}`); // TODO: ERror
       continue;
     }
 
     columns.push(inferColumn(key, property, definition));
+  }
+
+  for (const [key, definition] of Model.$relationsDefinitions) {
+    columns.push({
+      kind: "relationship",
+      key,
+      type: definition.type,
+      options: definition,
+    });
   }
 
   return columns;
@@ -42,10 +51,13 @@ function inferColumn(
   key: string,
   property: ClassProperty,
   options: ModelColumnOptions,
-): Column {
+): Definition {
+  const { type, isArray } = getColumnType(property);
   return {
+    kind: "column",
     key,
-    type: getColumnType(property),
+    type,
+    isArray,
     optional: isClassPropertyNullable(property),
     options,
   };

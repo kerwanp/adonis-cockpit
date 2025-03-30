@@ -13,7 +13,7 @@ export default defineConfig({
   commands: [
     () => import('@adonisjs/core/commands'),
     () => import('@adonisjs/lucid/commands'),
-    () => import('adonis-lucid-filter/commands'),
+    () => import('adonis-cockpit/commands'),
   ],
 
   /*
