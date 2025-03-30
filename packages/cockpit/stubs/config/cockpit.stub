@@ -3,6 +3,8 @@ import { defineConfig } from 'adonis-cockpit'
 
 export default defineConfig({
   url: '/admin',
+  menu: () => import('#cockpit/menu'),
+  resources: [],
   auth: {
     loginUrl: '/login',
     logoutUrl: '/logout',

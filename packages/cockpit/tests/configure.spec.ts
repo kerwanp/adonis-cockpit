@@ -7,7 +7,11 @@ async function setupFakeAdonisProject(fs: FileSystem) {
   await Promise.all([
     fs.create(".env", ""),
     fs.createJson("tsconfig.json", {}),
-    fs.createJson("package.json", {}),
+    fs.createJson("package.json", {
+      name: "cockpit-tests",
+      dependencies: {},
+      imports: {},
+    }),
     fs.create("adonisrc.ts", "export default defineConfig({})"),
     fs.create(
       "config/inertia.ts",
@@ -46,7 +50,6 @@ test.group("Configure", (group) => {
     await command.exec();
 
     await assert.fileExists("config/cockpit.ts");
-    await assert.fileExists("start/cockpit.ts");
     await assert.fileExists("inertia/app/cockpit.tsx");
     await assert.fileExists("inertia/css/cockpit.css");
     await assert.fileContains("adonisrc.ts", "adonis-cockpit/cockpit_provider");
@@ -59,6 +62,8 @@ test.group("Configure", (group) => {
       "start/kernel.ts",
       "adonis-cockpit/cockpit_middleware",
     );
+
+    await assert.fileContains("package.json", "#cockpit/*");
   });
 
   test("should configure dependencies on barebone project", async ({

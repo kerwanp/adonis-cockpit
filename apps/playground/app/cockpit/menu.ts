@@ -1,11 +1,10 @@
-import cockpit from 'adonis-cockpit/services/main'
-import BrandResource from '../app/cockpit/resources/brand.js'
-import UserResource from '../app/cockpit/resources/user.js'
-import ProductResource from '../app/cockpit/resources/product.js'
+/* eslint-disable @typescript-eslint/no-shadow */
+import { menu } from 'adonis-cockpit/menu'
+import UserResource from './resources/user.js'
+import BrandResource from './resources/brand.js'
+import ProductResource from './resources/product.js'
 
-cockpit.resources(BrandResource, UserResource, ProductResource)
-
-cockpit.sidebar
+export default menu
   .content((menu) => {
     menu.group((group) => {
       group.item('Dashboard').icon('fa-solid fa-house').href('/admin')

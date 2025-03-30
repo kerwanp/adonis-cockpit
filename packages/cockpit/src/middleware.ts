@@ -7,8 +7,10 @@ export default class CockpitMiddleware {
 
     const user = cockpit.getUser(ctx);
 
+    await cockpit.$resourcesManager.commit();
+
     ctx.inertia.share({
-      menu: cockpit.getMenu(),
+      menu: await cockpit.getMenu(),
       resources: () =>
         Object.entries(cockpit.$resourcesManager.resources).reduce(
           (acc, [name, item]) => ({

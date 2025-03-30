@@ -3,7 +3,7 @@ import Configure from "@adonisjs/core/commands/configure";
 import ConfigureCommand from "@adonisjs/core/commands/configure";
 import stringHelpers from "@adonisjs/core/helpers/string";
 import { execSync } from "node:child_process";
-import { PackageJson, readPackageJSON } from "pkg-types";
+import { PackageJson, readPackageJSON, writePackageJSON } from "pkg-types";
 import { stubsRoot } from "./stubs/main.js";
 
 function hasUncommittedChanges() {
@@ -256,6 +256,16 @@ async function registerInertiaPlugin({ command }: Context) {
   }
 }
 
+async function registerImportPath({ command }: Context) {
+  const pkg = await readPackageJSON(command.app.appRoot.pathname);
+  pkg.imports = {
+    ...(pkg.imports ?? {}),
+    "#cockpit/*": "./app/cockpit/*.js",
+  };
+
+  await writePackageJSON(command.app.makePath("package.json"), pkg);
+}
+
 export async function configure(command: ConfigureCommand) {
   const ace = await command.app.container.make("ace");
   const pkg = await readPackageJSON(command.app.appRoot.pathname);
@@ -300,9 +310,9 @@ export async function configure(command: ConfigureCommand) {
   await codemods.makeUsingStub(stubsRoot, "cockpit.css.stub", {});
   await codemods.makeUsingStub(stubsRoot, "cockpit.tsx.stub", {});
   await codemods.makeUsingStub(stubsRoot, "config/cockpit.stub", {});
-  await codemods.makeUsingStub(stubsRoot, "start/cockpit.stub", {});
   await registerRoute(context);
   await registerInertiaPlugin(context);
+  await registerImportPath(context);
   await installPackages(context, ["@adonis-cockpit/react"]);
 
   return;
