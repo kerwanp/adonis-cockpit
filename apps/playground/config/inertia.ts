@@ -19,8 +19,12 @@ const inertiaConfig = defineConfig({
    * Options for the server-side rendering
    */
   ssr: {
-    enabled: false,
+    enabled: true,
     entrypoint: 'inertia/app/ssr.tsx',
+    pages: (ctx) => {
+      console.log('test', ctx.request.url())
+      return false
+    },
   },
 })
 

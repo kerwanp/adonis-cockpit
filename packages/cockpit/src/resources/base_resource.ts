@@ -25,7 +25,9 @@ export abstract class BaseResource<TRecord extends Record<string, any> = any> {
    *
    * @example "user"
    */
-  abstract icon(): string;
+  icon(): string | undefined {
+    return;
+  }
 
   /**
    * The id key of this resource.

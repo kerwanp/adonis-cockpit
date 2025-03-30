@@ -3,10 +3,10 @@ import { test } from "@japa/runner";
 import withCockpit from "../../src/plugins/inertia/main.js";
 import { setupApp } from "../helpers.js";
 
-function makeFakeCtx(url: string) {
+function makeFakeCtx(route: string) {
   return {
-    request: {
-      url: () => url,
+    route: {
+      name: route,
     },
   };
 }
@@ -25,12 +25,12 @@ test.group("withCockpit", () => {
 
     assert.strictEqual(
       "root_layout",
-      (resolved.rootView as any)(makeFakeCtx("/")),
+      (resolved.rootView as any)(makeFakeCtx("login")),
     );
 
     assert.strictEqual(
       "cockpit::react_layout",
-      (resolved.rootView as any)(makeFakeCtx("/admin/resources/brands")),
+      (resolved.rootView as any)(makeFakeCtx("cockpit.home")),
     );
   });
 
@@ -47,12 +47,12 @@ test.group("withCockpit", () => {
 
     assert.strictEqual(
       "root_layout",
-      (resolved.rootView as any)(makeFakeCtx("/")),
+      (resolved.rootView as any)(makeFakeCtx("login")),
     );
 
     assert.strictEqual(
       "cockpit::react_layout",
-      (resolved.rootView as any)(makeFakeCtx("/admin/resources/brands")),
+      (resolved.rootView as any)(makeFakeCtx("cockpit.home")),
     );
   });
 });

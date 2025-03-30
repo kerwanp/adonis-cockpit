@@ -6,7 +6,6 @@ import { cn } from "../../utils/cn.js";
 const Breadcrumb = (props: React.ComponentProps<"nav">) => (
   <nav aria-label="breadcrumb" {...props} />
 );
-Breadcrumb.displayName = "Breadcrumb";
 
 const BreadcrumbList = ({
   className,
@@ -20,7 +19,6 @@ const BreadcrumbList = ({
     {...props}
   />
 );
-BreadcrumbList.displayName = "BreadcrumbList";
 
 const BreadcrumbItem = ({
   className,
@@ -31,7 +29,6 @@ const BreadcrumbItem = ({
     {...props}
   />
 );
-BreadcrumbItem.displayName = "BreadcrumbItem";
 
 const BreadcrumbLink = ({
   asChild,
@@ -47,7 +44,6 @@ const BreadcrumbLink = ({
     />
   );
 };
-BreadcrumbLink.displayName = "BreadcrumbLink";
 
 const BreadcrumbPage = ({
   className,
@@ -61,7 +57,6 @@ const BreadcrumbPage = ({
     {...props}
   />
 );
-BreadcrumbPage.displayName = "BreadcrumbPage";
 
 const BreadcrumbSeparator = ({
   children,
@@ -77,7 +72,6 @@ const BreadcrumbSeparator = ({
     {children ?? <ChevronRight />}
   </li>
 );
-BreadcrumbSeparator.displayName = "BreadcrumbSeparator";
 
 const BreadcrumbEllipsis = ({
   className,
@@ -93,7 +87,6 @@ const BreadcrumbEllipsis = ({
     <span className="sr-only">More</span>
   </span>
 );
-BreadcrumbEllipsis.displayName = "BreadcrumbElipssis";
 
 export {
   Breadcrumb,

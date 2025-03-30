@@ -26,7 +26,7 @@ const MenuSubmenuItem = ({ label, icon }: SerializedMenuItem) => (
   <SidebarMenuSubItem>
     <SidebarMenuSubButton>
       <>
-        {icon && <Icon icon={icon} />}
+        <Icon icon={icon ?? "fas fa-arrow-right"} />
         <span>{label}</span>
       </>
     </SidebarMenuSubButton>
@@ -59,7 +59,7 @@ const MenuItem = ({
         <SidebarMenuItem>
           <CollapsibleTrigger asChild>
             <SidebarMenuButton>
-              {icon && <i className={icon} />}
+              <i className={icon ?? "fas fa-arrow-right"} />
               <span>{label}</span>
               <ChevronRight className="ml-auto transition-transform group-data-[state=open]/collapsible:rotate-90" />
             </SidebarMenuButton>
@@ -75,10 +75,17 @@ const MenuItem = ({
   return (
     <SidebarMenuItem>
       <SidebarMenuButton isActive={isActive} asChild>
-        <Link href={href ?? "#"} target={target}>
-          {icon && <i className={icon} />}
-          <span>{label}</span>
-        </Link>
+        {target ? (
+          <a href={href ?? "#"} target={target}>
+            <i className={icon ?? "fas fa-arrow-right"} />
+            <span>{label}</span>
+          </a>
+        ) : (
+          <Link href={href ?? "#"} target={target}>
+            <i className={icon ?? "fas fa-arrow-right"} />
+            <span>{label}</span>
+          </Link>
+        )}
       </SidebarMenuButton>
       {submenu && <MenuSubmenu {...submenu} />}
     </SidebarMenuItem>

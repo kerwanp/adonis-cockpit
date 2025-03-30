@@ -5,7 +5,11 @@ import { HttpContext } from "@adonisjs/core/http";
 export default class CockpitController {
   home({ inertia }: HttpContext) {
     return inertia.render("cockpit::home", {
-      breadcrumb: [],
+      breadcrumb: [
+        {
+          label: "Home",
+        },
+      ],
     });
   }
 }

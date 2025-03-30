@@ -4,10 +4,6 @@ import { LucidResource } from 'adonis-cockpit'
 import { BaseLayout, LayoutBuilder } from 'adonis-cockpit/fields'
 
 export default class UserResource extends LucidResource(User) {
-  icon(): string {
-    return 'fa fa-users'
-  }
-
   searchKeys(): string[] {
     return ['id', 'email', 'firstName', 'lastName']
   }

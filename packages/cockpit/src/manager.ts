@@ -26,6 +26,10 @@ export default class CockpitManager {
     return this.$routesManager.registerRoutes(modifier);
   }
 
+  getResources() {
+    return this.$resourcesManager.resources;
+  }
+
   getResource(name: string) {
     return this.$resourcesManager.get(name);
   }

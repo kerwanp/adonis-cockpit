@@ -9,6 +9,7 @@ export default function withCockpit(
     const config = await provider.resolver(app);
 
     config.rootView = extendRootView(config.rootView);
+    config.ssr.pages = extendSSR(config.ssr.pages);
 
     return config;
   });
@@ -18,11 +19,19 @@ function extendRootView(
   option: ResolvedConfig<{}>["rootView"],
 ): ResolvedConfig<{}>["rootView"] {
   return (ctx) => {
-    // TODO: Do not hardcode
-    if (ctx.request.url().startsWith("/admin")) {
-      return "cockpit::react_layout";
-    }
+    if (ctx.route?.name?.startsWith("cockpit.")) return "cockpit::react_layout";
+    if (typeof option === "string") return option;
+    return option(ctx);
+  };
+}
 
-    return typeof option === "string" ? option : option(ctx);
+function extendSSR(
+  option: ResolvedConfig<{}>["ssr"]["pages"],
+): ResolvedConfig<{}>["ssr"]["pages"] {
+  return (ctx, page) => {
+    if (ctx.route?.name?.startsWith("cockpit.")) return false;
+    if (option === undefined) return true;
+    if (Array.isArray(option)) return option.includes(page);
+    return option(ctx, page);
   };
 }

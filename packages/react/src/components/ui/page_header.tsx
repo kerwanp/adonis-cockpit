@@ -27,14 +27,8 @@ export const PageHeader = ({
         />
         <Breadcrumb>
           <BreadcrumbList>
-            <BreadcrumbItem>
-              <BreadcrumbLink asChild>
-                <Link href="/">Home</Link>
-              </BreadcrumbLink>
-            </BreadcrumbItem>
             {breadcrumb.map((item, i) => (
               <Fragment key={i}>
-                <BreadcrumbSeparator />
                 <BreadcrumbItem>
                   {item.url ? (
                     <BreadcrumbLink asChild>
@@ -43,6 +37,7 @@ export const PageHeader = ({
                   ) : (
                     <BreadcrumbPage>{item.label}</BreadcrumbPage>
                   )}
+                  {i < breadcrumb.length - 1 && <BreadcrumbSeparator />}
                 </BreadcrumbItem>
               </Fragment>
             ))}

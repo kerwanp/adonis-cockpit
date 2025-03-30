@@ -36,11 +36,18 @@ export class MenuGroupBuilder {
     return item;
   }
 
-  resource(Resource: new () => BaseResource) {
-    const resource = new Resource();
-    const item = this.item(resource.labelPlural())
-      .icon(resource.icon())
-      .href(`/admin/resources/${resource.name()}`); // TODO: Do not hardcode
+  resource(resource: (new () => BaseResource) | BaseResource) {
+    const instance =
+      resource instanceof BaseResource ? resource : new resource();
+    const item = this.item(instance.labelPlural()).route(
+      "cockpit.resources.index",
+      { resource: instance.name() },
+    );
+    const icon = instance.icon();
+    if (icon) {
+      item.icon(icon);
+    }
+
     return item;
   }
 }

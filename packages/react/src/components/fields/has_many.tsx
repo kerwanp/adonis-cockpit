@@ -114,8 +114,8 @@ const OthersBadges = ({
 
   if (!data) return null;
 
-  return data.data.map((record) => (
-    <RecordProvider record={record}>
+  return data.data.map((record, i) => (
+    <RecordProvider record={record} key={i}>
       <ResourcePeekPopover>
         <Badge
           key={record[resource.idKey]}

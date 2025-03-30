@@ -168,7 +168,7 @@ async function configureDependency(
 ) {
   const install = await context.command.prompt.confirm(
     `Do you want to configure ${dependency.title}`,
-    { name: dependency.title },
+    { default: true },
   );
 
   if (install !== true) {
@@ -296,7 +296,6 @@ export async function configure(command: ConfigureCommand) {
 
   await codemods.updateRcFile((rcFile) => {
     rcFile.addProvider("adonis-cockpit/cockpit_provider");
-    rcFile.addPreloadFile("#start/cockpit");
     rcFile.addCommand("adonis-cockpit/commands");
   });
 
@@ -310,6 +309,7 @@ export async function configure(command: ConfigureCommand) {
   await codemods.makeUsingStub(stubsRoot, "cockpit.css.stub", {});
   await codemods.makeUsingStub(stubsRoot, "cockpit.tsx.stub", {});
   await codemods.makeUsingStub(stubsRoot, "config/cockpit.stub", {});
+  await codemods.makeUsingStub(stubsRoot, "menu.stub", {});
   await registerRoute(context);
   await registerInertiaPlugin(context);
   await registerImportPath(context);

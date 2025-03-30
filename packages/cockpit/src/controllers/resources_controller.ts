@@ -13,6 +13,10 @@ export default class ResourcesController {
       resource: resourceName,
       breadcrumb: [
         {
+          label: "Home",
+          url: router.makeUrl("cockpit.home"),
+        },
+        {
           label: resource.labelPlural(),
         },
       ],
@@ -30,6 +34,10 @@ export default class ResourcesController {
       resource: resource.name(),
       record,
       breadcrumb: [
+        {
+          label: "Home",
+          url: router.makeUrl("cockpit.home"),
+        },
         {
           label: resource.labelPlural(),
           url: router.makeUrl("cockpit.resources.index", {
@@ -51,6 +59,10 @@ export default class ResourcesController {
     return inertia.render("cockpit::resources/create", {
       resource: resource.name(),
       breadcrumb: [
+        {
+          label: "Home",
+          url: router.makeUrl("cockpit.home"),
+        },
         {
           label: resource.labelPlural(),
           url: router.makeUrl("cockpit.resources.index", {

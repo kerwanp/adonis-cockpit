@@ -52,6 +52,7 @@ test.group("Configure", (group) => {
     await assert.fileExists("config/cockpit.ts");
     await assert.fileExists("inertia/app/cockpit.tsx");
     await assert.fileExists("inertia/css/cockpit.css");
+    await assert.fileExists("app/cockpit/menu.ts");
     await assert.fileContains("adonisrc.ts", "adonis-cockpit/cockpit_provider");
     await assert.fileContains("adonisrc.ts", "adonis-cockpit/commands");
     await assert.fileContains(

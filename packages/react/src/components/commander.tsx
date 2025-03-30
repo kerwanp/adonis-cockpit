@@ -95,7 +95,7 @@ const ResourcesGroup = ({
             onOpenChange(false);
           }}
         >
-          <Icon icon={resource.icon} />
+          <Icon icon={resource.icon ?? "fas fa-arrow-right"} />
           {resource.labelPlural}
         </CommandItem>
       ))}
