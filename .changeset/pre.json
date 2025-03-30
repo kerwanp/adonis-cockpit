@@ -1,0 +1,17 @@
+{
+  "mode": "pre",
+  "tag": "alpha",
+  "initialVersions": {
+    "playground": "0.0.0",
+    "adonis-cockpit": "0.0.0",
+    "@adonis-cockpit/eslint-config": "0.0.0",
+    "@adonis-cockpit/lucid-filter": "0.0.0",
+    "@adonis-cockpit/lucid-infer": "0.0.0",
+    "@adonis-cockpit/typescript-config": "0.0.0",
+    "@adonis-cockpit/react": "0.0.0"
+  },
+  "changesets": [
+    "crazy-zebras-attack",
+    "large-steaks-dance"
+  ]
+}

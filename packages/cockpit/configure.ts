@@ -257,7 +257,7 @@ async function registerInertiaPlugin({ codemods, command }: Context) {
 
 export async function configure(command: ConfigureCommand) {
   const ace = await command.app.container.make("ace");
-  const codemods = await command.createCodemods();
+  let codemods = await command.createCodemods();
   const pkg = await readPackageJSON(command.app.appRoot.pathname);
 
   const context: Context = {
@@ -282,6 +282,8 @@ export async function configure(command: ConfigureCommand) {
   context.command.logger.log(
     context.command.colors.yellow(`\n─────────── Configuring Adonis Cockpit`),
   );
+
+  codemods = await command.createCodemods()
 
   await codemods.updateRcFile((rcFile) => {
     rcFile.addProvider("adonis-cockpit/cockpit_provider");
