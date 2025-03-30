@@ -1,5 +1,4 @@
 import { Kernel } from "@adonisjs/core/ace";
-import { Codemods } from "@adonisjs/core/ace/codemods";
 import Configure from "@adonisjs/core/commands/configure";
 import ConfigureCommand from "@adonisjs/core/commands/configure";
 import stringHelpers from "@adonisjs/core/helpers/string";
@@ -30,10 +29,11 @@ type DependencyInfo = {
 };
 
 async function installPackages(
-  { codemods }: Context,
+  { command }: Context,
   dependencies: string | string[],
   isDev = false,
 ) {
+  const codemods = await command.createCodemods();
   await codemods.installPackages(
     [dependencies].flat().map((name) => ({
       name,
@@ -107,13 +107,14 @@ const missingDependenciesSteps: DependencyInfo[] = [
     // TODO: Check tailwindcss version
     detect: ({ pkg }) => hasPackage(pkg, "tailwindcss", true),
     run: async (context) => {
+      const codemods = await context.command.createCodemods();
       await installPackages(
         context,
         ["tailwindcss", "@tailwindcss/vite"],
         true,
       );
 
-      await context.codemods.registerVitePlugin("tailwindcss()", [
+      await codemods.registerVitePlugin("tailwindcss()", [
         {
           isNamed: false,
           module: "@tailwindcss/vite",
@@ -128,7 +129,6 @@ type Context = {
   command: ConfigureCommand;
   ace: Kernel;
   pkg: PackageJson;
-  codemods: Codemods;
 };
 
 async function detectMissingDependencies(context: Context) {
@@ -154,6 +154,7 @@ async function checkUncommitedChanges(context: Context) {
 
   const confirm = await context.command.prompt.confirm(
     "You have uncommited changes, are you sure you want to continue",
+    { name: "uncommited" },
   );
 
   if (!confirm) {
@@ -167,13 +168,11 @@ async function configureDependency(
 ) {
   const install = await context.command.prompt.confirm(
     `Do you want to configure ${dependency.title}`,
+    { name: dependency.title },
   );
 
   if (install !== true) {
-    context.command.logger.error(
-      `${dependency.title} is required to run Adonis Cockpit`,
-    );
-    process.exit(0);
+    return;
   }
 
   context.command.logger.log(
@@ -193,7 +192,8 @@ function hasPackage(pkg: PackageJson, name: string, isDev = false) {
   ).includes(name);
 }
 
-async function registerRoute({ codemods, command }: Context) {
+async function registerRoute({ command }: Context) {
+  const codemods = await command.createCodemods();
   const tsMorph = await codemods.getTsMorphProject();
   const routesFile = tsMorph?.getSourceFile(
     command.app.makePath("start/routes.ts"),
@@ -223,7 +223,8 @@ async function registerRoute({ codemods, command }: Context) {
   }
 }
 
-async function registerInertiaPlugin({ codemods, command }: Context) {
+async function registerInertiaPlugin({ command }: Context) {
+  const codemods = await command.createCodemods();
   const tsMorph = await codemods.getTsMorphProject();
   const routesFile = tsMorph?.getSourceFile(
     command.app.makePath("config/inertia.ts"),
@@ -257,13 +258,11 @@ async function registerInertiaPlugin({ codemods, command }: Context) {
 
 export async function configure(command: ConfigureCommand) {
   const ace = await command.app.container.make("ace");
-  let codemods = await command.createCodemods();
   const pkg = await readPackageJSON(command.app.appRoot.pathname);
 
   const context: Context = {
     command,
     ace,
-    codemods,
     pkg,
   };
 
@@ -283,7 +282,7 @@ export async function configure(command: ConfigureCommand) {
     context.command.colors.yellow(`\n─────────── Configuring Adonis Cockpit`),
   );
 
-  codemods = await command.createCodemods()
+  const codemods = await command.createCodemods();
 
   await codemods.updateRcFile((rcFile) => {
     rcFile.addProvider("adonis-cockpit/cockpit_provider");

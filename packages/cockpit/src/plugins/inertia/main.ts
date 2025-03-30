@@ -18,6 +18,7 @@ function extendRootView(
   option: ResolvedConfig<{}>["rootView"],
 ): ResolvedConfig<{}>["rootView"] {
   return (ctx) => {
+    // TODO: Do not hardcode
     if (ctx.request.url().startsWith("/admin")) {
       return "cockpit::react_layout";
     }
