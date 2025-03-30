@@ -1,7 +1,7 @@
 {
   "name": "@adonis-cockpit/lucid-infer",
   "description": "Package to infer Lucid model attributes by parsing AST tree",
-  "version": "0.0.1-alpha.1",
+  "version": "0.0.1-alpha.2",
   "engines": {
     "node": ">=20.6.0"
   },
@@ -51,8 +51,8 @@
   "homepage": "https://friendsofadonis.com/docs/ally-extra",
   "license": "MIT",
   "devDependencies": {
-    "@adonis-cockpit/eslint-config": "0.0.1-alpha.1",
-    "@adonis-cockpit/typescript-config": "0.0.1-alpha.1",
+    "@adonis-cockpit/eslint-config": "0.0.1-alpha.2",
+    "@adonis-cockpit/typescript-config": "0.0.1-alpha.2",
     "@adonisjs/assembler": "^7.8.2",
     "@adonisjs/core": "^6.17.2",
     "@adonisjs/lucid": "^21.6.1",

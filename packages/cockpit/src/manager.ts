@@ -47,7 +47,11 @@ export default class CockpitManager {
   }
 
   getUser(ctx: HttpContext) {
-    return this.config.auth.user?.(ctx);
+    try {
+      return this.config.auth.user?.(ctx);
+    } catch {
+      return null;
+    }
   }
 
   getMenu() {

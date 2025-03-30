@@ -34,7 +34,7 @@ yarn-debug.log*
 yarn-error.log*
 
 # Yarn
-.yarn/install-stage.gz
+.yarn/install-state.gz
 
 # Misc
 .DS_Store

@@ -11,6 +11,7 @@
     "@adonis-cockpit/react": "0.0.0"
   },
   "changesets": [
+    "clever-cobras-arrive",
     "crazy-zebras-attack",
     "large-steaks-dance"
   ]

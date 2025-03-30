@@ -98,7 +98,7 @@ const missingDependenciesSteps: DependencyInfo[] = [
           .replyWith("React");
         command.prompt
           .trap("Do you want to use server-side rendering?")
-          .accept();
+          .reject();
       });
     },
   },
@@ -303,6 +303,7 @@ export async function configure(command: ConfigureCommand) {
   await codemods.makeUsingStub(stubsRoot, "start/cockpit.stub", {});
   await registerRoute(context);
   await registerInertiaPlugin(context);
+  await installPackages(context, ["@adonis-cockpit/react"]);
 
   return;
 }
