@@ -30,6 +30,14 @@ export class TextField extends BaseField {
   }
 
   /**
+   * Defines the field as disabled.
+   */
+  readonly(value = true) {
+    this.attributes["readonly"] = value;
+    return this;
+  }
+
+  /**
    * Defines the input type.
    * TODO: Create union of available types
    */
@@ -42,7 +50,7 @@ export class TextField extends BaseField {
    * Defines the field hint.
    */
   hint(value: string) {
-    this.options["hint"] = value;
+    this.$options["hint"] = value;
     return this;
   }
 }

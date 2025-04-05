@@ -11,8 +11,8 @@ export type Filter =
       operator: FilterOperator;
       value: any;
     }
-  | { or: Filter }
-  | { and: Filter };
+  | { or: Filter[] }
+  | { and: Filter[] };
 
 export type Sort = {
   property: string;

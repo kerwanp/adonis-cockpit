@@ -1,5 +1,6 @@
 export { BaseField } from "./base.js";
 export { TextField } from "./text.js";
+export { DateField } from "./date.js";
 export { UrlField } from "./url.js";
 export { IdField } from "./id.js";
 export { EmailField } from "./email.js";

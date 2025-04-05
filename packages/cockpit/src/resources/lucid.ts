@@ -8,6 +8,8 @@ import { LucidModel, LucidRow } from "@adonisjs/lucid/types/model";
 import { BaseResource } from "./base_resource.js";
 import { SimplePaginatorContract } from "@adonisjs/lucid/types/querybuilder";
 import { extendQuery } from "@adonis-cockpit/lucid-filter";
+import { flattenFields } from "../utils/fields.js";
+import { LayoutBuilder } from "../fields/builder.js";
 
 export abstract class BaseLucidResource<
   TModel extends LucidModel = LucidModel,
@@ -29,19 +31,19 @@ export abstract class BaseLucidResource<
   }
 
   async list(params: ResourceListParams) {
+    const fields = flattenFields(this.fields(new LayoutBuilder()));
+
     const query = extendQuery({
       query: this.baseQuery(),
       filter: params.filter,
       sort: params.sort,
-      ...(params.query
-        ? {
-            search: {
-              query: params.query,
-              keys: this.searchKeys(),
-            },
-          }
-        : {}),
     });
+
+    if (params.query) {
+      for (const field of fields) {
+        field.$search(params.query, query);
+      }
+    }
 
     const paginator = await query.paginate(params.page, params.perPage);
 

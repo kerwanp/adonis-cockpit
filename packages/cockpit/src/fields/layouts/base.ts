@@ -14,6 +14,10 @@ export class BaseLayout implements Serializable {
     create: true,
   };
 
+  $fields() {
+    return this.fields;
+  }
+
   toJSON() {
     return {
       kind: this.kind,

@@ -1,5 +1,6 @@
 import stringHelpers from "@adonisjs/core/helpers/string";
 import { Serializable } from "../types.js";
+import { ModelQueryBuilderContract } from "@adonisjs/lucid/types/model";
 
 export type FieldDisplayOptions = {
   index: boolean;
@@ -14,9 +15,9 @@ export class BaseField<T = unknown> implements Serializable {
   protected $name: string;
   protected $icon = "fas fa-t";
   protected $defaultValue: T;
+  protected $searchable = false;
 
   protected attributes: Record<string, any> = {};
-  protected options: Record<string, any> = {};
   protected display: FieldDisplayOptions = {
     index: true,
     create: true,
@@ -24,10 +25,24 @@ export class BaseField<T = unknown> implements Serializable {
     peek: true,
   };
 
+  $options: Record<string, any> = {};
+
   constructor(name: string, defaultValue: T) {
     this.$name = name;
     this.$label = stringHelpers.create(name).capitalCase().toString();
     this.$defaultValue = defaultValue;
+  }
+
+  $search(value: string, query: ModelQueryBuilderContract<any, any>) {
+    query.orWhereLike(this.$name, `%${value}%`);
+  }
+
+  /**
+   * Marks this field as searchable.
+   */
+  searchable(searchable = true) {
+    this.$options["searchable"] = searchable;
+    return this;
   }
 
   /**
@@ -78,7 +93,7 @@ export class BaseField<T = unknown> implements Serializable {
       label: this.$label,
       icon: this.$icon,
       attributes: this.attributes,
-      options: this.options,
+      options: this.$options,
       display: this.display,
       defaultValue: this.$defaultValue,
     };

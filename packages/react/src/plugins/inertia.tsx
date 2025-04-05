@@ -11,6 +11,7 @@ import { CockpitPanelLayout } from "../components/layouts/panel.js";
 import { CockpitHasMany } from "../components/fields/has_many.js";
 import { CockpitHasManyLayout } from "../components/layouts/has_many.js";
 import { FC } from "react";
+import { CockpitDate } from "../components/fields/date.js";
 
 // TODO: Type props
 export type PageComponent = FC<any> & { layout?: FC<any> };
@@ -56,6 +57,7 @@ export default function createCockpitApp(
               CockpitBoolean,
               CockpitBelongsTo,
               CockpitHasMany,
+              CockpitDate,
             ]}
             layouts={[CockpitPanelLayout, CockpitHasManyLayout]}
           />

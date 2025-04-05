@@ -37,8 +37,8 @@ export const PageHeader = ({
                   ) : (
                     <BreadcrumbPage>{item.label}</BreadcrumbPage>
                   )}
-                  {i < breadcrumb.length - 1 && <BreadcrumbSeparator />}
                 </BreadcrumbItem>
+                {i < breadcrumb.length - 1 && <BreadcrumbSeparator />}
               </Fragment>
             ))}
           </BreadcrumbList>

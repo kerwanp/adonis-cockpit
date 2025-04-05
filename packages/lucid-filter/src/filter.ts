@@ -9,11 +9,11 @@ export function filterQuery<Model extends LucidModel = LucidModel>(
   filter: Filter,
 ): ModelQueryBuilderContract<Model, InstanceType<Model>> {
   if ("or" in filter) {
-    return query.orWhere((q) => filterQuery(q, filter.or));
+    return query.orWhere((q) => filter.or.map((f) => filterQuery(q, f)));
   }
 
   if ("and" in filter) {
-    return query.andWhere((q) => filterQuery(q, filter.and));
+    return query.andWhere((q) => filter.and.map((f) => filterQuery(q, f)));
   }
 
   if (filter.operator === "equals") {

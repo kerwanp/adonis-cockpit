@@ -48,16 +48,6 @@ export abstract class BaseResource<TRecord extends Record<string, any> = any> {
   }
 
   /**
-   * Keys to perform search query.
-   * Defaults to the idKey and titleKey.
-   *
-   * @example ["id", "email", "firstName"]
-   */
-  searchKeys(): string[] {
-    return [this.idKey(), this.titleKey()];
-  }
-
-  /**
    * The label of the resource.
    *
    * @example "User"

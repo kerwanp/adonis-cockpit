@@ -5,7 +5,7 @@ import cockpit from "../../services/main.js";
 import router from "@adonisjs/core/services/router";
 
 export default class ResourcesController {
-  index({ request, inertia }: HttpContext) {
+  async index({ request, inertia }: HttpContext) {
     const resourceName = request.param("resource");
     const resource = cockpit.getResourceOrFail(resourceName);
 

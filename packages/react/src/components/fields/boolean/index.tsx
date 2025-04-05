@@ -20,16 +20,14 @@ export const CockpitBoolean = defineField<BooleanField>({
 
     return (
       <FormField>
-        <div className="flex items-center gap-3">
-          <FormLabel>{field.label}</FormLabel>
-          <Switch
-            checked={context.state.value as boolean}
-            onCheckedChange={(e) => context.setValue(e)}
-            onBlur={context.handleBlur}
-            {...field.attributes}
-            name={context.name}
-          />
-        </div>
+        <FormLabel>{field.label}</FormLabel>
+        <Switch
+          checked={context.state.value as boolean}
+          onCheckedChange={(e) => context.setValue(e)}
+          onBlur={context.handleBlur}
+          {...field.attributes}
+          name={context.name}
+        />
         {field.options.hint && (
           <FormDescription>{field.options.hint}</FormDescription>
         )}

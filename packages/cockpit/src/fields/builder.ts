@@ -11,6 +11,7 @@ import { BaseResource } from "../resources/base_resource.js";
 import { BaseLucidResource } from "../resources/lucid.js";
 import { BelongsToField } from "./belongs_to.js";
 import { HasManyLayout } from "./layouts/has_many.js";
+import { DateField } from "./date.js";
 
 type Keys<T> = T extends LucidRow
   ? keyof ModelAttributes<T> & string
@@ -95,6 +96,13 @@ export class FieldsBuilder<T = any> extends Macroable {
    */
   url(property: Keys<T>) {
     return this.field(new TextField(property));
+  }
+
+  /**
+   * Creates a url field.
+   */
+  date(property: Keys<T>) {
+    return this.field(new DateField(property));
   }
 
   /**

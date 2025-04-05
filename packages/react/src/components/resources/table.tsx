@@ -32,6 +32,7 @@ import { useTableNavigation } from "../../hooks/use_table_navigation.js";
 import { router } from "@inertiajs/react";
 import { useResource } from "../../providers/resource.js";
 import { useCommand } from "../../providers/command.js";
+import { DataTableFilter } from "../ui/data-table-filter.js";
 
 export const ResourceTable = ({
   options = {},
@@ -83,7 +84,7 @@ export const ResourceTable = ({
             placeholder="Search..."
           />
         </div>
-        {/* <Filters properties={resourceToFilterProperties(resource)} /> */}
+        <DataTableFilter table={table} />
       </div>
       <div className="grow min-h-0 flex flex-col justify-between">
         <Table autoFocus ref={tableRef} tabIndex={0}>

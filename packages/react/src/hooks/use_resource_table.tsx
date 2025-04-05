@@ -17,8 +17,10 @@ import { DeleteButton } from "../components/resources/buttons/delete.js";
 import { Button } from "../components/ui/button.js";
 import { InferSerializable } from "adonis-cockpit/types";
 import { BaseField } from "adonis-cockpit/fields";
-import { flattenFields } from "../utils/form.js";
 import { Filter } from "@adonis-cockpit/lucid-filter/types";
+import { defineMeta } from "../utils/filters.js";
+import { flattenFields } from "../utils/form.js";
+import { Icon } from "../components/ui/icon.js";
 
 function normalizeSorting(state: SortingState) {
   return state.map((item) => ({
@@ -49,6 +51,11 @@ function getColumn(
         </Button>
       );
     },
+    meta: defineMeta({
+      displayName: field.label,
+      type: "text",
+      icon: () => <Icon icon={field.icon} />,
+    }),
     ...(field.kind
       ? {
           cell: (t) => {
@@ -72,6 +79,20 @@ function getColumns(fields: InferSerializable<BaseField>[]): ColumnDef<any>[] {
     .filter(Boolean) as ColumnDef<any>[];
 }
 
+function toLucidFilter(filters: ColumnFiltersState) {
+  const result: Filter[] = [];
+
+  for (const filter of filters) {
+    result.push({
+      property: filter.id,
+      operator: filter.value.operator,
+      value: filter.value.values[0],
+    });
+  }
+
+  return result;
+}
+
 export function useResourceTable({ baseFilters }: { baseFilters?: Filter }) {
   const { resource } = useResource();
 
@@ -91,7 +112,11 @@ export function useResourceTable({ baseFilters }: { baseFilters?: Filter }) {
     page: pagination.pageIndex + 1,
     perPage: pagination.pageSize,
     sort: normalizeSorting(sorting),
-    filter: baseFilters,
+    filter: {
+      and: [baseFilters, ...toLucidFilter(columnFilters)].filter(
+        Boolean,
+      ) as Filter[],
+    },
     query,
   });
 
@@ -121,6 +146,7 @@ export function useResourceTable({ baseFilters }: { baseFilters?: Filter }) {
     getCoreRowModel: getCoreRowModel(),
     manualPagination: true,
     manualSorting: true,
+    manualFiltering: true,
     rowCount: data?.meta.total,
     enableSortingRemoval: false,
     onPaginationChange: setPagination,
