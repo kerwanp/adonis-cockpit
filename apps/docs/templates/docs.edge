@@ -1,0 +1,43 @@
+@component('layouts/main', { file })
+  @let(siteConfig = await getConfig())
+
+  @component('docs::header', siteConfig)
+    @slot('logo')
+      <img style="height: 40px" src="/logo-horizontal.png" />
+    @end
+
+    @slot('logoMobile')
+      <img src="/logo.png" />
+    @end
+  @end
+
+  <section layout-shell>
+    @!component('docs::sidebar', {
+      collapsible: true,
+      sections: getSections(collection, entry)
+    })
+
+    <main layout-main>
+      @!component('docs::content_header', { title: file.frontmatter.title })
+
+      @component('docs::content', {
+        fileEditUrl: `${siteConfig.fileEditBaseUrl}/${app.relativePath(file.filePath)}`,
+        copyright: siteConfig.copyright
+      })
+        @component('elements/alert')
+          <p style="margin-bottom: 0;">
+            Adonis Cockpit is currently in prerelease version. Documentation, references and examples might not be correct and are subject to change. <a href="https://github.com/kerwanp/adonis-cockpit/issues" target="_blank">Give your feedback</a>.
+          </p>
+        @end
+        @!component('docs::doc_errors', { messages: file.messages })
+        @!component('dimer_contents', { nodes: file.ast.children, pipeline })
+      @end
+
+      @if(file.toc)
+        @component('docs::toc', { sponsors: siteConfig.advertising_sponsors })
+          @!component('dimer_element', { node: file.toc, pipeline })
+        @end
+      @end
+    </main>
+  </section>
+@end

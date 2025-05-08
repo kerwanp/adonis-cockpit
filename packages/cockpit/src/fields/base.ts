@@ -1,5 +1,5 @@
 import stringHelpers from "@adonisjs/core/helpers/string";
-import { Serializable } from "../types.js";
+import { SearchFn, Serializable } from "../types.js";
 import { ModelQueryBuilderContract } from "@adonisjs/lucid/types/model";
 
 export type FieldDisplayOptions = {
@@ -12,10 +12,15 @@ export type FieldDisplayOptions = {
 export class BaseField<T = unknown> implements Serializable {
   protected $kind = this.constructor.name;
   protected $label: string;
-  protected $name: string;
   protected $icon = "fas fa-t";
   protected $defaultValue: T;
-  protected $searchable = false;
+
+  name: string;
+
+  /**
+   * @internal
+   */
+  protected $searchFn?: SearchFn;
 
   protected attributes: Record<string, any> = {};
   protected display: FieldDisplayOptions = {
@@ -28,20 +33,27 @@ export class BaseField<T = unknown> implements Serializable {
   $options: Record<string, any> = {};
 
   constructor(name: string, defaultValue: T) {
-    this.$name = name;
+    this.name = name;
     this.$label = stringHelpers.create(name).capitalCase().toString();
     this.$defaultValue = defaultValue;
   }
 
   $search(value: string, query: ModelQueryBuilderContract<any, any>) {
-    query.orWhereLike(this.$name, `%${value}%`);
+    return this.$searchFn?.(this, query, value);
   }
 
   /**
    * Marks this field as searchable.
    */
-  searchable(searchable = true) {
-    this.$options["searchable"] = searchable;
+  searchable(searchable: boolean | SearchFn = true) {
+    if (typeof searchable === "boolean") {
+      this.$searchFn = searchable
+        ? (field, query, value) => query.orWhereLike(field.name, `%${value}%`)
+        : undefined;
+    } else {
+      this.$searchFn = searchable;
+    }
+
     return this;
   }
 
@@ -89,7 +101,7 @@ export class BaseField<T = unknown> implements Serializable {
   toJSON() {
     return {
       kind: this.$kind,
-      name: this.$name,
+      name: this.name,
       label: this.$label,
       icon: this.$icon,
       attributes: this.attributes,

@@ -10,6 +10,6 @@ export class IdField extends TextField {
   }
 
   $search(value: string, query: ModelQueryBuilderContract<any, any>): void {
-    query.orWhere(this.$name, value);
+    query.orWhere(this.name, value);
   }
 }

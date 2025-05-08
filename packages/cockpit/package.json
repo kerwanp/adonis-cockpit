@@ -107,6 +107,7 @@
     "@poppinss/macroable": "^1.0.4",
     "@vinejs/vine": "^3.0.1",
     "adonis-lucid-filter": "^5.2.0",
+    "globby": "^14.1.0",
     "ky": "^1.7.5",
     "pkg-types": "^2.1.0",
     "qs": "^6.14.0",

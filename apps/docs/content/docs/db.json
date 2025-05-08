@@ -1,0 +1,80 @@
+[
+  {
+    "permalink": "getting-started/introduction",
+    "title": "Introduction",
+    "contentPath": "./getting-started/introduction.md",
+    "category": "Getting Started"
+  },
+  {
+    "permalink": "getting-started/installation",
+    "title": "Installation",
+    "contentPath": "./getting-started/installation.md",
+    "category": "Getting Started"
+  },
+  {
+    "permalink": "getting-started/configuration",
+    "title": "Configuration",
+    "contentPath": "./getting-started/configuration.md",
+    "category": "Getting Started"
+  },
+  {
+    "permalink": "basics/resources",
+    "title": "Resources",
+    "contentPath": "./basics/resources.md",
+    "category": "Basics"
+  },
+  {
+    "permalink": "basics/fields",
+    "title": "Fields",
+    "contentPath": "./basics/fields.md",
+    "category": "Basics"
+  },
+  {
+    "permalink": "basics/menu",
+    "title": "Menu",
+    "contentPath": "./basics/menu.md",
+    "category": "Basics"
+  },
+  {
+    "permalink": "basics/actions",
+    "title": "Actions",
+    "contentPath": "./basics/actions.md",
+    "category": "Basics"
+  },
+  {
+    "permalink": "basics/authorization",
+    "title": "Authorization",
+    "contentPath": "./basics/authorization.md",
+    "category": "Basics"
+  },
+  {
+    "permalink": "advanced/menu",
+    "title": "Menu",
+    "contentPath": "./advanced/menu.md",
+    "category": "Advanced"
+  },
+  {
+    "permalink": "advanced/custom-pages",
+    "title": "Custom Pages",
+    "contentPath": "./advanced/custom-pages.md",
+    "category": "Advanced"
+  },
+  {
+    "permalink": "advanced/custom-resources",
+    "title": "Custom Resources",
+    "contentPath": "./advanced/custom-resources.md",
+    "category": "Advanced"
+  },
+  {
+    "permalink": "advanced/custom-fields",
+    "title": "Custom Fields",
+    "contentPath": "./advanced/custom-fields.md",
+    "category": "Advanced"
+  },
+  {
+    "permalink": "references/frontend",
+    "title": "Frontend",
+    "contentPath": "./references/frontend.md",
+    "category": "References"
+  }
+]

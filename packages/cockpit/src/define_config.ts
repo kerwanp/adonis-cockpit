@@ -6,6 +6,14 @@ export function defineConfig(
   config: CockpitConfig,
 ): ConfigProvider<ResolvedConfig> {
   return configProvider.create(async () => {
-    return config;
+    return {
+      ...config,
+      resources: Array.isArray(config.resources)
+        ? {
+            autoload: false,
+            load: config.resources,
+          }
+        : config.resources,
+    };
   });
 }
