@@ -70,10 +70,7 @@ export const ResourceTable = ({
   }, []);
 
   return (
-    <div
-      className={cn("rounded-lg border grow min-h-0 flex flex-col", className)}
-      {...props}
-    >
+    <div className={cn("grow min-h-0 flex flex-col", className)} {...props}>
       <div className="flex justify-between p-4">
         <div></div>
         <div>
@@ -87,7 +84,7 @@ export const ResourceTable = ({
         <DataTableFilter table={table} />
       </div>
       <div className="grow min-h-0 flex flex-col justify-between">
-        <Table autoFocus ref={tableRef} tabIndex={0}>
+        <Table className="flex-1" autoFocus ref={tableRef} tabIndex={0}>
           <TableHeader className="bg-muted sticky top-0">
             {table.getHeaderGroups().map((headerGroup) => (
               <TableRow key={headerGroup.id}>

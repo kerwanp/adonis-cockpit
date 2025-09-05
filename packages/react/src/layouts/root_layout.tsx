@@ -21,15 +21,15 @@ export const RootLayout = ({
     ComponentProps<typeof AppSidebar>
 >) => {
   return (
-    <>
+    <div>
       <BackHandler>
         <AppProvider resources={resources} fields={fields} layouts={layouts}>
           <CommandProvider>
             <SidebarProvider>
               <AppSidebar menu={menu} user={user} />
-              <SidebarInset className="flex flex-col min-h-0 max-h-[calc(100vh-1rem)]">
+              <SidebarInset className="flex flex-col min-h-0 max-h-screen">
                 <PageHeader breadcrumb={breadcrumb} />
-                <div className="flex flex-col gap-4 md:gap-6 grow min-h-0 overflow-y-auto">
+                <div className="flex flex-col gap-4 md:gap-6 grow min-h-0">
                   {children}
                 </div>
               </SidebarInset>
@@ -59,6 +59,6 @@ export const RootLayout = ({
           Make sure that @source() is pointing to the proper node_modules folder
         </div>
       </div>
-    </>
+    </div>
   );
 };

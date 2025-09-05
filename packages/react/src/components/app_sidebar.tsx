@@ -17,7 +17,7 @@ export const AppSidebar = ({
   user: User;
 }) => {
   return (
-    <Sidebar collapsible="icon" variant="inset">
+    <Sidebar collapsible="icon">
       <SidebarHeader>
         <div className="p-4">
           <img src="https://adonis-cockpit.com/logo-horizontal.png" />
@@ -25,9 +25,11 @@ export const AppSidebar = ({
       </SidebarHeader>
       <SidebarContent>
         <AppMenu items={menu.content} />
+        <div className="mt-auto">
+          <AppMenu items={menu.footer} />
+        </div>
       </SidebarContent>
       <SidebarFooter>
-        <AppMenu items={menu.footer} />
         <NavUser user={user} />
       </SidebarFooter>
     </Sidebar>

@@ -75,17 +75,10 @@ const MenuItem = ({
   return (
     <SidebarMenuItem>
       <SidebarMenuButton isActive={isActive} asChild>
-        {target ? (
-          <a href={href ?? "#"} target={target}>
-            <i className={icon ?? "fas fa-arrow-right"} />
-            <span>{label}</span>
-          </a>
-        ) : (
-          <Link href={href ?? "#"} target={target}>
-            <i className={icon ?? "fas fa-arrow-right"} />
-            <span>{label}</span>
-          </Link>
-        )}
+        <Link href={href ?? "#"} target={target}>
+          <i className={icon ?? "fas fa-arrow-right"} />
+          <span>{label}</span>
+        </Link>
       </SidebarMenuButton>
       {submenu && <MenuSubmenu {...submenu} />}
     </SidebarMenuItem>

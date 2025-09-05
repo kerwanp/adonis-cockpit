@@ -31,7 +31,9 @@ export abstract class BaseLucidResource<
   }
 
   async list(params: ResourceListParams) {
-    const fields = flattenFields(this.fields(new LayoutBuilder()));
+    const fields = BaseResource.storage.run(this, () => {
+      return flattenFields(this.fields(new LayoutBuilder()));
+    });
 
     const query = extendQuery({
       query: this.baseQuery(),
